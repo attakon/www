@@ -1,0 +1,72 @@
+table.user{    
+    width: 420px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    background-color: #ebe9e9;
+
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-style: outset;
+    border-bottom-style: outset;
+    border-left-style: outset;
+    border-right-style: outset;
+}
+td.userLabel{
+    font-weight: bold;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    width: 150px;
+}
+
+td.imgRank{
+    width: 10px;
+}
+
+td.ptsRank{
+    width: 200px;
+}
+
+td.userField{
+    width: 230px;
+}
+
+td.userName{
+    font-size: 18px;
+    font-weight: bolder;
+    color: #006699;
+    border-top-width: 0px;
+    border-bottom-width: 1px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    width: 20px;
+    height: 30px;
+    text-align: center;
+    border-top-style: ridge;
+    border-bottom-style: ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+}
+
+td.solved{
+    font-size: 11px;
+    color: #339901;
+    font-weight: bold;
+}
+td.solved_in_practice{
+    font-size: 11px;
+    color: #0070e4;
+    font-weight: bold;
+}
+td.solved_in_practice_cheated{
+    font-size: 11px;
+    color:  #062430;
+    font-weight: bold;
+}
+td.seen{
+    font-size: 11px;
+    color: #A9AAB2;
+    font-weight: bold;
+    
+}

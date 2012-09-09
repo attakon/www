@@ -1,0 +1,23 @@
+p.ok{
+    color: #0099ff;
+    text-align: center;
+    font-weight: bold;
+}
+
+p.error{
+    color: #990033;
+    text-align: center;
+    font-weight: bold;
+}
+
+a.userLink{
+    color: #ff6600;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 12px;
+}
+a:hover.userLink{
+    font-weight: bold;
+    font-size: 12px;
+    text-decoration: underline;
+}

@@ -1,0 +1,135 @@
+
+body{
+    font-size: 12px;
+    font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+    color: #4d4d4d;
+    background-color: #F8F8F8;
+    text-align: center;
+    margin-right:0;
+    margin-left:0;
+    margin-top:0;
+    padding-top:0;
+}
+ul{
+    font-size:11px;
+}
+table,td,tr,tc {
+    font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, 'sans-serif';
+    border-top-style: ridge;
+    border-bottom-style: ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    font-size:12px;
+    border-top-color: #cccccc;
+    border-bottom-color: #cccccc;
+    border-left-color: #cccccc;
+    border-right-color: #cccccc;
+}
+
+td.body{
+    font-family:arial,Helvetica,'sans serif';
+    vertical-align: middle;
+    border-top-style: double;
+    border-bottom-style: double;
+    border-left-style: double;
+    border-right-style: double;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-color: #999999;
+    border-bottom-color: #999999;
+    border-left-color: #999999;
+    border-right-color: #999999;
+
+}
+
+td.left{
+    background-image: url(../images/bar2_left.png);
+    width:4pt;
+    height:22px;
+}
+td.middle{
+    background-image: url(../images/bar2_middle.png);
+    color: #cc0033;
+    font-weight: bold;
+}
+td.right{
+    background-image: url(../images/bar2_right.png);
+    width:4pt;
+    height:22px;
+}
+
+p{
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:12px;
+}
+p.mensaje{
+    color: #990033;
+    text-align: center;
+    font-weight: bold;
+}
+
+table.reg{
+    width:480px;
+    height:140px;
+}
+
+td.regLabel{
+    width:150px;
+    height:30px;
+    font-weight: bold;
+}
+td.regField{
+    width:350px;
+    height:21px;
+    color: #ccccff;
+}
+/*torneo Form*/
+td.LeftFill{
+    width:4pt;
+    height:22px;
+    border-left-width: 1px;
+    border-left-color: #666600;
+}
+td.RightFill{
+    width:4pt;
+    height:22px;
+    border-right-width: 1px;
+    border-right-color: #666600;
+}
+
+label.message{
+    color: #ff3333;
+}
+
+label.comment{
+    font-family: arial,Helvetica,'sans serif';
+    font-style: italic;
+    font-size: 10px;
+    color: #999999;
+}
+
+p.successful{
+    font-size: 14px;
+    color: #0066ff;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    text-align: center;
+}
+table.fame{
+    font-family: 'Courier New',Courier,monospace;
+}
+a.rulesMark{
+    text-decoration: underline;
+}
+a{
+    COLOR: #0099ff;
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+}

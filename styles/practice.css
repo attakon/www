@@ -1,0 +1,43 @@
+root { 
+    display: block;
+}
+td.selectedProblem{
+    background-color: #ff9900;
+    color: #ffffff;
+    font-weight: bold;
+}
+label.problemTitle{
+
+    font-size: 14px;
+    color: #0066cc;
+    font-weight: bold;
+}
+label.comment{
+
+    font-style: italic;
+    color: #959393;
+    font-size: 12px;
+}
+a.headerSelected{
+
+    font-size: 18px;
+}
+a.header{
+
+    font-size: 12px;
+}
+td.bordeable{
+
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-color: #ff9900;
+    border-bottom-color: #ff9900;
+    border-left-color: #ff9900;
+    border-right-color: #ff9900;
+    border-top-style: double;
+    border-bottom-style: double;
+    border-left-style: double;
+    border-right-style: double;
+}

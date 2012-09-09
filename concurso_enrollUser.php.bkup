@@ -1,0 +1,29 @@
+<?php
+session_start();
+include_once ('container.php');
+include_once ("conexion.php");
+include_once ("CustomTags.php");
+//./concurso_enrollUser.php?cId=7
+$userId =$_SESSION['userId'];
+$concursoId=$_GET['cId'];
+if($userId==null){// no ha iniciado session
+    $msg = "<p class='mensaje'> Debe Iniciar sesi&oacute;n para inscribirse</p>";
+    showPage("Inscribirse...",false,$msg, "");
+}else{// session iniciada    
+    $dat = firstRow("SELECT estado from concurso where id_concurso = '".$concursoId."'");
+    if($dat[0]=="REGISTRATION_OPEN"){
+        $queryEnroll = "SELECT FC__enrollConcursante('".$concursoId."', '".$userId."');";
+        $rs = mysql_query($queryEnroll,conecDb()) or die($queryEnroll." ".mysql_error());
+        $data = mysql_fetch_row($rs);
+        if($data[0]){
+            $msg = parrafoOK("&iexcl;Inscrito Correctamente!");
+        }else{
+            $msg = parrafoError("&iexcl;Ud. ya est&aacute; inscrito en este concurso!");
+        }
+        showPage("Join The Fun!",false,$msg, "");
+    }else{
+        $msg = parrafoError("Inscripciones cerradas");
+        showPage("too late ;(",false,$msg, "");
+    }
+}
+?>

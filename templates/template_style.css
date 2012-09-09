@@ -1,0 +1,38 @@
+table.header{ 
+    display: block;
+    width: 899px;
+    height: 150px;
+}
+a.home{    
+    text-decoration: none;
+    color: #000000;
+}
+
+a.home{
+    color: #000000;
+    font-variant: normal;
+    font-weight: normal;
+    font-style: normal;
+    border-top-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-color: white;
+    border-bottom-color: white;
+    border-left-color: white;
+    border-right-color: white;
+    text-decoration: none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 0px;
+}

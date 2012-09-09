@@ -1,0 +1,3 @@
+<?php
+$GLOBAL_CURRENT_SEASON=7;
+?>

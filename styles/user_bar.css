@@ -1,0 +1,16 @@
+form.login{
+    text-align:right;
+}
+
+label.user{
+    font-family: Arial,Helvetica,sans-serif;
+    font-weight: bold;
+    color: #6699ff;
+}
+td.userBar{
+    margin: 0px; padding: 0px;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+    vertical-align: bottom;
+    text-align: right;
+}

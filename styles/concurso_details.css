@@ -1,0 +1,19 @@
+
+
+table.concursoDetail {
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-collapse: collapse
+}
+
+td.torneolabel{
+    font-weight: bold;    
+    font-size: 12px;
+}
+td.concursoTitle{
+    font-size: 18px;
+    font-weight: bold;
+}
+
