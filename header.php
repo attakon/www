@@ -72,8 +72,7 @@ function headerFunction($statusBar, $path){
 									text: "Escuelas",
 									items: [{                                    
 										text: "UNJFSC - Ing. Inform&aacutetica",
-										url: "./ranking.php?ids=2",
-										encoded: false
+										url: "./ranking.php?ids=2"
 									},
 									{
 										 text: "UNJFSC - Ing. Sistemas",
@@ -81,19 +80,21 @@ function headerFunction($statusBar, $path){
 									},
 									{
 										 text: "Universidad Nacional de Ingener&iacutea",
-										 url: "./ranking.php?ids=4",
-										  encoded: false
+										 url: "./ranking.php?ids=4"
 									}]
 								}]
 							},
 							{
-								text: "Reglas",
-								items: [{                                    
+								text: "Ayuda",
+								items: [
+									{
+										 text: "Tutoriales",
+										 url: "./tutorials.php",
+									},{                                    
 										text: "Competici&oacuten General",
 										url: "./reglas.php",
 										encoded: false
-									},
-									{
+									},{
 										 text: "Sistema de Ranking",
 										 url: "./reglas_ranking.php"
 									}]

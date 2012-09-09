@@ -98,9 +98,17 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
         <td width="230" valign="top">
             <?php echo $tablePastContest ?>
             <br/>
-            <div id="fb-root"></div>
+
+            <iframe src="https://www.facebook.com/plugins/like.php?href=huahcoding.com"
+                scrolling="no" frameborder="0"
+                style="border:none; width:200px; height:80px">
+            </iframe>
+
+            <div id="fb-root">
+
+            </div>
             <!-- Facebook Badge START -->
-            <a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="HuaH Facebook" target="_blank" style="font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; font-variant: normal; font-style: normal; font-weight: normal; color: #3B5998; text-decoration: none;">HuaH Facebook - Mira las &uacute;ltimas fotos!</a><br/><a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="Huah Facebook" target="_blank"><img src="http://badge.facebook.com/badge/100001127811497.393.2141042559.png" width="120" height="77" style="border: 0px;" /></a><br/>
+            <a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="HuaH Facebook" target="_blank" style="font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; font-variant: normal; font-style: normal; font-weight: normal; color: #3B5998; text-decoration: none;">We are also on FB!</a><br/><a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="Huah Facebook" target="_blank"><img src="http://badge.facebook.com/badge/100001127811497.393.2141042559.png" width="120" height="77" style="border: 0px;" /></a><br/>
             <!-- Facebook Badge END -->
         </td>
         <td align="center">

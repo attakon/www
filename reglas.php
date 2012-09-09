@@ -1,5 +1,5 @@
 <?php
-include ('container.php');
-$x="reglasBody.php";
-showPage("Reglas", true, $x, "");
+	include ('container.php');
+	$x="reglas_body.php";
+	showPage("Reglas", true, $x, "");
 ?>
