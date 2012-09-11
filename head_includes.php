@@ -11,6 +11,7 @@
 
     <!-- styles -->
     <link rel="stylesheet" type="text/css" href="./styles/style.css">
+    <link rel="stylesheet" type="text/css" href="./styles/welcome_page.css">
     <link rel="stylesheet" type="text/css" href="./styles/user_bar.css">
     <link rel="stylesheet" type="text/css" href="./styles/concurso_details.css">
     <link rel="stylesheet" type="text/css" href="./styles/user_profile.css">
@@ -25,13 +26,14 @@
 	<link href="./styles/kendo.common.min.css" rel="stylesheet" />
 	<link href="./styles/kendo.black.min.css" rel="stylesheet" />
    
-    <link rel="shortcut icon" href="http://www.netbeans.org/favicon.ico"
+    <link rel="shortcut icon" href="./images/hc_favicon.ico"
  type="image/x-icon">
 
     <!-- <link rel="stylesheet" type="text/css" href="templates/template_style.css"> -->
     <!-- styles-->
 
-<!--    <script type="text/javascript" src="./scripts/rC_global.js"></script> -->
+
+    <script type="text/javascript" src="./scripts/rC_global.js"></script>
 
     <title>HuaH Coding - Joooin the fun!</title>
 </head>

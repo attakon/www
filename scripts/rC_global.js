@@ -14,3 +14,19 @@ function log_out(confirmation_message)
 }
 
 
+function fblogin(){
+     FB.login(function(response) {
+       if (response.authResponse) {
+         window.location.reload();
+       }
+     });
+    }
+
+function fblogout(){
+    FB.logout(function(response) {
+        // alert('xxx');
+        window.location.reload();
+    });
+}
+
+

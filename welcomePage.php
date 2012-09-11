@@ -92,24 +92,21 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
 */
         ?>
 <br/>
-<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<!-- Twitter widget -->
+<!-- <script src="http://widgets.twimg.com/j/2/widget.js"></script> -->
 <table border="1" cellpadding="0" cellspacing="0" width="100%" height="300" border="0" style="width: 100%;">
     <tr>
         <td width="230" valign="top">
             <?php echo $tablePastContest ?>
             <br/>
 
-            <iframe src="https://www.facebook.com/plugins/like.php?href=huahcoding.com"
-                scrolling="no" frameborder="0"
-                style="border:none; width:200px; height:80px">
-            </iframe>
-
-            <div id="fb-root">
-
-            </div>
-            <!-- Facebook Badge START -->
+            <!-- FB Like Button START-->
+            <fb:like href="http://huahcoding.com" layout="standard" width="100" show_faces="true" font="verdana"></fb:like>            
+            <!-- FB Like Button END-->
+            
+            <!-- FB Badge START -->
             <a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="HuaH Facebook" target="_blank" style="font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; font-variant: normal; font-style: normal; font-weight: normal; color: #3B5998; text-decoration: none;">We are also on FB!</a><br/><a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="Huah Facebook" target="_blank"><img src="http://badge.facebook.com/badge/100001127811497.393.2141042559.png" width="120" height="77" style="border: 0px;" /></a><br/>
-            <!-- Facebook Badge END -->
+            <!-- FB Badge END -->
         </td>
         <td align="center">
             <table width="100%">
@@ -120,35 +117,35 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
                 </tr>
                 <tr>
                     <td align="center">
-                        <script>
-                            new TWTR.Widget({
-                                version: 2,
-                                type: 'profile',
-                                rpp: 30,
-                                interval: 6000,
-                                width: 400,
-                                height: 300,
-                                theme: {
-                                    shell: {
-                                        background: '#363636',
-                                        color: '#faa019'
-                                    },
-                                    tweets: {
-                                        background: '#000000',
-                                        color: '#ffffff',
-                                        links: '#347fdb'
-                                    }
-                                },
-                                features: {
-                                    scrollbar: false,
-                                    loop: false,
-                                    live: false,
-                                    hashtags: true,
-                                    timestamp: true,
-                                    avatars: false,
-                                    behavior: 'all'
-                                }
-                            }).render().setUser('HuaHCoding').start();
+                         <script>
+                        //     new TWTR.Widget({
+                        //         version: 2,
+                        //         type: 'profile',
+                        //         rpp: 30,
+                        //         interval: 6000,
+                        //         width: 400,
+                        //         height: 300,
+                        //         theme: {
+                        //             shell: {
+                        //                 background: '#363636',
+                        //                 color: '#faa019'
+                        //             },
+                        //             tweets: {
+                        //                 background: '#000000',
+                        //                 color: '#ffffff',
+                        //                 links: '#347fdb'
+                        //             }
+                        //         },
+                        //         features: {
+                        //             scrollbar: false,
+                        //             loop: false,
+                        //             live: false,
+                        //             hashtags: true,
+                        //             timestamp: true,
+                        //             avatars: false,
+                        //             behavior: 'all'
+                        //         }
+                        //     }).render().setUser('HuaHCoding').start();
                         </script>
                     </td>
 
@@ -161,7 +158,8 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
                     $tableTopFive."</br>";
             ?>
             <form action="user.php">
-            	<input placeholder="HuaHCoder" type="text" name="uname" style="width: 113;">
+            	<input type="search"
+                placeholder="HuaHCoder" name="uname">
             </form>
         </td>
     </tr>

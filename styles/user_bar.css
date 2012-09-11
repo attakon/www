@@ -14,3 +14,26 @@ td.userBar{
     vertical-align: bottom;
     text-align: right;
 }
+
+.loginfield{
+    /*border: 1px solid #000;*/
+    /*border-radius: 5px;*/
+    /*-moz-border-radius: 4px;*/
+    /*-webkit-border-radius: 4px;*/
+    vertical-align: middle;
+}
+
+a.fblogin{
+	left:0px;
+	width: 150px; height: 23.3px;
+	display:inline-block;
+    vertical-align: middle;
+	background:url('/images/facebook_signin.png') 0px -24px;
+}
+
+a.fblogin:hover{
+	background:url('/images/facebook_signin.png') 0px 0px;
+}
+a.fblogin:active{
+	background:url('/images/facebook_signin.png') 0px -47px;
+}

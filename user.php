@@ -4,26 +4,26 @@ include_once ("conexion.php");
 include_once 'CustomTags.php';
 include_once 'data_objects/DAOUser.php';
 
-$userId = "";
+$searchedUserId = "";
 if(isset($_GET['u'])){
-    $userId = $_GET['u'];
+    $searchedUserId = $_GET['u'];
 }else if(isset($_GET['uname'])){
     $userName = $_GET['uname'];
     $row = DAOUser_getUserByName($userName);
-    $userId = $row['id_usuario'];
+    $searchedUserId = $row['id_usuario'];
 }
 //$idUser = 7;
 
-$hasCompetitorProfile = firstRow("SELECT puntos, id_ranking FROM competidor WHERE id_usuario = '$userId'");
-$bodyContent = getUserProfile($userId,$hasCompetitorProfile[0],$hasCompetitorProfile[1] );
+$hasCompetitorProfile = firstRow("SELECT puntos, id_ranking FROM competidor WHERE id_usuario = '$searchedUserId'");
+$bodyContent = getUserProfile($searchedUserId,$hasCompetitorProfile[0],$hasCompetitorProfile[1] );
 if($hasCompetitorProfile){
-    $bodyContent .= "<br>".getCompetitionProfile($userId).'<br/>';
-    //$bodyContent .= "<br>".getCompetitionProfile($userId).'<br/>'.getUserContestsHistory($userId);
+    $bodyContent .= "<br>".getCompetitionProfile($searchedUserId).'<br/>';
+    //$bodyContent .= "<br>".getCompetitionProfile($searchedUserId).'<br/>'.getUserContestsHistory($searchedUserId);
 }else{
     $bodyContent .="<p align=center>Este usuario no ha competido a&uacute;n</p>";
 }
 // begin raul add - enabling contest history for users that haven't competed
-$bodyContent.=getUserContestsHistory($userId);
+$bodyContent.=getUserContestsHistory($searchedUserId);
 // end raul add
 showPage("Perfil de Miembro", false, $bodyContent, "");
 
