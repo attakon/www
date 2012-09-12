@@ -10,6 +10,7 @@
 	<script type="text/javascript" src="js/kendo.web.min.js"></script>
 
     <!-- styles -->
+    <link rel="stylesheet" type="text/css" href="./styles/layout.css">
     <link rel="stylesheet" type="text/css" href="./styles/style.css">
     <link rel="stylesheet" type="text/css" href="./styles/welcome_page.css">
     <link rel="stylesheet" type="text/css" href="./styles/user_bar.css">

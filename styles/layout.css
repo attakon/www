@@ -1,0 +1,77 @@
+div{
+	/*border: 1px solid #cccccc;			*/
+}
+div#header{
+	margin-right:0%;
+	margin-left:0%;
+	width: 100%;
+	height: 150px;
+}
+div#h_left{
+	width: 40%;
+}
+div#h_right{
+	margin-left: 40%;
+	width: 60%;
+	height: 100%;
+}
+div#h_r_top{
+	/*position: relative;*/
+	height: 20%;
+}
+div#h_r_bottom{
+	/*margin-top: 20%;*/
+	height: 80%;
+}
+div#h_r_b_top{
+	height: 80%;	
+}
+div#h_r_b_bottom{
+	height: 20%;
+	/*width: 100%-8px;*/
+	margin-right: 8px;
+	text-align: right;
+}
+div#avatar{
+	height: 100%;
+	width: 50%;
+	display: inline-block;
+}
+div#username{
+	display: inline;
+	height: 100%;
+	width: 50%;
+	/*margin-left: 50%;*/
+}
+div#bar{
+	margin-bottom: 10px;
+
+    font-weight: 700;
+    font-variant: normal;
+    color: #000000;
+    font-size: 14px;
+    font-style: inherit;
+
+    /*border: groove;*/
+    background-image: url(../images/headerBG.jpg);
+    font-family: Arial,Helvetica,sans-serif;
+    /*border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;*/
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 10px;
+    padding-right: 1px;
+    text-align: left;
+
+	/* change jonathan 2011/10/24 */
+	/*border-top-left-radius: 15px 15px;*/
+	/*border-top-right-radius: 15px 15px;*/
+	/*border-bottom-right-radius: 0px 0px;*/
+	/*border-bottom-left-radius: 0px 0px;*/
+	
+	-moz-border-radius:15px 15px 0px 0px; /* Firefox 3.6 and earlier */
+	box-shadow: 0px 5px 5px #888888;
+	-webkit-box-shadow: 0px 5px 5px #888888; /* Safari */
+}

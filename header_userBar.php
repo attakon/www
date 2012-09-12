@@ -44,10 +44,14 @@ if($userId!=null) {
     }
 
     echo '
-        <label class="user">'.userLink($path,$userId ,$user).'</label>'
-        .$adminLink.'
-        <label><a href="'.$path.'/logout.php" >Logout</a>
-        </label>';
+        <div id="avatar">
+        </div>
+        <div id="username">
+            <label class="user">'.userLink($path,$userId ,$user).'</label>'
+            .$adminLink.'
+            <label><a href="'.$path.'/logout.php" >Logout</a>
+            </label>
+        </div>';
 }else if($fb_user_id){
         // Proceed knowing you have a logged in user who's authenticated.
     try {
@@ -70,10 +74,10 @@ if($userId!=null) {
         
      
         echo '
-        <div id="imgdiv">
+        <div id="avatar">
             <img width="22px" height="22px" src='.$fbPicSmall.'/>
         </div>
-        <div id="userdiv">
+        <div id="username">
             <label class="user">'.userLink("",1, $fbUserName).'</label>'
             .$adminLink.'
             <label><a onclick="fblogout()" >Logout</a>
