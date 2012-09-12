@@ -70,10 +70,15 @@ if($userId!=null) {
         
      
         echo '
-        <label class="user"> <img width="22px" height="22px" src='.$fbPicSmall.'/>'.userLink("",1, $fbUserName).'</label>'
-        .$adminLink.'
-        <label><a onclick="fblogout()" >Logout</a>
-        </label>';
+        <div id="imgdiv">
+            <img width="22px" height="22px" src='.$fbPicSmall.'/>
+        </div>
+        <div id="userdiv">
+            <label class="user">'.userLink("",1, $fbUserName).'</label>'
+            .$adminLink.'
+            <label><a onclick="fblogout()" >Logout</a>
+            </label>
+        </div>';
 
     } catch(FacebookApiException $e) {
         // If the user is logged out, you can have a 

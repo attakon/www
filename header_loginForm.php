@@ -24,12 +24,7 @@
      -->
 
 
-    
     <div>
-      
-    </div>
-    <div>
-        
         <a class="fblogin" onclick="fblogin()"/></a> o
         <input class="loginfield"
           placeholder="Username" 
