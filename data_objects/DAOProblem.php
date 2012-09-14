@@ -39,7 +39,6 @@ function DAOProblem_markAsSolved($problemId, $userId){
     if(DAOProblem_isSolvedByUserInContest($problemId, $userId))
             return;
     $status = DAOProblem_isAlrearySeenByUserInPractite($problemId, $userId);
-    echo $status;
     
      if(!$status){
         $query = "INSERT INTO practice_campaigns (id_problema, id_usuario, status)

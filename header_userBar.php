@@ -12,6 +12,8 @@ include_once '/data_objects/DAOPermissions.php';
 include_once('data_objects/DAOPermissions.php');
 
 
+
+
 $user = $_SESSION['user'];
 $userId = $_SESSION['userId'];
 
@@ -36,7 +38,7 @@ $facebook = new Facebook(array(
 
 $fb_user_id = $facebook->getUser();
 
-print_r($_SESSION);
+// print_r($_SESSION);
 
 
 if($userId!=null) {
@@ -56,13 +58,17 @@ if($userId!=null) {
 }else if($fb_user_id){
         // Proceed knowing you have a logged in user who's authenticated.
     try {
+
         $fql = 'SELECT name, pic_small from user where uid = ' . $fb_user_id;
         $ret_obj = $facebook->api(array(
                                    'method' => 'fql.query',
                                    'query' => $fql,
                                  ));
 
-        print_r($facebook->api('/me'));
+        // print_r($facebook->api('/me'));
+
+        include_once('data_objects/DAOFBUser.php');
+        DAOFBUser_registerOrUpdateUser($facebook->api('/me'));
         // FQL queries return the results in an array, so we have
         //  to get the user's name from the first element in the array.
         $fbUserName = $ret_obj[0]['name'];

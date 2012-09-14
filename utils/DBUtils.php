@@ -26,6 +26,9 @@ function getWholeRow($query){
     return $data;
 }
 
+/*
+  Execute INSERT or DELETE
+*/
 function runQuery($insertSt){
    mysql_query($insertSt, conecDb());
    if(mysql_error()){

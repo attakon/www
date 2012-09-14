@@ -5,7 +5,8 @@ include_once 'container.php';
 
 $columns = array(
         array("id_log",  "ID",     10, ""),
-        array("event",   "w00t", 400, ""),
+        array("text",   "w00t", 400, ""),
+        array("extra_text",   "w00t", 400, ""),
         array("fecha",   "Top", 100,  "")
 );
 
