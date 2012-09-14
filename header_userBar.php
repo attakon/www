@@ -36,7 +36,8 @@ $facebook = new Facebook(array(
 
 $fb_user_id = $facebook->getUser();
 
-// print_r($_SESSION);
+print_r($_SESSION);
+
 
 if($userId!=null) {
     if(DAOPermissions_isUserGrantedWithPermission($userId, 'admin_button', 'Y')){
@@ -61,6 +62,7 @@ if($userId!=null) {
                                    'query' => $fql,
                                  ));
 
+        print_r($facebook->api('/me'));
         // FQL queries return the results in an array, so we have
         //  to get the user's name from the first element in the array.
         $fbUserName = $ret_obj[0]['name'];

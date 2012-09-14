@@ -3,6 +3,9 @@ $cwd = str_replace('/forum', '', getcwd());
 $incl = $cwd.'/conexion.php';
 include_once $incl;
 
+/*
+  returns the first cell from the first row from the result
+*/
 function getRow($query){
     $rs = mysql_query($query, conecDb());    
     $data = mysql_fetch_row($rs);
