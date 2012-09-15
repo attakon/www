@@ -1,6 +1,6 @@
 <?php
-include ('container.php');
-include ('conexion.php');
+include_once ('container.php');
+include_once ('conexion.php');
 include_once 'table.php';
 
 $tablesPC="concurso co, usuario us";

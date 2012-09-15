@@ -1,6 +1,6 @@
 <?php
-include_once 'conexion.php';;
-function getForm2($user, $first_name, $last_name, $email, $school, $message){
+include_once 'conexion.php';
+function getForm($user, $first_name, $last_name, $email, $school, $message){
     if($message=='success'){
         return '<p class="successful">
          Cuenta creada Satisfactoriamente. Ahora es miembro de HuaHCoding!<br>
@@ -18,7 +18,7 @@ function getForm2($user, $first_name, $last_name, $email, $school, $message){
             }
             $options.=">".$schoolRows[1]."</option>";
         }        
-        return '
+    return '
     <table align =center class="reg" style="border-collapse: collapse">
         <form method="GET" action="rC_register.php">
         <tr>
@@ -110,7 +110,7 @@ function getForm2($user, $first_name, $last_name, $email, $school, $message){
         </tr>
         </form>
     </table>
-';
+    ';
     }
 }
 ?>

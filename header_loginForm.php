@@ -48,7 +48,7 @@
         />
 
         <a
-        href="<?php echo $path?>/registration.php?user=&first_name=&last_name=&email=&school=&message=">
+        href="<?php echo $path?>/registerform.php?user=&first_name=&last_name=&email=&school=&message=">
             Registrate
         </a>
         <input type="hidden" name="s" value="" />

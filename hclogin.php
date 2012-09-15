@@ -20,7 +20,7 @@ $rs = mysql_query($q,$conexion) or die ($q);
 
 if(mysql_num_rows($rs)==1){
     $userData = DAOUser_getUserByName($username);
-    $_SESSION['user']=$username;
+    $_SESSION['user']= $username;
     $_SESSION['userId'] = $userData['id_usuario'];
 
     //Begin Adding Raul July 28, 2012

@@ -21,7 +21,7 @@ $respuesta = sonIguales($tmpName,$idp);
 
 $problemName = firstRow("SELECT nombre FROM problema where id_problema = '$idp' ");
 $problemName  = $problemName[0];
-// include_once 'data_objects/DAOUserEvents.php';
+include_once 'data_objects/DAOUserEvents.php';
 if($respuesta[0]) {
 
     DAOUserEvents_logEvent($_SESSION['userId'],'submit_a_solution','successful for $problemName');

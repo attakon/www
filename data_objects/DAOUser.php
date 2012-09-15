@@ -1,6 +1,13 @@
 <?php
 include_once ("utils/DBUtils.php");
 
+
+function DAOUser_getUserById($userId){ 
+   $query = "SELECT id_usuario, username  FROM usuario WHERE id_usuario = '".$$userId."'";
+   $n = getWholeRow($query);
+   return $n;
+}
+
 function DAOUser_getUserByName($userName){ 
    $query = "SELECT id_usuario, username  FROM usuario WHERE username = '".$userName."'";
    $n = getWholeRow($query);

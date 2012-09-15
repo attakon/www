@@ -23,8 +23,18 @@ session_start();
 	if(isset($_SESSION['userId'])){
 	   	DAOUserEvents_logEvent($_SESSION['userId'],'log_out','');
 	}
-	$_SESSION['user']=null;
-	$_SESSION['userId']=null;
-	$_SESSION['wpass']=null;
+	
+	// foreach ($_SESSION as $key => $value) {
+	// 	unset($_SESSION[$key]);
+	// }
+	// $_SESSION['userId']=null;
+	// $_SESSION['wpass']=null;
+	// $_SESSION['userId']=null;
+	unset($_SESSION['user']);
+	unset($_SESSION['userId']);
+	unset($_SESSION['wpass']);
+	unset($_SESSION['fb_285185548248441_user_id']);
+	unset($_SESSION['fbUserName']);
+	unset($_SESSION['fbImgURL']);
 	header('Location: '.$_SESSION['lastvisitedurl']);
 ?>

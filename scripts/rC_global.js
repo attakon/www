@@ -15,18 +15,22 @@ function log_out(confirmation_message)
 
 
 function fblogin(){
-     FB.login(function(response) {
-       if (response.authResponse) {
-         window.location.reload();
-       }
-     });
-    }
+    var nextPage = window.location;
+    FB.login(function(response) {
+        if (response.authResponse) {
+            window.location = "/login_from_fb.php?nextPage="+nextPage;
+         // window.location.reload();
+        }
+    });
+}
 
 function fblogout(){
-    FB.logout(function(response) {
-        // alert('xxx');
-        window.location.reload();
-    });
+    window.location = "/logout.php";
+    // we dont want the user to log out of his fb session
+    // FB.logout(function(response) {
+    //     alert('xxx');
+    //     window.location.reload();
+    // });
 }
 
 
