@@ -36,5 +36,6 @@ session_start();
 	unset($_SESSION['fb_285185548248441_user_id']);
 	unset($_SESSION['fbUserName']);
 	unset($_SESSION['fbImgURL']);
+	unset($_SESSION['userDisplayName']);
 	header('Location: '.$_SESSION['lastvisitedurl']);
 ?>

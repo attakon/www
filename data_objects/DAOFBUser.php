@@ -1,18 +1,16 @@
 <?php
 include_once ("utils/DBUtils.php");
 
-
-
-function DAOFBUser_isFBUserRegistered($fbID){
-   	$query = "SELECT updated_time  FROM fb_users WHERE fb_id = '".$fbID."'";
-   	$n = getRow($query);
-   	return $n==1;
-}
-
 function DAOFBUser_getHCUserId($fbID){
 	$query = "SELECT user_id FROM fb_user_users WHERE fb_id = '".$fbID."'";
   	$id = getRow($query);
    	return $id;
+}
+
+function DAOFBUser_isFBUserRegistered($fbID){
+    $query = "SELECT updated_time  FROM fb_users WHERE fb_id = '".$fbID."'";
+    $n = getRow($query);
+    return $n==1;
 }
 
 function DAOFBUser_registerOrUpdateUser($fbUser){
@@ -31,16 +29,35 @@ function DAOFBUser_registerOrUpdateUser($fbUser){
 	}
 	//Log
 	include_once('data_objects/DAOLog.php');
-	DAOLog_log($fbUser['name'].' registered',$fbUser);
 
-	if($fbUser['hometown']){
+	DAOLog_log($fbUser['name'].' registered', print_r($fbUser,true));
+
+	if(isset($fbUser['hometown'])){
 		DAOFBUser_insertHometownIfNotExists($fbUser['hometown']);
 	}
-	if ($fbUser['location']) {
+	if (isset($fbUser['location'])) {
 		DAOFBUser_insertLocationIfNotExists($fbUser['location']);
 	}
-	if($fbUser['education']){
-		DAOFBUser_inserFBUserEducationIfNotExists($fbUser['id'],$fbUser['education']);	
+	if(isset($fbUser['education'])){
+		DAOFBUser_insertFBUserEducationIfNotExists($fbUser['id'],$fbUser['education']);	
+	}
+
+	if(isset($fbUser['location'])){
+		$locationId = "'".$fbUser['location']['id']."'";
+	}else{
+		$locationId = "null";
+	}
+	
+	if(isset($fbUser['hometown'])){
+		$hometownId = "'".$fbUser['hometown']['id']."'";
+	}else{
+		$hometownId = "null";
+	}
+
+	if(isset($fbUser['gender'])){
+		$gender = "'".$fbUser['gender']."'";
+	}else{
+		$gender = "null";
 	}
 
    	$insertQ = "INSERT INTO fb_users(fb_id, name, first_name, last_name, link,
@@ -51,9 +68,9 @@ function DAOFBUser_registerOrUpdateUser($fbUser){
     	'".$fbUser['last_name']."',
     	'".$fbUser['link']."',
     	'".$fbUser['username']."',
-    	'".$fbUser['hometown']['id']."',
-    	'".$fbUser['location']['id']."',
-    	'".$fbUser['gender']."',
+    	".$hometownId.",
+    	".$locationId.",
+    	".$gender.",
 		'".$fbUser['updated_time']."');";
     runQuery($insertQ);
 }
@@ -61,8 +78,8 @@ function DAOFBUser_registerOrUpdateUser($fbUser){
 function DAOFBUser_insertHometownIfNotExists($fbHometown){
 	$query = "SELECT count(hometown_id) FROM fb_hometowns where hometown_id = '".$fbHometown['id']."'";
 	$n = getRow($query);
-	print_r('hometown query = '.$n);
-	print_r($fbHometown);
+	// print_r('hometown query = '.$n);
+	// print_r($fbHometown);
 	if($n==0){
 		$insert = "INSERT INTO fb_hometowns (hometown_id, name) VALUES ('".$fbHometown['id']."','".$fbHometown['name']."')";
 		runQuery($insert);
@@ -77,7 +94,7 @@ function DAOFBUser_insertLocationIfNotExists($fbLocation){
 		runQuery($insert);
 	}
 }
-function DAOFBUser_inserFBUserEducationIfNotExists($fb_id, $fbEducation){
+function DAOFBUser_insertFBUserEducationIfNotExists($fb_id, $fbEducation){
 	
 	$deleteQuery="DELETE FROM fb_user_education where fb_id = '".$fb_id."'";
 	runQuery($deleteQuery);
@@ -85,10 +102,15 @@ function DAOFBUser_inserFBUserEducationIfNotExists($fb_id, $fbEducation){
 	foreach ($fbEducation as $key => $value) {
 		DAOFBUser_insertSchoolIfNotExists($value['school']);
 
+		if(isset($value['year'])){
+			$year = "'".$value['year']['name']."'";
+		}else{
+			$year= "null";
+		}
 		$insertQuery = "INSERT INTO fb_user_education (fb_id, school_id, year, type) VALUES 
 			('".$fb_id."',
 			'".$value['school']['id']."',
-			'".$value['year']['name']."',
+			".$year.",
 			'".$value['type']."')";
 		runQuery($insertQuery);
 	}

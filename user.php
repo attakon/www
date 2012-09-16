@@ -19,28 +19,31 @@ $bodyContent = getUserProfile($searchedUserId,$hasCompetitorProfile[0],$hasCompe
 if($hasCompetitorProfile){
     $bodyContent .= "<br>".getCompetitionProfile($searchedUserId).'<br/>';
     //$bodyContent .= "<br>".getCompetitionProfile($searchedUserId).'<br/>'.getUserContestsHistory($searchedUserId);
-}else{
-    $bodyContent .="<p align=center>Este usuario no ha competido a&uacute;n</p>";
 }
+
+session_start();
+if(isset($_SESSION['userId']) && $searchedUserId==$_SESSION['userId']){
+    $bodyContent .="<p align=center>Si tienes una cuenta existente en HuaHCoding, <a href='link_account.php'>conectala ahora</a></p>";    
+}
+
 // begin raul add - enabling contest history for users that haven't competed
 $bodyContent.=getUserContestsHistory($searchedUserId);
 // end raul add
 showPage("Perfil de Miembro", false, $bodyContent, "");
 
 function getUserProfile($idUser, $puntos, $id_ranking){
+
     $q = "SELECT us.username,
             CONCAT(YEAR(us.member_since),'-', MONTH(us.member_since),
-            '-', DAY(us.member_since)),
-            es.nombre
-            FROM  usuario us, escuela es
+            '-', DAY(us.member_since))
+            FROM  usuario us
             WHERE
-            us.id_usuario= '".$idUser."' AND
-            us.id_escuela = es.id_escuela";    
+            us.id_usuario= '".$idUser."'";    
     $rs=mysql_query($q,conecDb()) or die ($q);
     $data = mysql_fetch_row($rs);
     $username = $data[0];
     $member_since = $data[1];
-    $school = $data[2];
+    // $school = $data[2];
 
     $returnedValue =
     '<table align = "center" class="user" border="1" >
@@ -62,11 +65,14 @@ function getUserProfile($idUser, $puntos, $id_ranking){
         <td class="userLabel" >Miembro desde:</td>
         <td class="userField" colspan=2>'.$member_since.'</td>
     </tr>
-    <tr>
-        <td class="userLabel" >Escuela:</td>
-        <td class="userField" colspan=2>'.$school.'</td>
-    </tr>
 </table>';
+    
+    // removing school for now. appereance on profile to be determined.
+    // <tr>
+    //     <td class="userLabel" >Escuela:</td>
+    //     <td class="userField" colspan=2>'.$school.'</td>
+    // </tr>
+
     return $returnedValue;
 }
 

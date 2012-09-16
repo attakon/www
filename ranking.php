@@ -7,7 +7,6 @@ include_once 'GLOBALS.php';
 
 //error_reporting(E_ALL ^ E_NOTICE);  // DON'T SHOW NOTICES
 
-$idSchool = $_GET['ids'];
 $seasonId = isset ($_GET['seasonid'])?$_GET['seasonid']:$GLOBAL_CURRENT_SEASON;
 
 $tables = "competidor c, usuario us";
@@ -15,7 +14,8 @@ $title = "HuaHCoding";
 $rankField="position";
 $schoolCondition = "AND c.id_temporada = $seasonId ";
 
-if($idSchool) {
+if(isset($_GET['ids'])) {
+    $idSchool = $_GET['ids'];
     $schoolCondition .="AND us.id_escuela = es.id_escuela ".
             "AND es.id_escuela = '$idSchool' ";
     $rankField="position_school";

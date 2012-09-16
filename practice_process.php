@@ -32,7 +32,7 @@ if($respuesta[0]) {
     DAOLog_log($msgLog,'','');
 
     DAOProblem_markAsSolved($idp,$_SESSION['userId']);
-    showPage("", false, parrafoOK("Accepted Solution for ".$problemName), "");
+    showPage("Fuck Yeah!", false, parrafoOK("Accepted Solution for ".$problemName), "");
 }else {
 
     DAOUserEvents_logEvent($_SESSION['userId'],'submit_a_solution','failed for $problemName: message:$respuesta[1]');

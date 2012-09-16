@@ -1,34 +1,50 @@
 <?php
 include_once ("utils/DBUtils.php");
 
-function DAOUser_registerUser($firstName, $lastName, $school, $email, $userName, $password){
-  $insert = " INSERT INTO usuario 
-  (nombres, apellidos, id_escuela, Ciclo, email, username, pass)
-    VALUES
-  ('".$firstName."',
-  '".$lastName."',
-  '".$school."',
-  -1,
-  '".$email."',
-  '".$userName."',
-  MD5('".$password."'));";
-  runQuery($insert);
-}
 
-function DAOFBUser_linkUser($hcUserId, $fbID){
+
+function DAOUser_linkUserToFBUser($hcUserId, $fbID){
   $query = "INSERT INTO fb_user_users (user_id, fb_id)
   VALUES ('".$hcUserId."','".$fbID."')";
     runQuery($query);
 }
+function DAOUser_deleteLinkUserToFBUser($hcUserId, $fbID){
+  $query = "DELETE FROM fb_user_users 
+  WHERE fb_id='".$fbID."' AND user_id = '".$hcUserId."'";
+  runQuery($query);
+}
 
 function DAOUser_getUserById($userId){ 
-   $query = "SELECT id_usuario, username  FROM usuario WHERE id_usuario = '".$$userId."'";
+   $query = "SELECT id_usuario, username, id_escuela  FROM usuario WHERE id_usuario = '".$userId."'";
    $n = getWholeRow($query);
    return $n;
 }
 
+
+function DAOUser_registerUser($firstName, $lastName, $school, $email, $userName, $password=null){
+
+  if($password){
+    $passwordValue = "MD5('".$password."')";
+  }else{
+    $passwordValue="null";
+  }
+  $insert = " INSERT INTO usuario 
+  (nombres, apellidos, id_escuela, ciclo, email, username, pass)
+    VALUES
+  (
+  '".$firstName."'
+  ,'".$lastName."'
+  ,'".$school."'
+  ,-1
+  ,'".$email."'
+  ,'".$userName."'
+  ,".$passwordValue."
+  );";
+  runQuery($insert);
+}
+
 function DAOUser_getUserByName($userName){ 
-   $query = "SELECT id_usuario, username  FROM usuario WHERE username = '".$userName."'";
+   $query = "SELECT id_usuario, username  FROM usuario WHERE lower(username) = lower('".$userName."')";
    $n = getWholeRow($query);
    return $n;
 }
@@ -68,10 +84,11 @@ function DAOUser_registerInContest($concursoId, $userId, $oldPts){
 }
 
 function DAOUser_login($incomingUserName, $incomingPassword){
-    $q = "SELECT id_usuario, username FROM usuario WHERE username ='".$incomingUserName."'";
-    $rs = mysql_query($q,$conexion) or die ($q);
-    $row  = mysql_fetch_row($rs);
-    $_SESSION['userId']=$row[0];
+    $query = "SELECT username FROM usuario 
+      WHERE username ='".$incomingUserName."'
+      AND pass = MD5('".$incomingPassword."')";
+    $n = getRow($query);
+    return $n;
 }
 
 function DAOUser_getUserCampaignHistory($userId){
