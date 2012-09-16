@@ -1,10 +1,12 @@
 <?php
 include_once ("utils/DBUtils.php");
 
+
+
 function DAOFBUser_isFBUserRegistered($fbID){
-   $query = "SELECT updated_time  FROM fb_users WHERE fb_id = '".$fbID."'";
-   $n = getRow($query);
-   return $n==1;
+   	$query = "SELECT updated_time  FROM fb_users WHERE fb_id = '".$fbID."'";
+   	$n = getRow($query);
+   	return $n==1;
 }
 
 function DAOFBUser_getHCUserId($fbID){

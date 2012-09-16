@@ -1,6 +1,25 @@
 <?php
 include_once ("utils/DBUtils.php");
 
+function DAOUser_registerUser($firstName, $lastName, $school, $email, $userName, $password){
+  $insert = " INSERT INTO usuario 
+  (nombres, apellidos, id_escuela, Ciclo, email, username, pass)
+    VALUES
+  ('".$firstName."',
+  '".$lastName."',
+  '".$school."',
+  -1,
+  '".$email."',
+  '".$userName."',
+  MD5('".$password."'));";
+  runQuery($insert);
+}
+
+function DAOFBUser_linkUser($hcUserId, $fbID){
+  $query = "INSERT INTO fb_user_users (user_id, fb_id)
+  VALUES ('".$hcUserId."','".$fbID."')";
+    runQuery($query);
+}
 
 function DAOUser_getUserById($userId){ 
    $query = "SELECT id_usuario, username  FROM usuario WHERE id_usuario = '".$$userId."'";

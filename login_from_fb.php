@@ -23,6 +23,20 @@
 	    	$_SESSION['fbImgURL']=$fbPicSmallURL;
 	    	$_SESSION['fbUserName']=$fbUserName;
 
+	    	$hcUserId = DAOFBUser_isFBUserLinked($fb_user_id);
+	    	if($hcUserId){
+	    		include_once('data_objects/DAOUser.php');
+	    		$row = DAOUser_getUserById($hcUserId);
+	    		$_SESSION['userId'] = $row['usuario_id'];
+	    		$_SESSION['user'] = $row['username'];
+	    	}else{
+	    		include_once ('data_objects/DAOUser.php');
+    			DAOUser_registerUser($firstName_rC, $lastName_rC, '', '', $fbUserName, "fbuser");
+				$userId = DAOUser_getUserByName($fbUserName)['username'];
+				
+    			DAOFBUser_linkUser($userId, $fbUserName);
+
+	    	}
 	    	include_once('data_objects/DAOFBUser.php');
         	DAOFBUser_registerOrUpdateUser($facebook->api('/me'));
 

@@ -1,5 +1,6 @@
 <?php
 //INSERVIBLE·######################################################
+// DEPRECATED
 
 define('CWD','forum');
 define('VB_AREA','OUTSIDE');

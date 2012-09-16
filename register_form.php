@@ -20,7 +20,7 @@ function getForm($user, $first_name, $last_name, $email, $school, $message){
         }        
     return '
     <table align =center class="reg" style="border-collapse: collapse">
-        <form method="GET" action="rC_register.php">
+        <form method="GET" action="register_submit_registration.php">
         <tr>
             <td class="left" >&nbsp;</td>
             <td class="middle" width="350" height="30" colspan="2">
