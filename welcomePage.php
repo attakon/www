@@ -90,22 +90,26 @@ $threadsTable->setTitle("Temas Comentados Ultimamente");
 $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
 //$tableThread->setTableAtr('style="margin-top: 5px;"');
 */
+
         ?>
+
 <br/>
+
 <!-- Twitter widget -->
 <!-- <script src="http://widgets.twimg.com/j/2/widget.js"></script> -->
+
 <table border="1" cellpadding="0" cellspacing="0" width="100%" height="300" border="0" style="width: 100%;">
     <tr>
-        <td width="230" valign="top">
+        <td width="230" max valign="top">
             <?php echo $tablePastContest ?>
             <br/>
-
-            <!-- FB Like Button START-->
-            <fb:like href="http://huahcoding.com" layout="standard" width="100" show_faces="true" font="verdana"></fb:like>            
-            <!-- FB Like Button END-->
             
+
+            
+
             <!-- FB Badge START -->
-            <a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="HuaH Facebook" target="_blank" style="font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; font-variant: normal; font-style: normal; font-weight: normal; color: #3B5998; text-decoration: none;">We are also on FB!</a><br/><a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="Huah Facebook" target="_blank"><img src="http://badge.facebook.com/badge/100001127811497.393.2141042559.png" width="120" height="77" style="border: 0px;" /></a><br/>
+            <br/>
+            <a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="HuaH Facebook" target="_blank" style="font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; font-variant: normal; font-style: normal; font-weight: normal; color: #3B5998; text-decoration: none;">We are on FB!</a><br/><a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="Huah Facebook" target="_blank"><img src="http://badge.facebook.com/badge/100001127811497.393.2141042559.png" width="120" height="77" style="border: 0px;" /></a><br/>
             <!-- FB Badge END -->
         </td>
         <td align="center">
@@ -113,6 +117,7 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
                 <tr>
                     <td align="left">
                         <?php include "home/welcome.htm" ?>
+
                     </td>
                 </tr>
                 <tr>
@@ -164,6 +169,16 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
         </td>
     </tr>
 </table>
+<br/>
+<!-- FB Like Button START-->
+<fb:like href="http://huahcoding.com" layout="standard" width="100px" show_faces="true" font="verdana"></fb:like>
+<!-- FB Like Button END-->
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <!-- add - Jonathan - 2012-07-03 -->
 <div id="aviso" style="display:none">
 	<table width="400" border="2" align="center" class="concursoDetail">

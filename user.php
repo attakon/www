@@ -22,7 +22,8 @@ if($hasCompetitorProfile){
 }
 
 session_start();
-if(isset($_SESSION['userId']) && $searchedUserId==$_SESSION['userId']){
+if(isset($_SESSION['userId']) && $searchedUserId==$_SESSION['userId']
+    && isset($_SESSION['fbUserName'])){
     $bodyContent .="<p align=center>Si tienes una cuenta existente en HuaHCoding, <a href='link_account.php'>conectala ahora</a></p>";    
 }
 

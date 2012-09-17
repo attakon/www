@@ -25,7 +25,7 @@
 
 
     <div>
-        <a class="fblogin" onclick="fblogin()"/></a> o
+        <a class="fblogin" onclick="fblogin()"/></a> &oacute;
         <input class="loginfield"
           placeholder="Username" 
           type="text" 

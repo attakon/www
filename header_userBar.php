@@ -38,7 +38,7 @@ if($userId!=null) {
 
     $img="";
     if(isset($_SESSION['fbImgURL'])){
-        $img='<img width="22px" height="22px" src='.$_SESSION['fbImgURL'].'/>';
+        $img='<img width="32px" height="32px" src='.$_SESSION['fbImgURL'].'/>';
     }
     echo '
         <div id="avatar">

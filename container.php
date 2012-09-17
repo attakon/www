@@ -18,6 +18,7 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
 <html xmlns:fb="http://ogp.me/ns/fb#">
     <?php 
         include_once("head_includes.php");//mandatory 
+        include_once "GLOBALS.php";
     ?>
     <body style="margin-right:13; margin-left:13; margin-top:0;padding-top:0;" >
            <!-- JS SDK -->
@@ -25,7 +26,7 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
         <script>
           window.fbAsyncInit = function() {
             FB.init({
-              appId      : '285185548248441',
+              appId      : <?php echo $FB_APP_ID;?>,
               channelUrl : '/fb_plugin/channel.html', // Channel File
               status     : true, // check login status
               cookie     : true, // enable cookies to allow the server to access the session

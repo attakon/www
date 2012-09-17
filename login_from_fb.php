@@ -1,11 +1,12 @@
 <?php
 	session_start();
 
-
+	include_once ("GLOBALS.php");
+	
 	require_once "facebook-facebook-php-sdk-98f2be1/src/facebook.php";
 	$facebook = new Facebook(array(
-	    'appId'  => '285185548248441',
-	    'secret' => 'dc7a0ea4f8d1bad33bf046bbe3673918',
+	    'appId'  => $FB_APP_ID,
+	    'secret' => $FB_APP_SECRET,
 	    'cookie' => true
 	));
 	$fb_user_id = $facebook->getUser();

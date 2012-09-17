@@ -1,7 +1,7 @@
 <?php
 include_once ("utils/DBUtils.php");
 
-function DAOLog_log($logText, $extraLogText, $logType=null){
+function DAOLog_log($logText, $extraLogText=null, $logType=null){
   $query = "INSERT INTO log (text, extra_text, log_type_id) VALUES 
     (
     	'".$logText."',
