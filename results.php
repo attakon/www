@@ -27,7 +27,7 @@ function results($idConcurso){
 
 
 <div align="center">
-<p> Click en el tiempo de submisi&oacute;n para ver el c&oacute;digo </p>
+<p> Click en el tiempo de env&iacute;o para ver el c&oacute;digo </p>
     <table style="border-collapse: collapse">
         <tr>
             <th > Rank </th>
@@ -36,12 +36,14 @@ function results($idConcurso){
             <th > Puntos </th>
             <th width="100"> Penalizaci&oacute;n </th>
             <?php
-            while($problems = mysql_fetch_row($rsProblems)){?>
+            while($problems = mysql_fetch_array($rsProblems)){
+                $problemFileURL = 'files/problems/'.$problems['id_problema'].'_'.$problems['nombre'].'.pdf';
+                ?>
             <th class="det" width="110" title="<?php echo $problems[1]?>">
                 <?php echo "<label>".$problems[2]."</label>"; ?> <br>
                 <?php 
                     if(DAOGlobalDefaults_getGlobalValue('SHOW_PROBLEM_NAMES_IN_RESULTS_PAGE')=='Y'){
-                        echo "<label class='scoreboard_problemName'> ".$problems[1]."</label><br/>";
+                        echo "<label class='scoreboard_problemName'><a href='".$problemFileURL."'> ".$problems[1]."</a></label><br/>";
                     }
                 ?>
                 <?php echo $problems[3]."pt"?>

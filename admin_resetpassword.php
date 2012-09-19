@@ -26,7 +26,7 @@ function init(){
                 'labelField'=>'username',
                 'condition'=>''
             )),
-    'new_password'=>'text'
+    'new_password'=>array('type'=>'text')
     );
     $tablePC = new RCMaintenanceForm('usuario',$fields,'updatePassword','Reset',null);
     showPage('Reset User Password', false, parrafoOK($tablePC->getForm()), null,'250');

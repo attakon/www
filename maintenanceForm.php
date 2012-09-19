@@ -14,12 +14,13 @@ class RCMaintenanceForm{
     private $buttonName;
     private $successMessage;
 
-    public function __construct($tableName, $fields, $action, $buttonName, $successMessage) {
+    public function __construct($tableName, $fields, $action, $buttonName, $successMessage, $formAtributes='') {
         $this->tableName = $tableName;
         $this->fields = $fields;
         $this->action=$action;
         $this->buttonName=$buttonName;
         $this->successMessage=$successMessage;
+        $this->formAtributes=$formAtributes;
 
     }
     function setTitle($title){
@@ -45,29 +46,31 @@ class RCMaintenanceForm{
                 $action = $_SERVER['REQUEST_URI'];
             }
         }
-        $res = '<form action="'.$action.'" METHOD="POST">';
+        $res = '<form action="'.$action.'" METHOD="POST" '.$this->formAtributes.'>';
 
         foreach ($this->fields as $key => $val) {
-            $type=$val;
             $label = $key;
             $format ='';
             $value = '';
+            $type=$val['type'];
             if(is_array($val)){
                 if(isset($val['label']))
                     $label=$val['label'];
-                $type=$val['type'];
                 if(isset($val['format']))
                     $format=$val['format'];
-                if(isset($val['value']))
-                    $val=$val['value'];
             }
+            
 //            echo $type;
             switch($type){
                 case 'checkbox': 
-                    $leftLabel ='<label>'.$label.'<label/>';
+                    $leftLabel ='<label>'.$label.'</label>';
                     $res = $res.$leftLabel.'<input placeholder="'.$label.'" type='.$type.' name="'.$key.'" ';
-                    $res = $res.'value="'.$value.'"';
+                    $restOfValues=" ";
+                    foreach ($val as $key => $value)
+                        $restOfValues.=$key."='".$value."' ";
+                    $res = $res.$restOfValues;
                     $res = $res.'/>';
+
                     break;
                 case 'list': 
 //                    $leftLabel =; 
@@ -79,7 +82,7 @@ class RCMaintenanceForm{
                     $query = 'SELECT '.$idfield.','.$labelField.' FROM '.$table.' '.$condition;
                     
                     $options = getRowsInArray($query);
-                    $res = $res.'<label>'.$label.'<label/><select name="'.$key.'">';
+                    $res = $res.'<label>'.$label.'</label><select name="'.$key.'">';
 //                    print_r($options);
                     foreach ($options as $k=>$v){
                         $res.= '<option value="'.$v[$idfield].'">';
@@ -87,14 +90,30 @@ class RCMaintenanceForm{
                     }
                     $res.='<select/>';
                     break;
-                 case 'hidden':
+                case 'hard-list': 
+//                    $leftLabel =; 
+                    $values = $val['values'];
+                    
+                    $res = $res.'<label>'.$label.'</label>
+                        <select name="'.$key.'">';
+//                    print_r($options);
+                    foreach ($values as $k=>$v){
+                        $res.= '<option value="'.$k.'">'.$v.'</option>';
+                    }
+                    $res.='<select/>';
+                    break;
+                case 'hidden':
                     $res = $res.'<input type="'.$type.'" name="'.$key.'" ';
                     $res = $res.'value="'.$value.'" />';
                     break;
-                  default:
-                    $leftLabel ='<label>'.$label.'<label/>';
-                    $res = $res.$leftLabel.'<input placeholder="'.$label.'" type="'.$type.'" name="'.$key.'" ';
-                    $res = $res.'value="'.$value.'"';
+                default:
+                    $leftLabel ='<label>'.$label.'</label>';
+                    $res = $res.$leftLabel.'<input name="'.$key.'" placeholder="'.$label.'"';
+                    $restOfValues=" ";
+                    print_r($val);
+                    foreach ($val as $key => $value)
+                        $restOfValues.=$key."='".$value."' ";
+                    $res = $res.$restOfValues;
                     $res = $res.'/>';
             }
 //            $res = $res.'value="'.$value.'"';

@@ -34,3 +34,9 @@ function fblogout(){
 }
 
 
+function doit(){
+    var fu1 = document.getElementById("FileUpload1");
+    console.debug(fu1.files);
+    console.debug(fu1.value);
+    alert("You selected " + fu1.value);
+}

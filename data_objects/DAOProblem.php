@@ -1,6 +1,27 @@
 <?php
 include_once 'utils/DBUtils.php';
 
+
+/*
+  Second Group: problem creation; table problem
+*/
+function DAOProblem_registerProblem($problemName, $problemDifficulty){
+    $insert = 'INSERT INTO problem (problem_id, difficulty)
+    VALUES ('.$problemName.','.$problemDifficulty.')';
+    runQuery($insert);
+}
+function DAOProblem_registerTestCase($problemId, $input, $output){
+    $insert = 'INSERT INTO problem_testcase (problem_id, input, output)
+    VALUES ('.$problemId.','.$input.','.$output.')';
+    runQuery($insert);
+}
+function DAOProblem_getProblemByName($problemName){
+    $query = "SELECT problem_id FROM problem WHERE problem_name='".$problemName."'";
+    return getRow($insert);
+}
+/*
+  First Group
+*/
 function DAOProblem_getProblemConcursoId($problemId){
     $query="SELECT id_concurso 
         FROM problema where id_problema = '".$problemId."'";
