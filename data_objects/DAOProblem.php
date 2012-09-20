@@ -3,21 +3,21 @@ include_once 'utils/DBUtils.php';
 
 
 /*
-  Second Group: problem creation; table problem
+  Second Group: problem creation; table co_problem, co_problem_testcase
 */
 function DAOProblem_registerProblem($problemName, $problemDifficulty){
-    $insert = 'INSERT INTO problem (problem_id, difficulty)
-    VALUES ('.$problemName.','.$problemDifficulty.')';
+    $insert = "INSERT INTO co_problem (name, difficulty)
+    VALUES ('".$problemName."','".$problemDifficulty."')";
     runQuery($insert);
 }
 function DAOProblem_registerTestCase($problemId, $input, $output){
-    $insert = 'INSERT INTO problem_testcase (problem_id, input, output)
-    VALUES ('.$problemId.','.$input.','.$output.')';
+    $insert = "INSERT INTO co_problem_testcase (problem_id, input_case, output_case)
+    VALUES ('".$problemId."','".$input."','".$output."')";
     runQuery($insert);
 }
 function DAOProblem_getProblemByName($problemName){
-    $query = "SELECT problem_id FROM problem WHERE problem_name='".$problemName."'";
-    return getRow($insert);
+    $query = "SELECT problem_id FROM co_problem WHERE name='".$problemName."'";
+    return getRow($query);
 }
 /*
   First Group

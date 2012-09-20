@@ -1,15 +1,16 @@
 <?php
+	session_start();
 	include_once 'utils/ValidateAdmin.php';
-    $_SESSION['io']=$io;
-    $_SESSION['problemName']=$problemName;
+    $io=$_SESSION['io'];
+    $problemName=$_SESSION['problemName'];
 
     include_once('data_objects/DAOProblem.php');
     DAOProblem_registerProblem($problemName,'1');
-    $problemName = DAOProblem_getProblemByName($problemName,'1');
+    $problemId = DAOProblem_getProblemByName($problemName);
     foreach ($io as $key => $value) {
-    	DAOProblem_registerTestCase($problemName, $value['i'], $value['o']);
+    	DAOProblem_registerTestCase($problemId, $value['i'], $value['o']);
     }
     include_once 'container.php';
     include_once 'CustomTags.php';
-    showPage('Reset User Password', false, parrafoOK('problem '.$problemName.' was created successfully'), null,'250');
+    showPage('Your problem got Created! FYeah', false, parrafoOK('problem '.$problemName.' was successfully created'), null,'250');
 ?>

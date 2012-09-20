@@ -14,11 +14,16 @@ function headerFunction($statusBar, $path){
     	$count++;
         $contestName = $val['nombre'];
         $contestId = $val['id_concurso'];
+        if($count>0){
+			$contestMenuItems.=",";
+		}
         $contestMenuItems .= '
 				{                                    
 					text: "'.$contestName.'",
 					url: "./concurso.php?idt='.$contestId.'&show=det"
 				}';
+
+
     }
     if($count==0){
     	$contestMenuItems .= '

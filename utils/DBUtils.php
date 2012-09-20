@@ -17,12 +17,13 @@ function logSQLError($text, $extraData){
   mysql_query($insert, conecDb());
   // var_dump((debug_backtrace();
   
-  echo "Que verguenza, we crashed X_X. Por favor comuniquese con el Administrador (huahcoding@gmail.com). Te lo agradeceremos enormemente!";
+  echo "Shame on us, we crashed X_X. Por favor comuniquese con el Administrador (huahcoding@gmail.com). Te lo agradeceremos enormemente!";
 }
 
-function checkForError(){
+function checkForError($query=null){
   if(mysql_error()){
-    logSQLError('sql_error',mysql_error());
+    echo mysql_error();
+    logSQLError('xxx'.$query , mysql_error());
     echo mysql_error();
     die;
   }
@@ -33,14 +34,14 @@ function checkForError(){
 function getRow($query){
     $rs = mysql_query($query, conecDb());
     $data = mysql_fetch_row($rs);
-    checkForError();
+    checkForError($query);
     return $data[0];
 }
 
 function getWholeRow($query){
     $rs = mysql_query($query, conecDb());    
     $data = mysql_fetch_array($rs);
-    checkForError();
+    checkForError($query);
     return $data;
 }
 
@@ -49,13 +50,15 @@ function getWholeRow($query){
 */
 function runQuery($insertSt){
    mysql_query($insertSt, conecDb());
-   checkForError();
+   checkForError($insertSt);
    return true;
 }
+
 function runQueryOnHuaHVB($query){
   mysql_query($query, forumConexion());
   checkForError();
 }
+
 function getRowsInArray($query){
   $result = mysql_query($query, conecDb());
   checkForError();
