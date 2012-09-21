@@ -126,6 +126,10 @@ class RCTable{
 
             foreach ($data as $i=>$keys) {
                 $atr = $this->arrayColumns[$i][3];
+                $atr = "";
+                if(isset($this->arrayColumns[$i]['td_atr'])){
+                    $atr = $this->arrayColumns[$i]['td_atr'];
+                }
                 if($this->arrayColumns[$i][4]!=null){
                     $splited = explode(" ", $this->arrayColumns[$i][4]);
                     $kind = $splited [0];

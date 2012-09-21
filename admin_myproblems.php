@@ -15,34 +15,75 @@ if(isset($_POST)){
 
 function init(){
     $fields = array(
-        
         'name'=> 
             array('label'=>'Problem Name','type'=>'text'),
         'difficulty' => 
             array('label'=>'Difficulty','type'=>'text'),
-        'parse_type'=> 
-            array('label'=>'Parse Type','type'=>'hard-list',
-                'values'=>
+        // 'parse_type'=> 
+        //     array('label'=>'Parse Type','type'=>'hard-list',
+        //         'values'=>
+        //             array(
+        //                 'STATIC-LINE-separated'=>'STATIC-LINE-separated',
+        //                 '#CASEMARK-separated'=>'#CASEMARK-separated'
+        //                 )
+        //             ),
+        'input-parse-type'=> 
+            array('label'=>'parseTypes','type'=>'select',
+                'options'=>
                     array(
-                        'STATIC-LINE-separated'=>'STATIC-LINE-separated',
-                        '#CASEMARK-separated'=>'#CASEMARK-separated'
+                            'STATIC-LINE-separated-input'=>
+                                array(
+                                    'label'=>'STATIC-LINE-separated',
+                                    'attributes'=>'checked="1" onclick="selectProblemParseTypeForCaseInput(\'STATIC-LINE-separated\')"'
+                                    ),
+                            '#CASEMARK-separated-input'=>
+                                array(
+                                    'label'=>'#CASEMARK-separated',
+                                    'attributes'=>'onclick="selectProblemParseTypeForCaseInput(\'#CASEMARK-separated\')"'
+                                    )
+
                         )
                     ),
         'lines-per-input-case'=> 
             array('label'=>'Lines per Input Case','type'=>'text', 'value'=>'1'),
+        'input-casemark'=> 
+            array('label'=>'Input Case Mark',
+                'type'=>'text', 'value'=>'#CASEMARK',
+                'div-atr'=>'style="display:none"'),
+        'output-parse-type'=> 
+            array('label'=>'parseTypes','type'=>'select',
+                'options'=>
+                    array(
+                            'STATIC-LINE-separated-output'=>
+                                array(
+                                    'label'=>'STATIC-LINE-separated',
+                                    'attributes'=>'checked="1" onclick="selectProblemParseTypeForCaseOutput(\'STATIC-LINE-separated\')"'
+                                    ),
+                            '#CASEMARK-separated-output'=>
+                                array(
+                                    'label'=>'#CASEMARK-separated',
+                                    'attributes'=>'onclick="selectProblemParseTypeForCaseOutput(\'#CASEMARK-separated\')"'
+                                    )
+                        )
+                    ),
         'lines-per-output-case'=> 
             array('label'=>'Lines per Output Case','type'=>'text','value'=>'1'),
+        'output-casemark'=> 
+            array('label'=>'Ouput Case Mark','type'=>'text', 'value'=>'#CASEMARK',
+                'div-atr'=>'style="display:none"'),
+        'case-mark'=> 
+            array('label'=>'Case mark','type'=>'text','value'=>'#CASEMARK'),
         'first-line-counter'=> 
             array('label'=>'Is First Line Counter?','type'=>'checkbox', 'checked'=>'true'),    
         'input'=> 
             array('label'=>'Input','type'=>'file'),
         'output'=> 
-            array('label'=>'Output','type'=>'file')
+            array('label'=>'Output','type'=>'file'),
 
         );
     include_once 'maintenanceForm.php';
     $problemInsertForm = new RCMaintenanceForm('problem',$fields,'previewProblem','Next', 'name',
-        'style="text-align: left; width:300px"', 'enctype="multipart/form-data"');
+        'style="text-align: left; width:400px"', 'enctype="multipart/form-data"');
 
 
     // See problem list 

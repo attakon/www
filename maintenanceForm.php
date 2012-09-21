@@ -67,8 +67,11 @@ class RCMaintenanceForm{
                     $leftLabel ='<label>'.$label.'</label>';
                     $field = $leftLabel.'<input placeholder="'.$label.'" type='.$type.' name="'.$key.'" ';
                     $restOfValues=" ";
-                    foreach ($val as $jKey => $jValue)
-                        $restOfValues.=$jKey."='".$jValue."' ";
+                    foreach ($val as $k => $jValue){
+                        if($k=='div-atr')continue;
+                        $restOfValues.=$k."='".$jValue."' ";
+                    }
+                        
                     $field .= $restOfValues;
                     $field .='/>';
 
@@ -106,6 +109,21 @@ class RCMaintenanceForm{
                     $field.='<select/>';
                     // $res.=$field;
                     break;
+                case 'select':
+                        $values = $val['options'];
+                        
+                        $field = '';
+                       print_r($values);
+                        foreach ($values as $k=>$v){
+                            $optionLabel = $v['label'];
+                            $optionAtr = $v['attributes'];
+                            $field.= '<input type="radio" name ="'.$key.'" id="'.$k.'" value="'.$k.'" '.$optionAtr.'/>
+                            <label for = "'.$k.'">'.$optionLabel.'</label>';
+                        }
+                        // $field.='<select/>';
+                        // $res.=$field;
+                        break;
+                    break;
                 case 'hidden':
                     $field = '<input type="'.$type.'" name="'.$key.'" ';
                     foreach ($val as $jKey => $jValue)
@@ -115,18 +133,27 @@ class RCMaintenanceForm{
                     break;
                 default:
                     $leftLabel ='<label>'.$label.'</label>';
-                    $field = $leftLabel.'<input name="'.$key.'" placeholder="'.$label.'"';
+                    $field = $leftLabel.'<input name="'.$key.'" id="'.$key.'" placeholder="'.$label.'"';
                     $restOfValues=" ";
-                    print_r($val);
-                    foreach ($val as $key => $value)
-                        $restOfValues.=$key."='".$value."' ";
+                    // print_r($val);
+                    foreach ($val as $k => $value){
+                        if($k=='div-atr')continue;
+                        $restOfValues.=$k."='".$value."' ";
+                    }
                     $field .= $restOfValues;
                     $field .= '/>';
+                    
                     // $res.=$field;
             }
 //            $res = $res.'value="'.$value.'"';
 //            $res = $res.'/>';
-            $res .= '<div>'.$field.$format.'</div><br/>';
+            // $res .= '<div id="'.$key.'-div">'.$field.$format.'<br/></div>';
+            $ditAtr='';
+            if(isset($val['div-atr'])){
+                $ditAtr=$val['div-atr'];    
+            }
+            $field='<div id="'.$key.'-div" '.$ditAtr.' >'.$field.$format.'<br/></div>';
+            $res.=$field;
             
         }
         $buttonName = 'submit';

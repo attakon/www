@@ -9,8 +9,10 @@ $tablesPC="co_problem_testcase ptc, co_problem pr , (SELECT @rownum:=0) r";
 $columnsPC = array(
 	array("@rownum:=@rownum+1 'order'",  "N",     15, ""),
     array("ptc.testcase_id",  "",     -1, ""),
-    array("ptc.input_case",  "Input",     -2, "",""),
-    array("ptc.output_case",  "Output",     -2, "","")
+    array("ptc.input_case",  "Input",     -2, "","",
+    	'td_atr'=>'style ="border-width:2px; border-style:ridge;"'),
+    array("ptc.output_case",  "Output",     -2, "","",
+    	'td_atr'=>'style ="border-width:2px; border-style:ridge;"')
 );
 
 $conditionPC = "WHERE ptc.problem_id = pr.problem_id ".
@@ -19,7 +21,7 @@ $conditionPC = "WHERE ptc.problem_id = pr.problem_id ".
 
 	include_once 'table2.php';
 	$manageContestTable = new RCTable(conecDb(),$tablesPC,10,$columnsPC,$conditionPC);
-	$manageContestTable->setTableAtr('border="1" style ="border-width:2px; border-style:ridge;');
+	// $manageContestTable->setTableAtr('style ="border-width:2px; border-style:ridge;');
 	include_once 'container.php';
     showPage('Problem I/O', false, $manageContestTable->getTable(), null,'370');
 ?>
