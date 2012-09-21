@@ -5,7 +5,7 @@
     $problemName=$_SESSION['problemName'];
 
     include_once('data_objects/DAOProblem.php');
-    DAOProblem_registerProblem($problemName,'1');
+    DAOProblem_registerProblem($problemName,'1', $_SESSION['userId']);
     $problemId = DAOProblem_getProblemByName($problemName);
     foreach ($io as $key => $value) {
     	DAOProblem_registerTestCase($problemId, $value['i'], $value['o']);

@@ -3,7 +3,7 @@ include_once 'utils/DBUtils.php';
 include_once 'CustomTags.php';
 include_once 'container.php';
 $REQ = $_POST;
-
+print_r($_POST);
 $insertSt = 'INSERT INTO '.$REQ['__table']." (";
 $values = '';
 foreach($REQ  as $key => $val){

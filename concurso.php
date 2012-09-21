@@ -11,7 +11,7 @@
         $details = getConcursoDetalle($contestId);
 
         $contestData = DAOConcurso_getContestData($contestId);
-
+        $leagueId = DAOConcurso_getLeagueId($contestId);
         $columns = array(
             array("@rownum:=@rownum+1 'rank'",  "N",     15, ""),
             array("us.id_usuario",  "username",     -1, ""),
@@ -20,13 +20,36 @@
             array("cmp.checked_in",  "Confirmado",  30, "class='checked_in'","img images png")
         );
 
-        $tables = "campaign cmp, usuario us, concurso con, competidor c, (SELECT @rownum:=0) r";
+        $tables = "campaign cmp, concurso con, usuario us , competidor c ,
+            
+            (SELECT @rownum:=0) r";
+        // co_league lg, co_league_contests lgc,
+        //BEGIN Changing from temporada to league
+        // $condition = "WHERE us.id_usuario = cmp.id_usuario AND
+        //     cmp.id_concurso = con.id_concurso AND
+        //     c.id_temporada=con.id_temporada AND
+        //     con.id_concurso='".$contestId."' AND
+        //     c.id_usuario = us.id_usuario
+        //     ORDER BY cmp.id_campaign";
+
+        // $condition = "WHERE us.id_usuario = cmp.id_usuario AND
+        //     cmp.id_concurso = con.id_concurso AND
+        //     lgc.contest_id = con.id_concurso AND 
+        //     lgc.leagueId = lg.leagueId AND 
+        //     con.id_concurso = '".$contestId."' AND
+        //     c.id_usuario = us.id_usuario
+        //     ORDER BY cmp.id_campaign";
+
+
         $condition = "WHERE us.id_usuario = cmp.id_usuario AND
-            cmp.id_concurso = con.id_concurso AND
-            c.id_temporada=con.id_temporada AND
-            con.id_concurso='".$contestId."' AND
-            c.id_usuario = us.id_usuario
+            cmp.id_concurso = con.id_concurso 
+            AND c.id_usuario = us.id_usuario
+            AND c.id_temporada='".$leagueId."'
+            AND con.id_concurso = '".$contestId."' 
             ORDER BY cmp.id_campaign";
+            // AND c.id_usuario = us.id_usuario
+
+        //END Changing from temporada to league
         $table = new RCTable(conecDb(),$tables,10,$columns,$condition);
         $body = "";
         print_r($contestData);

@@ -14,14 +14,14 @@ class RCMaintenanceForm{
     private $buttonName;
     private $successMessage;
 
-    public function __construct($tableName, $fields, $action, $buttonName, $successMessage, $formAtributes='') {
+    public function __construct($tableName, $fields, $action, $buttonName, $successMessage, $divAtributes='', $formAtributes='') {
         $this->tableName = $tableName;
         $this->fields = $fields;
         $this->action=$action;
         $this->buttonName=$buttonName;
         $this->successMessage=$successMessage;
+        $this->divAtributes=$divAtributes;
         $this->formAtributes=$formAtributes;
-
     }
     function setTitle($title){
         $this->tableTitle=$title;
@@ -46,13 +46,13 @@ class RCMaintenanceForm{
                 $action = $_SERVER['REQUEST_URI'];
             }
         }
-        $res = '<form action="'.$action.'" METHOD="POST" '.$this->formAtributes.'>';
+        $res = '<div '.$this->divAtributes.' >';
+        $res .= '<form action="'.$action.'" METHOD="POST" '.$this->formAtributes.'>';
 
         foreach ($this->fields as $key => $val) {
             $label = $key;
             $format ='';
             $value = '';
-            $type=$val['type'];
             if(is_array($val)){
                 if(isset($val['label']))
                     $label=$val['label'];
@@ -61,16 +61,18 @@ class RCMaintenanceForm{
             }
             
 //            echo $type;
+            $type=$val['type'];
             switch($type){
                 case 'checkbox': 
                     $leftLabel ='<label>'.$label.'</label>';
-                    $res = $res.$leftLabel.'<input placeholder="'.$label.'" type='.$type.' name="'.$key.'" ';
+                    $field = $leftLabel.'<input placeholder="'.$label.'" type='.$type.' name="'.$key.'" ';
                     $restOfValues=" ";
-                    foreach ($val as $key => $value)
-                        $restOfValues.=$key."='".$value."' ";
-                    $res = $res.$restOfValues;
-                    $res = $res.'/>';
+                    foreach ($val as $jKey => $jValue)
+                        $restOfValues.=$jKey."='".$jValue."' ";
+                    $field .= $restOfValues;
+                    $field .='/>';
 
+                    // $res.=$field;
                     break;
                 case 'list': 
 //                    $leftLabel =; 
@@ -82,43 +84,49 @@ class RCMaintenanceForm{
                     $query = 'SELECT '.$idfield.','.$labelField.' FROM '.$table.' '.$condition;
                     
                     $options = getRowsInArray($query);
-                    $res = $res.'<label>'.$label.'</label><select name="'.$key.'">';
+                    $field = '<label>'.$label.'</label><select name="'.$key.'">';
 //                    print_r($options);
                     foreach ($options as $k=>$v){
-                        $res.= '<option value="'.$v[$idfield].'">';
-                        $res.= $v[$labelField].'</option>';
+                        $field.= '<option value="'.$v[$idfield].'">';
+                        $field.= $v[$labelField].'</option>';
                     }
-                    $res.='<select/>';
+                    $field.='<select/>';
+                    // $res.=$field;
                     break;
                 case 'hard-list': 
 //                    $leftLabel =; 
                     $values = $val['values'];
                     
-                    $res = $res.'<label>'.$label.'</label>
+                    $field = '<label>'.$label.'</label>
                         <select name="'.$key.'">';
 //                    print_r($options);
                     foreach ($values as $k=>$v){
-                        $res.= '<option value="'.$k.'">'.$v.'</option>';
+                        $field.= '<option value="'.$k.'">'.$v.'</option>';
                     }
-                    $res.='<select/>';
+                    $field.='<select/>';
+                    // $res.=$field;
                     break;
                 case 'hidden':
-                    $res = $res.'<input type="'.$type.'" name="'.$key.'" ';
-                    $res = $res.'value="'.$value.'" />';
+                    $field = '<input type="'.$type.'" name="'.$key.'" ';
+                    foreach ($val as $jKey => $jValue)
+                        $restOfValues.=$jKey.'="'.$jValue.'"';
+                    $field = $field.$restOfValues."/>";
+                    // $res.=$field;
                     break;
                 default:
                     $leftLabel ='<label>'.$label.'</label>';
-                    $res = $res.$leftLabel.'<input name="'.$key.'" placeholder="'.$label.'"';
+                    $field = $leftLabel.'<input name="'.$key.'" placeholder="'.$label.'"';
                     $restOfValues=" ";
                     print_r($val);
                     foreach ($val as $key => $value)
                         $restOfValues.=$key."='".$value."' ";
-                    $res = $res.$restOfValues;
-                    $res = $res.'/>';
+                    $field .= $restOfValues;
+                    $field .= '/>';
+                    // $res.=$field;
             }
 //            $res = $res.'value="'.$value.'"';
 //            $res = $res.'/>';
-            $res = $res.$format.'<br/>';
+            $res .= '<div>'.$field.$format.'</div><br/>';
             
         }
         $buttonName = 'submit';
@@ -128,7 +136,8 @@ class RCMaintenanceForm{
         $res.='<input type="hidden" name="__table" value="'.$this->tableName.'"/>';
         $res.='<input type="hidden" name="__success_message" value="'.$this->successMessage.'"/>';
         $res.='<input type="hidden" name="__method_to_invoke" value="'.$this->action.'"/>';
-        $res=$res.'<input type="submit" value="'.$buttonName.'" /><form/>';
+        $res.='<div id="button-div" style="text-align:center"><input type="submit" value="'.$buttonName.'" /></div><form/>';
+        $res.= "</div>";
         return $res;
     }
 }

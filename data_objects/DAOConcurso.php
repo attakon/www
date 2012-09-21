@@ -7,7 +7,7 @@ function DAOConcurso_getContestData($concursoId){
    	return $contestName;
 }
 
-function DAOConcurso_getTemporadaId($concursoId){ 
+function DAOConcurso_getLeagueId($concursoId){ 
    $query = "SELECT con.id_temporada FROM concurso con WHERE con.id_concurso = '".$concursoId."'";
    $temporadaId = getRow($query);
    return $temporadaId;

@@ -93,11 +93,34 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
 
         ?>
 
+        <div id="fb-root"></div>
+        <script>
+          window.fbAsyncInit = function() {
+            FB.init({
+              appId      : <?php echo $FB_APP_ID;?>,
+              channelUrl : '/fb_plugin/channel.html', // Channel File
+              status     : true, // check login status
+              cookie     : true, // enable cookies to allow the server to access the session
+              xfbml      : true  // parse XFBML
+            });
+            // Additional initialization code here
+          };
+
+          // Load the SDK Asynchronously
+          (function(d){
+             var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+             if (d.getElementById(id)) {return;}
+             js = d.createElement('script'); js.id = id; js.async = true;
+             js.src = "//connect.facebook.net/en_US/all.js";
+             ref.parentNode.insertBefore(js, ref);
+           }(document));
+        </script>
+
 <br/>
 
 <!-- Twitter widget -->
 <!-- <script src="http://widgets.twimg.com/j/2/widget.js"></script> -->
-
+       
 <table border="1" cellpadding="0" cellspacing="0" width="100%" height="300" border="0" style="width: 100%;">
     <tr>
         <td width="230" max valign="top">

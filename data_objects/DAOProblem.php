@@ -5,9 +5,9 @@ include_once 'utils/DBUtils.php';
 /*
   Second Group: problem creation; table co_problem, co_problem_testcase
 */
-function DAOProblem_registerProblem($problemName, $problemDifficulty){
-    $insert = "INSERT INTO co_problem (name, difficulty)
-    VALUES ('".$problemName."','".$problemDifficulty."')";
+function DAOProblem_registerProblem($problemName, $problemDifficulty, $creatorId){
+    $insert = "INSERT INTO co_problem (name, difficulty, creator_id)
+    VALUES ('".$problemName."','".$problemDifficulty."','".$creatorId."')";
     runQuery($insert);
 }
 function DAOProblem_registerTestCase($problemId, $input, $output){

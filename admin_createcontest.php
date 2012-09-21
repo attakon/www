@@ -15,7 +15,7 @@ include_once 'container.php';
 //echo '<!DOCTYPE html>
 //    <html>';
 //echo '<html>';
-include_once 'maintenanceForm.php';
+
 $fields = array(
     'id_temporada' => 
         array('type'=>'list',
@@ -33,13 +33,15 @@ $fields = array(
     'fecha'=>
         array('label'=>'Fecha de Realizacion',
             'type'=>'datetime',
-            'format'=>'yyyy-MM-dd hh:mm:ss'),
-    'locacion'=>array("type"=>'text'),
-    'inscripcion'=>array("type"=>'text'),
-    'premio'=>array("type"=>'text'),
+            'format'=>'yyyy-MM-dd hh:mm:ss',
+            'value'=>'2012-12-12 12:12:12'
+            ),
+    // 'locacion'=>array("type"=>'text'),
+    // 'inscripcion'=>array("type"=>'text'),
+    // 'premio'=>array("type"=>'text'),
     'descripcion'=>array("type"=>'text'),
-    'is_rated'=>array('type'=>'checkbox','label'=>'is_rated','checked'=>'1'),
-    'url_forum'=>array("type"=>'text'),
+    // 'is_rated'=>array('type'=>'checkbox','label'=>'is_rated','checked'=>'1'),
+    // 'url_forum'=>array("type"=>'text'),
     'total_time'=>
         array('type'=>'time',
             'label'=>'total_time',
@@ -47,21 +49,24 @@ $fields = array(
     'left_time'=>array('type'=>'time',
             'label'=>'left_time',
             'format'=>'hh:mm:ss'),
-    'id_usuario'=>
-        array('type'=>'list',
-            'label'=>'Writer',
-            'list'=>array(
-                'table'=>'usuario',
-                'idField'=>'id_usuario',
-                'labelField'=>'username',
-                'condition'=>''
-            )),
+    // 'id_usuario'=>
+    //     array('type'=>'list',
+    //         'label'=>'Writer',
+    //         'list'=>array(
+    //             'table'=>'usuario',
+    //             'idField'=>'id_usuario',
+    //             'labelField'=>'username',
+    //             'condition'=>''
+    //         )),
     'creator_id'=>array(
         'type'=>'hidden',
         'value'=>$_SESSION['userId']
         )
 );
-$tablePC = new RCMaintenanceForm('concurso',$fields,NULL,'Create Contest', 'nombre');
+print_r($_SESSION['userId']);
+
+include_once 'maintenanceForm.php';
+$tablePC = new RCMaintenanceForm('concurso',$fields,NULL,'Create Contest', 'nombre','style="width:400px"');
 
 
 showPage('Create New Contest', false, $tablePC->getForm(), null,'370')

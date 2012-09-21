@@ -78,12 +78,31 @@ class RCTable{
         $nroColumnsToShow=0;
         $totalWidth=0;
         foreach ($this->arrayColumns as $key=>$keys) {
-            if($this->arrayColumns[$key][2]!=-1){ // don't show hidden Columns
-                $header .= "
+            switch ($this->arrayColumns[$key][2]) {
+                case -2:
+                     $header .= "
+                    <td $clHeaderTN >".$this->arrayColumns[$key][1]."</td>";
+                    $nroColumnsToShow++;
+                    // $totalWidth+=$this->arrayColumns[$key][2];
+                    break;
+                case -1: //hidden
+
+                    break;
+                default: //valid 
+                     $header .= "
                     <td $clHeaderTN width =".$this->arrayColumns[$key][2].">".$this->arrayColumns[$key][1]."</td>";
-                $nroColumnsToShow++;
-                $totalWidth+=$this->arrayColumns[$key][2];
+                    $nroColumnsToShow++;
+                    $totalWidth+=$this->arrayColumns[$key][2];
+                    break;
             }
+            // if($this->arrayColumns[$key][2]!=-1){ // don't show hidden Columns
+               
+            // }else if($this->arrayColumns[$key][2]!=-1){ // don't show hidden Columns
+            //     $header .= "
+            //         <td $clHeaderTN width =".$this->arrayColumns[$key][2].">".$this->arrayColumns[$key][1]."</td>";
+            //     $nroColumnsToShow++;
+            //     $totalWidth+=$this->arrayColumns[$key][2];
+            // }
         }
         $header.="
                     <td class = 'right'></td>
@@ -91,7 +110,7 @@ class RCTable{
         $title= "
                 <tr>
                     <td $classLeftCorner ></td>
-                    <td $clHeaderTN width = \"$totalWidth\" colspan='$nroColumnsToShow'>$this->tableTitle </td>
+                    <td $clHeaderTN colspan='$nroColumnsToShow'>$this->tableTitle </td>
                     <td class = \"right\"></td>
                 </tr>";
         if($this->tableTitle!=null){
@@ -111,19 +130,27 @@ class RCTable{
                     $splited = explode(" ", $this->arrayColumns[$i][4]);
                     $kind = $splited [0];
                     $field="";
-                    if($kind=='linked'){
-                        $id = $splited [1];
-                        $type = $splited [2];
-                        $username = $data[$i];
-                        $userId=$data[$id];
-                        $field = rCLink(".", $userId, $username , $type);
+                    if($kind=='replacement'){
+                        $linkExpression = $this->arrayColumns[$i]['value'];
                         
-                    }else if ($kind =='img'){
-                        $path = $splited [1];
-                        $ext = $splited [2];
-                        $img = $path.'/'.$data[$i].'.'.$ext;
-                        if(file_exists($img ))
-                            $field = "<img src='$img'>";
+                        $result = '';
+                        for($i=0; $i<strlen($linkExpression);$i++){
+                            if($i>0 && $linkExpression[$i]=='#' && $linkExpression[$i+1]=='{'){
+                                $i++;
+                                $number = '';
+                                while($linkExpression[++$i]!='}'){
+                                    $number .= $linkExpression[$i];
+                                }
+                                // print_r($number);
+                                $result .= $data[$number];
+                            }else 
+                                $result .= $linkExpression[$i];
+                        }
+
+                        // preg_match("{(?P<digit>\d+)}", $linkExpression, $matches);
+                        // print_r($data);
+                        // print_r('rx'.$result.'rx');
+                        $field = $result;
                     }else if($kind=='date'){
                         $spl = explode('-', $data[$i]);
                         $year = $spl[0];
@@ -136,12 +163,13 @@ class RCTable{
                         $min= $spl[1];                        
                         $field = $hou.":".$min;
                     }
-                    $table.= "<td $atr width=\"".$this->arrayColumns[$i][2]."\">$field</td>";
+                    // $table.= "<td $atr width=\"".$this->arrayColumns[$i][2]."\">$field</td>";
+                    $table.= "<td $atr >$field</td>";
                 }else {
                     if($this->arrayColumns[$i][2]!=-1){                        
                         $dataF=str_replace("<", "&lt;",$data[$i]);
                         $dataF=str_replace(">", "&gt;",$dataF);
-                        $table.= "<td $atr width=\"".$this->arrayColumns[$i][2]."\">
+                        $table.= "<td $atr >
                                     $dataF
                                 </td>";
                     }

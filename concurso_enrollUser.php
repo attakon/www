@@ -16,11 +16,11 @@ if(!isset($_SESSION['userId'])){// no ha iniciado session
     if($dat[0]=="REGISTRATION_OPEN"){
         //Begin [10-Jun-2012] Raul - moving the registration from store procedure to php code.
         if(!DAOUser_isUserRegisteredInContest($userId,$concursoId)){
-            $temporadaId = DAOConcurso_getTemporadaId($concursoId);
-            if(!DAOUser_isUserRegisteredInSeason($userId, $temporadaId)){
-                DAOUser_registerInSeason($userId, $temporadaId);
+            $leagueId = DAOConcurso_getLeagueId($concursoId);
+            if(!DAOUser_isUserRegisteredInSeason($userId, $leagueId)){
+                DAOUser_registerInSeason($userId, $leagueId);
             }
-            $puntosForSeason = DAOUser_getUserPuntosForSeason($userId, $temporadaId);
+            $puntosForSeason = DAOUser_getUserPuntosForSeason($userId, $leagueId);
             DAOUser_registerInContest($concursoId, $userId, $puntosForSeason);
             $msg = parrafoOK("&iexcl;Inscrito Correctamente!");
         }else{

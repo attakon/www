@@ -22,36 +22,16 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
     ?>
     <body style="margin-right:13; margin-left:13; margin-top:0;padding-top:0;" >
            <!-- JS SDK -->
-        <div id="fb-root"></div>
-        <script>
-          window.fbAsyncInit = function() {
-            FB.init({
-              appId      : <?php echo $FB_APP_ID;?>,
-              channelUrl : '/fb_plugin/channel.html', // Channel File
-              status     : true, // check login status
-              cookie     : true, // enable cookies to allow the server to access the session
-              xfbml      : true  // parse XFBML
-            });
-            // Additional initialization code here
-          };
 
-          // Load the SDK Asynchronously
-          (function(d){
-             var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-             if (d.getElementById(id)) {return;}
-             js = d.createElement('script'); js.id = id; js.async = true;
-             js.src = "//connect.facebook.net/en_US/all.js";
-             ref.parentNode.insertBefore(js, ref);
-           }(document));
-        </script>
-    
         <?php echo headerFunction($statusBar, '.')?>
 
 
+        <!-- <div style="text-align"align="center"> -->
         <div align="center">
-        <table width="<?php echo $contentWidth?>">
+        <!-- <table width="<?php echo $contentWidth?>">
                 <tr>
-                    <td colspan="2" class="body" height="300"  <?php echo $bodyOptionalAtr?> >
+                    <td colspan="2" class="body" height="300"  <?php echo $bodyOptionalAtr?> > -->
+                      <div style="min-height:500px">
                         <?php
                         if($including==true){
                             include($bodyContent);
@@ -59,9 +39,10 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
                             echo $bodyContent;
                         }
                         ?>
-                    </td>
+                      </div>
+                   <!--  </td>
                 </tr>
-         </table>
+         </table> -->
         </div>
         <?php
         include("footer.php");
