@@ -4,10 +4,11 @@ include "CustomTags.php";
 // for($i=1;$i<10;$i++){
 //     echo getSpanishDate($i, 10, 2009)."<br>";
 // }
-$pattern = '/\d+ \d+/';
-$text = "x 21 20 2";
+$pattern = '/^\d+ \d+$/';
+$text = "1 20";
 
-preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+$r = preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
+print_r($r);
 print_r($matches);
 	
 ?>

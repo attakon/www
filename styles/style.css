@@ -133,3 +133,18 @@ a{
 a:hover{
     text-decoration: underline;
 }
+
+/*user message*/
+
+#ok-user-message-div{
+    height: 20px;
+    background: #A9F5BC;
+    color:#09F;
+}
+
+#error-user-message-div{
+    vertical-align: middle;
+    height: 20px;
+    background: #FA5858;
+    color:black;
+}

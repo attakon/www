@@ -14,19 +14,16 @@ if(isset($_POST)){
 
 
 function init(){
+    if(isset($_GET['remprobleid'])){
+        $problemId =$_GET['remprobleid'];
+        include_once 'data_objects/DAOProblem.php';
+        DAOProblem_deleteProblem($problemId);
+    }
     $fields = array(
         'name'=> 
             array('label'=>'Problem Name','type'=>'text'),
         'difficulty' => 
             array('label'=>'Difficulty','type'=>'text'),
-        // 'parse_type'=> 
-        //     array('label'=>'Parse Type','type'=>'hard-list',
-        //         'values'=>
-        //             array(
-        //                 'STATIC-LINE-separated'=>'STATIC-LINE-separated',
-        //                 '#CASEMARK-separated'=>'#CASEMARK-separated'
-        //                 )
-        //             ),
         'input-parse-type'=> 
             array('label'=>'parseTypes','type'=>'select',
                 'options'=>
@@ -44,12 +41,17 @@ function init(){
 
                         )
                     ),
-        'lines-per-input-case'=> 
+        'input-lines-per-case'=> 
             array('label'=>'Lines per Input Case','type'=>'text', 'value'=>'1'),
         'input-casemark'=> 
             array('label'=>'Input Case Mark',
-                'type'=>'text', 'value'=>'#CASEMARK',
+                'type'=>'text', 'value'=>'/^\d+ \d+$/',
                 'div-atr'=>'style="display:none"'),
+        'input-initial-skip-lines'=> 
+            array('label'=>'Initial Lines to Skip',
+                'type'=>'text', 'value'=>'1',),
+        'input-file'=> 
+            array('label'=>'Input File','type'=>'file'),
         'output-parse-type'=> 
             array('label'=>'parseTypes','type'=>'select',
                 'options'=>
@@ -66,40 +68,32 @@ function init(){
                                     )
                         )
                     ),
-        'lines-per-output-case'=> 
+        'output-lines-per-case'=> 
             array('label'=>'Lines per Output Case','type'=>'text','value'=>'1'),
         'output-casemark'=> 
             array('label'=>'Ouput Case Mark','type'=>'text', 'value'=>'#CASEMARK',
                 'div-atr'=>'style="display:none"'),
-        'case-mark'=> 
-            array('label'=>'Case mark','type'=>'text','value'=>'#CASEMARK'),
-        'first-line-counter'=> 
-            array('label'=>'Is First Line Counter?','type'=>'checkbox', 'checked'=>'true'),    
-        'input'=> 
-            array('label'=>'Input','type'=>'file'),
-        'output'=> 
-            array('label'=>'Output','type'=>'file'),
-
+        'output-file'=> 
+            array('label'=>'Output File','type'=>'file')
         );
     include_once 'maintenanceForm.php';
     $problemInsertForm = new RCMaintenanceForm('problem',$fields,'previewProblem','Next', 'name',
         'style="text-align: left; width:400px"', 'enctype="multipart/form-data"');
 
 
-    // See problem list 
-    $tablesPC="co_problem problem, usuario us";
+    // See problem table 
+    $tablesPC="co_problem problem";
     $columnsPC = array(
     array("problem.problem_id",  "",     -1, ""),
     array("problem.creator_id",  "",     -1, ""),
     array("problem.name",  "Problem Name",     160, "",""),
     array("'delete'",  "Delete", 80, "", "replacement", 
-        'value' => "<a href='/admin_addcontestproblem_selectproblem.php?i=#{0}'>Delete</a>"),
+        'value' => "<a href='/admin_myproblems.php?remprobleid=#{0}'>Delete</a>"),
     array("'view'",  "View I/O", 80, "", "replacement", 
         'value' => "<a href='/admin_myproblems_io.php?pid=#{0}'>View I/O</a>")
-
     );
-    $conditionPC = "WHERE problem.creator_id = us.id_usuario ".
-    "ORDER BY 1 DESC";
+    $conditionPC = "WHERE problem.creator_id = '".$_SESSION['userId']."'
+     ORDER BY 1 DESC";
 
     include_once 'table2.php';
     $problemList = new RCTable(conecDb(),$tablesPC,10,$columnsPC,$conditionPC);
@@ -107,39 +101,74 @@ function init(){
     $content = $problemInsertForm->getForm().'<br/>'.$problemList->getTable();
 
     include_once 'container.php';
-    showPage('Create New Contest', false, $content, null,'370');    
+    showPage('Create New Contest', false, $content, null,'370');
 }
 
 function previewProblem($_PAR){
-    print_r($_PAR);
-    $inputTempName = $_FILES['input']['tmp_name'];
-    $outputTempName = $_FILES['output']['tmp_name'];
+    // print_r($_PAR);
+    $inputTempName = $_FILES['input-file']['tmp_name'];
+    $outputTempName = $_FILES['output-file']['tmp_name'];
     
     if(empty($inputTempName) || empty($outputTempName)){
-        showPage("", false, parrafoError("file cannot be empty"),"");
+        $_SESSION['message']='file cannot be empty';
+        $_SESSION['message_type']='error';
+        // header("location",'');
+        header('Location: admin_myproblems.php');
+        // showPage("", false, parrafoError("file cannot be empty"),"");
         die;
     }
-    // $inputTable = getTabularView($inputTempName);
-    // $outputTable = getTabularView($outputTempName);
 
-    $linesPerInputCase = $_PAR['lines-per-input-case'];
-    $linesPerOutputCase = $_PAR['lines-per-output-case'];
-    $isFirstLineCounter = isset($_PAR['first-line-counter'])?$_PAR['first-line-counter']:'';
     // $table = getIOTabularView($inputTempName,$outputTempName,$linesPerInputCase, $linesPerOutputCase,$isFirstLineCounter);
     $problemName = $_PAR['name'];
-    $io = getIOArrayFromUploadedFile($inputTempName,$outputTempName,$linesPerInputCase, $linesPerOutputCase,$isFirstLineCounter);
-    $table = getIOTabularView($io);
+    $inputList;
+    switch($_PAR['input-parse-type']){
+        case 'STATIC-LINE-separated-input':
+            $linesPerCaseInput = $_PAR['input-lines-per-case'];
+            $initialSkipLines=$_PAR['input-initial-skip-lines'];
+            $inputList = getListSeparatedByLines($inputTempName, $linesPerCaseInput,$initialSkipLines);
+            break;
+        case '#CASEMARK-separated-input':
+            $caseMarkForInput = $_PAR['input-casemark'];
+            $initialSkipLines=$_PAR['input-initial-skip-lines'];
+            $inputList = getListSeparetedByMark($inputTempName, $caseMarkForInput,$initialSkipLines);
+            break;
+    }
+    $outputList;
+    switch($_PAR['output-parse-type']){
+        case 'STATIC-LINE-separated-output':
+            $linesPerCaseOutput = $_PAR['output-lines-per-case'];
+            $outputList = getListSeparatedByLines($outputTempName, $linesPerCaseOutput);
+            break;
+        case '#CASEMARK-separated-output':
+            $caseMarkForOutput = $_PAR['output-casemark'];
+            $outputList = getListSeparetedByMark($outputTempName, $caseMarkForOutput);
+            break;
+    }
+    // $io = array ('i'=>$inputList,'o'=> $outputList);
+    // print_r($inputList);
+    // print_r($outputList);
+    $table = getIOTabularView($inputList,$outputList);
     // print_r($io);
     
     $result = '<label>Problem Name: </label>'.$problemName.'<br/>';
-    $result.='<form method="POST" action="admin_createproblem_process.php">
-    <input type="submit" value="Save Problem"/>';
-    $result.= $table;
+    $equalSize=sizeof($inputList)==sizeof($outputList);
+    if(sizeof($inputList)==sizeof($outputList)){
+        $result .= '<label style="color:green">input size = '.sizeof($inputList).' == output size = '.sizeof($outputList).'</label>';
+        $result .=
+        '<form method="POST" action="admin_createproblem_process.php">
+            <input type="submit" value="Save Problem"/>
+        </form>';
+        $result.= $table;
 
-    $_SESSION['io']=$io;
-    $_SESSION['problemName']=$problemName;
+        $_SESSION['io']=array('inputList'=>$inputList,'outputList'=>$outputList);
+        $_SESSION['problemName']=$problemName;
 
-    showPage('Problem Preview', false, $result, null);
+        showPage('Problem Preview', false, $result, null);
+    }else{
+        $result .= '<label style="color:red">input size = '.sizeof($inputList).' != output size = '.sizeof($outputList).'</label>';
+        $result.= $table;
+        showPage('Problem Preview', false, $result, null);
+    }
 }
 
 // function sonIguales($tmpName, $idProblem) {
@@ -167,90 +196,119 @@ function previewProblem($_PAR){
 //     return array(true,true);
 // }
 
-function getIOArrayFromUploadedFile($inputName, $outputName, $linesPerInputCase, $linesPerOutputCase, $isFirstLineCounter){
+function getListSeparatedByLines($tempName, $linesPerCase, $nroFirstLinesToSkip=0){
     
-    $inputFile_handle = fopen($inputName, "r");
-    $outputFile_handle = fopen($outputName, "r");
-    $expectedTotal='';
-    if($isFirstLineCounter=='on'){
-        $expectedTotal = fgets($inputFile_handle);
-    }
-    $inputCounter=0;
-    $singleInputCase="";
+    $file_handle = fopen($tempName, "r");
+    $counter=0;
+    $singleCase="";
     $totalRead=0;
-    $io = array();
-    while($inputLine = fgets($inputFile_handle)){
-        $inputLine = trim($inputLine);
-        $singleInputCase.=$inputLine."\n";
-        if(++$inputCounter==$linesPerInputCase){
-            $outputCounter=0;
-            $singleOutputCase="";
-            while($outputLine=fgets($outputFile_handle)){
-                $outputLine = trim($outputLine);
-                $singleOutputCase.=$outputLine;
-                if($outputCounter++<$linesPerOutputCase){
-                    
-                    $outputCounter=0;
-
-                    $io[$totalRead]=array('i'=>$singleInputCase,'o'=>$singleOutputCase);
-
-                    $totalRead++;
-                    $inputCounter=0;
-                    $singleInputCase="";
-                    break;
-                }
-                
-            }
+    $res = array();
+    while($line = fgets($file_handle)){
+        if($nroFirstLinesToSkip-->0)continue;
+        $line = trim($line);
+        $singleCase.=$line."\n";
+        if(++$counter==$linesPerCase){
+            $counter=0;
+            $res[$totalRead]=$singleCase;
+            $singleCase='';
+            $totalRead++;
         }
     }
-    return $io;
+    return $res;
 }
 
-function getIOTabularView($io){
+function getListSeparetedByMark($tempName, $caseMark, $nroFirstLinesToSkip=0){
+    $caseMark = str_replace("\\\\", "\\", $caseMark);
+    $file_handle = fopen($tempName, "r");
+    $singleCase="";
+    $totalRead=0;
+    $res = array();
+    $singleCase='';
+    $isRegex=$caseMark[0]=='/' && $caseMark[strlen($caseMark)-1]=='/';
+    // print_r($caseMark);
+    // print_r($isRegex);
+    while($line = fgets($file_handle)){
+        if($nroFirstLinesToSkip-->0)continue;
+        $line = trim($line);
+        $matches = false;
+        if($isRegex){
+            $matches = preg_match($caseMark, $line, $m, PREG_OFFSET_CAPTURE);
+        }else{
+            $matches = $line==$caseMark;
+        }
+        if($matches){
+            if($singleCase!=''){
+                $res[$totalRead]=$singleCase;
+                $totalRead++;
+                $singleCase='';
+            }
+        }else{
+            $singleCase.=$line."\n";    
+        }
+    }
+    if($singleCase!=''){
+        $res[$totalRead]=$singleCase;
+        $totalRead++;
+    }
+    return $res;
+}
+
+// function getIOArrayFromUploadedFile($inputName, $outputName, $linesPerInputCase, $linesPerOutputCase, $isFirstLineCounter){
+    
+//     $inputFile_handle = fopen($inputName, "r");
+//     $outputFile_handle = fopen($outputName, "r");
+//     $expectedTotal='';
+//     if($isFirstLineCounter=='on'){
+//         $expectedTotal = fgets($inputFile_handle);
+//     }
+//     $inputCounter=0;
+//     $singleInputCase="";
+//     $totalRead=0;
+//     $io = array();
+//     while($inputLine = fgets($inputFile_handle)){
+//         $inputLine = trim($inputLine);
+//         $singleInputCase.=$inputLine."\n";
+//         if(++$inputCounter==$linesPerInputCase){
+//             $outputCounter=0;
+//             $singleOutputCase="";
+//             while($outputLine=fgets($outputFile_handle)){
+//                 $outputLine = trim($outputLine);
+//                 $singleOutputCase.=$outputLine;
+//                 if($outputCounter++<$linesPerOutputCase){
+                    
+//                     $outputCounter=0;
+
+//                     $io[$totalRead]=array('i'=>$singleInputCase,'o'=>$singleOutputCase);
+
+//                     $totalRead++;
+//                     $inputCounter=0;
+//                     $singleInputCase="";
+//                     break;
+//                 }
+                
+//             }
+//         }
+//     }
+//     return $io;
+// }
+
+function getIOTabularView($inputList, $outputList){
     
     ob_start();
-    $totalRead=sizeof($io);
-    foreach ($io as $key => $value) {
+    $totalRead=sizeof($inputList);
+    for($i=0; $i<$totalRead ; $i++) {
         ?>
             <tr>
-                <td style ="border-width:2px; border-style:ridge;">
-                    <?php echo str_replace("\n", "</br>", $value['i']) ?></td>
-                <td style ="border-width:2px; border-style:ridge;">
-                    <?php echo str_replace("\n", "</br>", $value['o']) ?></td>
+                <td style ="border-width:2px; border-style:ridge; font-family:courier;" >
+                    <?php echo str_replace("\n", "</br>", $inputList[$i]) ?></td>
+                <td style ="border-width:2px; border-style:ridge; font-family:courier;">
+                    <?php echo str_replace("\n", "</br>", $outputList[$i]) ?></td>
             </tr>
         <?php
     }
     $result = '<table border="1" style ="border-width:2px; border-style:ridge;">';
-    $result.= '<tr colspan="1">
-                <td>read cases:'.$totalRead.'</td>
-            </tr>';
-
     $result = $result.ob_get_contents().'
     </table>';
-    ob_end_clean();
-    return $result;
-}
-
-function getTabularView($tmpName){
-    echo $tmpName;
-    ob_start();
-    $file_handle = fopen($tmpName, "r");
-    $lines = explode("\n",$file_handle);
-    ?>
-    <table>
-    <?php
-    while($line = fgets($file_handle)){
-        $line = trim($line);
-        ?>
-            <tr>
-                <td><?php echo $line ?></td>
-            </tr>
-        <?php
-    }
-    ?>
-    </table>
-    <?php
-    $result = ob_get_contents();
     ob_end_clean();
     return $result;
 }

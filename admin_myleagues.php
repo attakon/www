@@ -28,7 +28,7 @@ include_once 'maintenanceForm.php';
 $tablePC = new RCMaintenanceForm('temporada',$fields,NULL,'Create League', 'nombre','style="width:400px"');
 
     // See problem list 
-    $tablesPC="temporada temporada, usuario us";
+    $tablesPC="temporada temporada";
     $columnsPC = array(
     array("temporada.id_temporada",  "",     -1, ""),
     array("temporada.nombre",  "League Name",     160, "",""),
@@ -37,13 +37,13 @@ $tablePC = new RCMaintenanceForm('temporada',$fields,NULL,'Create League', 'nomb
     array("'see_contests'",  "Contests", 80, "", "replacement", 
         'value' => "<a href='/admin_addcontestproblem_selectproblem.php?i=#{0}'>See Contests</a>"),
     );
-    $conditionPC = "WHERE temporada.creator_id = us.id_usuario ".
-    "ORDER BY 1 DESC";
+    $conditionPC = "WHERE temporada.creator_id = '".$_SESSION['userId']."'".
+    " ORDER BY 1 DESC";
 
     include_once 'table2.php';
     $problemList = new RCTable(conecDb(),$tablesPC,10,$columnsPC,$conditionPC);
     $content = $tablePC->getForm()."<br/>".$problemList->getTable();
     include_once 'container.php';
-    showPage('Create New Contest', false, $content, null,'370')
+    showPage('My Leagues', false, $content, null,'370')
 
 ?>

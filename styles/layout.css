@@ -44,6 +44,7 @@ div#username{
 	/*margin-left: 50%;*/
 }
 div#bar{
+	text-align: center;
 	margin-bottom: 10px;
 
     font-weight: 700;
@@ -53,7 +54,7 @@ div#bar{
     font-style: inherit;
 
     /*border: groove;*/
-    background-image: url(../images/headerBG.jpg);
+    /*background-image: url(../images/headerBG.jpg);*/
     font-family: Arial,Helvetica,sans-serif;
     /*border-top-width: 1px;
     border-bottom-width: 1px;
@@ -63,7 +64,7 @@ div#bar{
     padding-bottom: 1px;
     padding-left: 10px;
     padding-right: 1px;
-    text-align: left;
+    /*text-align: left;*/
 
 	/* change jonathan 2011/10/24 */
 	/*border-top-left-radius: 15px 15px;*/

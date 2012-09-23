@@ -20,4 +20,17 @@ function DAOConcurso_getActiveContests(){
 
     return getRowsInArray($query);
 }
+
+// Contest Problems
+
+function DAOProblem_addProblemToContest($contestId, $problemId){
+    $insert = "INSERT INTO co_contest_problems (contest_id, problem_id)
+    VALUES ('".$contestId."','".$problemId."')";
+    runQuery($insert);
+}
+function DAOProblem_removeProblemFromContest($contestId, $problemId){
+    $insert = "DELETE FROM co_contest_problems
+    WHERE contest_id ='".$contestId."' AND problem_id ='".$problemId."'";
+    runQuery($insert);
+}
 ?>

@@ -19,6 +19,12 @@ function DAOProblem_getProblemByName($problemName){
     $query = "SELECT problem_id FROM co_problem WHERE name='".$problemName."'";
     return getRow($query);
 }
+
+function DAOProblem_deleteProblem($problemId){
+    $query = "DELETE FROM co_problem WHERE problem_id='".$problemId."'";
+    runQuery($query);
+}
+
 /*
   First Group
 */

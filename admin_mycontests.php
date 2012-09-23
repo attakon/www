@@ -42,23 +42,22 @@ include_once 'maintenanceForm.php';
 $insertContestForm = new RCMaintenanceForm('concurso',$fields,NULL,'Create Contest', 'nombre','style="text-align: left; width:450px"');
 
 
-$tablesPC="concurso co, usuario us";
+$tablesPC="concurso co";
 $columnsPC = array(
     array("co.id_concurso",  "",     -1, ""),
     array("co.creator_id",  "",     -1, ""),
-    array("co.nombre",  "Concurso",     160, "",""),    
-    array("'See Problems'",  "Problems", 100, "", "replacement", 
-        'value' => "<a href='/admin_addcontestproblem_selectproblem.php?i=#{0}'>Problems</a>"),
+    array("co.nombre",  "Concurso",     -1, "",""),    
+    array("'Contests'",  "Contest", 100, "", "replacement", 
+        'value' => "<a href='/admin_mycontestproblems.php?id=#{0}'>#{2}</a>"),
     array("'delete'",  "Delete", 80, "", "replacement", 
-        'value' => "<a href='/admin_addcontestproblem_selectproblem.php?i=#{0}'>Delete</a>")
-
+        'value' => "<a href='/m.php?i=#{0}'>Delete</a>")
 );
 
         // case 'con_res':return "<a href='$path/concurso_results.php?i=$id&tab=2'>$caption</a>";
 
 $conditionPC = "WHERE co.estado = 'REGISTRATION_OPEN' ".
-    " AND co.creator_id = us.id_usuario ".
-    "ORDER BY 1 DESC";
+    " AND co.creator_id = ".$_SESSION['userId'].
+    " ORDER BY 1 DESC";
 
 include_once 'table2.php';
 $manageContestTable = new RCTable(conecDb(),$tablesPC,10,$columnsPC,$conditionPC);

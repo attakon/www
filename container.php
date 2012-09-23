@@ -25,7 +25,28 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
 
         <?php echo headerFunction($statusBar, '.')?>
 
-
+        <?php 
+            // $_SESSION['message']='ok message';
+            // $_SESSION['message_type']='ok';
+            // $_SESSION['message_type']='error';
+            if(isset($_SESSION['message'])){
+                if($_SESSION['message_type']=='error'){
+                    $divid='error-user-message-div';
+                }else{
+                    $divid='ok-user-message-div';
+                }
+                ?>
+                <div id="<?php echo $divid;?>" >
+                    <h3>
+                        <?php echo $_SESSION['message']; ?>
+                    </h3>
+                </div>
+                <br/>
+                <?php
+                unset($_SESSION['message']);
+                unset($_SESSION['message_type']);
+            }
+        ?>
         <!-- <div style="text-align"align="center"> -->
         <div align="center">
         <!-- <table width="<?php echo $contentWidth?>">

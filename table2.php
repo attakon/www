@@ -26,6 +26,7 @@ class RCTable{
     private $tableTitle;
     private $footer;
     private $tableAtr;
+    private $showLineBreaks;
 
     public function __construct($connexion, $tableName, $limit, $arrayColumns, $condition) {
         $this->connexion = $connexion;
@@ -41,6 +42,9 @@ class RCTable{
     }
     function setTableAtr($x){
         $this->tableAtr=$x;
+    }
+    function showLineBreaks($showLineBreaks){
+       $this->showLineBreaks=$showLineBreaks;
     }
 
     function getTable(){
@@ -173,6 +177,9 @@ class RCTable{
                     if($this->arrayColumns[$i][2]!=-1){                        
                         $dataF=str_replace("<", "&lt;",$data[$i]);
                         $dataF=str_replace(">", "&gt;",$dataF);
+                        if($this->showLineBreaks==true){
+                            $dataF=str_replace("\n", "<br/>", $dataF);
+                        }
                         $table.= "<td $atr >
                                     $dataF
                                 </td>";
