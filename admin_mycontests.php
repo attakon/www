@@ -2,6 +2,17 @@
 session_start();
 include_once 'utils/ValidateAdmin.php';
 
+if(isset($_GET['delcontestid'])){
+    $contestId =$_GET['delcontestid'];
+    include_once 'data_objects/DAOConcurso.php';
+    $leagueData = DAOConcurso_getContestData($contestId);
+    $contestName = $leagueData['nombre'];
+    if($contestName!=null){
+        DAOContest_deleteContest($contestId);
+        $_SESSION['message']='Contest '.$contestName.' was deleted';
+        $_SESSION['message_type']='ok';    
+    }
+}
 
 $fields = array(
     'id_temporada' => 
@@ -40,7 +51,7 @@ $fields = array(
 
 include_once 'maintenanceForm.php';
 $insertContestForm = new RCMaintenanceForm('concurso',$fields,NULL,'Create Contest', 'nombre','style="text-align: left; width:450px"');
-
+$insertContestForm->setOnSuccessRedirectPage('admin_mycontests.php');
 
 $tablesPC="concurso co";
 $columnsPC = array(
@@ -50,7 +61,7 @@ $columnsPC = array(
     array("'Contests'",  "Contest", 100, "", "replacement", 
         'value' => "<a href='/admin_mycontestproblems.php?id=#{0}'>#{2}</a>"),
     array("'delete'",  "Delete", 80, "", "replacement", 
-        'value' => "<a href='/m.php?i=#{0}'>Delete</a>")
+        'value' => "<a href='/admin_mycontests.php?delcontestid=#{0}'>Delete</a>")
 );
 
         // case 'con_res':return "<a href='$path/concurso_results.php?i=$id&tab=2'>$caption</a>";
@@ -67,6 +78,6 @@ $content = $insertContestForm->getForm().
 '<br/>'.$manageContestTable->getTable();
 
 include_once 'container.php';
-showPage('Create New Contest', false, $content , null,'600');
+showPage('My Contests', false, $content , null,'600');
 
 ?>

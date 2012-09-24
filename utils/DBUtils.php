@@ -70,4 +70,11 @@ function getRowsInArray($query){
     }
     return $arr;
 }
+
+function getfirstRow($query){
+    $rs = mysql_query($query, conecDb());
+    checkForError();
+    $data = mysql_fetch_row($rs);
+    return $data;
+}
 ?>

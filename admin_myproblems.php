@@ -47,6 +47,12 @@ function init(){
             array('label'=>'Input Case Mark',
                 'type'=>'text', 'value'=>'/^\d+ \d+$/',
                 'div-atr'=>'style="display:none"'),
+        'input-include-match'=>
+            array('label'=>'Include Match',
+                'type'=>'checkbox',
+                'checked' =>'true',
+                'div-atr'=>'style="display:none"'
+                ),
         'input-initial-skip-lines'=> 
             array('label'=>'Initial Lines to Skip',
                 'type'=>'text', 'value'=>'1',),
@@ -101,7 +107,7 @@ function init(){
     $content = $problemInsertForm->getForm().'<br/>'.$problemList->getTable();
 
     include_once 'container.php';
-    showPage('Create New Contest', false, $content, null,'370');
+    showPage('My Problems', false, $content, null,'370');
 }
 
 function previewProblem($_PAR){
@@ -217,7 +223,7 @@ function getListSeparatedByLines($tempName, $linesPerCase, $nroFirstLinesToSkip=
     return $res;
 }
 
-function getListSeparetedByMark($tempName, $caseMark, $nroFirstLinesToSkip=0){
+function getListSeparetedByMark($tempName, $caseMark, $nroFirstLinesToSkip=0, $includeMatch=true){
     $caseMark = str_replace("\\\\", "\\", $caseMark);
     $file_handle = fopen($tempName, "r");
     $singleCase="";
@@ -240,7 +246,11 @@ function getListSeparetedByMark($tempName, $caseMark, $nroFirstLinesToSkip=0){
             if($singleCase!=''){
                 $res[$totalRead]=$singleCase;
                 $totalRead++;
-                $singleCase='';
+            }
+            if($includeMatch){
+                $singleCase=$line."\n";
+            }else{
+                $singleCase='';    
             }
         }else{
             $singleCase.=$line."\n";    

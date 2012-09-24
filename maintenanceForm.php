@@ -13,6 +13,7 @@ class RCMaintenanceForm{
     private $action;
     private $buttonName;
     private $successMessage;
+    private $onSuccessRedirectPage;
 
     public function __construct($tableName, $fields, $action, $buttonName, $successMessage, $divAtributes='', $formAtributes='') {
         $this->tableName = $tableName;
@@ -31,6 +32,11 @@ class RCMaintenanceForm{
     }
     function setTableAtr($x){
         $this->tableAtr=$x;
+    }
+
+
+    function setOnSuccessRedirectPage($page){
+        $this->onSuccessRedirectPage=$page;
     }
 
     function getForm(){
@@ -161,6 +167,10 @@ class RCMaintenanceForm{
             $buttonName = $this->buttonName;
         }
         $res.='<input type="hidden" name="__table" value="'.$this->tableName.'"/>';
+
+        if($this->onSuccessRedirectPage){
+            $res.='<input type="hidden" name="__redirectpage" value="'.$this->onSuccessRedirectPage.'"/>';    
+        }
         $res.='<input type="hidden" name="__success_message" value="'.$this->successMessage.'"/>';
         $res.='<input type="hidden" name="__method_to_invoke" value="'.$this->action.'"/>';
         $res.='<div id="button-div" style="text-align:center"><input type="submit" value="'.$buttonName.'" /></div><form/>';

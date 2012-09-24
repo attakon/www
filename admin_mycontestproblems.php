@@ -6,13 +6,13 @@ if(isset($_GET['id']) &&  isset($_GET['addproblemid'])){
 	$contestId = $_GET['id'];
 	$problemId = $_GET['addproblemid'];
 	include_once 'data_objects/DAOConcurso.php';
-	DAOProblem_addProblemToContest($contestId,$problemId);
+	DAOConcurso_addProblemToContest($contestId,$problemId);
 }
 if(isset($_GET['id']) &&  isset($_GET['delproblemid'])){
 	$contestId = $_GET['id'];
 	$problemId = $_GET['delproblemid'];
 	include_once 'data_objects/DAOConcurso.php';
-	DAOProblem_removeProblemFromContest($contestId,$problemId);
+	DAOConcurso_removeProblemFromContest($contestId,$problemId);
 }
 
 if(isset($_GET['id'])){
@@ -64,7 +64,7 @@ if(isset($_GET['id'])){
 	$content = $contestProblemList->getTable().'<br/>'.$availableProblemsTable;
 
     include_once 'container.php';
-    showPage('Create New Contest', false, $content, null,'370');  
+    showPage($contestName.'\'s problems', false, $content, null,'370');  
 }
 
 ?>

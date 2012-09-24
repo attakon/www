@@ -11,7 +11,7 @@ function DAOProblem_registerProblem($problemName, $problemDifficulty, $creatorId
     runQuery($insert);
 }
 function DAOProblem_registerTestCase($problemId, $input, $output){
-    $insert = "INSERT INTO co_problem_testcase (problem_id, input_case, output_case)
+    $insert = "INSERT INTO co_problem_testcase (problem_id, case_input, case_output)
     VALUES ('".$problemId."','".$input."','".$output."')";
     runQuery($insert);
 }
@@ -20,11 +20,20 @@ function DAOProblem_getProblemByName($problemName){
     return getRow($query);
 }
 
+function DAOProblem_getProblemData($problemId){
+    $query = "SELECT problem_id, name FROM co_problem WHERE problem_id='".$problemId."'";
+    return getWholeRow($query);
+}
+
 function DAOProblem_deleteProblem($problemId){
     $query = "DELETE FROM co_problem WHERE problem_id='".$problemId."'";
     runQuery($query);
 }
 
+function DAOProblem_getProblemIO($problemId){
+    $query = "SELECT case_input, case_output FROM co_problem_testcase WHERE problem_id='".$problemId."'";
+    return getRowsInArray($query);
+}
 /*
   First Group
 */

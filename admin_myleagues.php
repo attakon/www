@@ -2,40 +2,40 @@
 session_start();
 include_once 'utils/ValidateAdmin.php';
 
-//include_once $_SERVER['DOCUMENT_ROOT'].'/huahcoding.com/'.'data_objects/DAOPermissions.php';
-//echo $_SERVER['DOCUMENT_ROOT'].'/huahcoding.com';
-//$userId =$_SESSION['userId'];
-//test 2
-//$userId =1;
-//echo $userId;
-//echo DAOPermissions_isUserGrantedWithPermission($userId, 'admin_button', 'Y');
-//
-//test 3
-//echo '<!DOCTYPE html>
-//    <html>';
-//echo '<html>';
+if(isset($_GET['delleagueid'])){
+    $leagueId =$_GET['delleagueid'];
+    include_once 'data_objects/DAOLeague.php';
+    $leagueData = DAOLeague_getLeague($leagueId);
+    $leagueName = $leagueData['nombre'];
+    if($leagueName!=null){
+        DAOLeague_delLeague($leagueId);
+        $_SESSION['message']='League '.$leagueName.' was deleted';
+        $_SESSION['message_type']='ok';    
+    }
+}
 
-$fields = array(
-    'nombre'=> 
-        array('label'=>'League Name','type'=>'text'),
-    'creator_id'=>array(
-        'type'=>'hidden',
-        'value'=>$_SESSION['userId']
-        )
-);
 
-include_once 'maintenanceForm.php';
-$tablePC = new RCMaintenanceForm('temporada',$fields,NULL,'Create League', 'nombre','style="width:400px"');
+    $fields = array(
+        'nombre'=> 
+            array('label'=>'League Name','type'=>'text'),
+        'creator_id'=>array(
+            'type'=>'hidden',
+            'value'=>$_SESSION['userId']
+            )
+    );
 
+    include_once 'maintenanceForm.php';
+    $tablePC = new RCMaintenanceForm('temporada',$fields,NULL,'Create League', 'nombre','style="width:400px"');
+    $tablePC->setOnSuccessRedirectPage('admin_myleagues.php');
     // See problem list 
     $tablesPC="temporada temporada";
     $columnsPC = array(
     array("temporada.id_temporada",  "",     -1, ""),
     array("temporada.nombre",  "League Name",     160, "",""),
     array("'delete'",  "Delete", 80, "", "replacement", 
-        'value' => "<a href='/admin_addcontestproblem_selectproblem.php?i=#{0}'>Delete</a>"),
+        'value' => "<a href='/admin_myleagues.php?delleagueid=#{0}'>Delete</a>"),
     array("'see_contests'",  "Contests", 80, "", "replacement", 
-        'value' => "<a href='/admin_addcontestproblem_selectproblem.php?i=#{0}'>See Contests</a>"),
+        'value' => "<a href='/admin_myleagues.php?i=#{0}'>See Contests</a>"),
     );
     $conditionPC = "WHERE temporada.creator_id = '".$_SESSION['userId']."'".
     " ORDER BY 1 DESC";

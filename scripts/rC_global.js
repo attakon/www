@@ -41,21 +41,35 @@ function doit(){
     alert("You selected " + fu1.value);
 }
 
+function hideElement(elementId){
+    document.getElementById(elementId).style.display='none';
+}
+function showElement(elementId){
+    document.getElementById(elementId).style.display='block';
+}
+
 function selectProblemParseTypeForCaseInput(option){
     var option = option.trim();
     if(option=='STATIC-LINE-separated'){
-        document.getElementById('input-lines-per-case-div').style.display='block';
-        document.getElementById('input-casemark-div').style.display='none';
+        showElement('input-lines-per-case-div');
+        hideElement('input-casemark-div');
+        hideElement('input-include-match-div');
+        
     }else if (option=='#CASEMARK-separated'){
-        document.getElementById('input-lines-per-case-div').style.display='none';
-        document.getElementById('input-casemark-div').style.display='block';
+        hideElement('input-lines-per-case-div');
+        showElement('input-casemark-div');
+        showElement('input-include-match-div');
+        // document.getElementById('input-lines-per-case-div').style.display='none';
+        // document.getElementById('input-casemark-div').style.display='block';
     }
 }
 function selectProblemParseTypeForCaseOutput(option){
     var option = option.trim();
     if(option=='STATIC-LINE-separated'){
-        document.getElementById('output-lines-per-case-div').style.display='block';
-        document.getElementById('output-casemark-div').style.display='none';
+        showElement('output-lines-per-case-div');
+        hideElement('output-casemark-div');
+        // document.getElementById('output-lines-per-case-div').style.display='block';
+        // document.getElementById('output-casemark-div').style.display='none';
     }else if (option=='#CASEMARK-separated'){
         document.getElementById('output-lines-per-case-div').style.display='none';
         document.getElementById('output-casemark-div').style.display='block';

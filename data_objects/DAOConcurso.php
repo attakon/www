@@ -21,16 +21,37 @@ function DAOConcurso_getActiveContests(){
     return getRowsInArray($query);
 }
 
-// Contest Problems
+function DAOContest_deleteContest($contestId){
+    $delete = "DELETE FROM concurso
+    WHERE id_concurso ='".$contestId."'";
+    runQuery($delete);
+}
 
-function DAOProblem_addProblemToContest($contestId, $problemId){
+// co_contest Problems
+function DAOConcurso_getFirstProblem($contestId){
+  $query = "SELECT problem.problem_id, problem.name 
+  FROM co_contest_problems ctp join co_problems using (problem_id) 
+  WHERE contest_id = '".$contestId."' LIMIT 0,1";
+  return getWholeRow($query);
+}
+
+function DAOConcurso_addProblemToContest($contestId, $problemId){
     $insert = "INSERT INTO co_contest_problems (contest_id, problem_id)
     VALUES ('".$contestId."','".$problemId."')";
     runQuery($insert);
 }
-function DAOProblem_removeProblemFromContest($contestId, $problemId){
+function DAOConcurso_removeProblemFromContest($contestId, $problemId){
     $insert = "DELETE FROM co_contest_problems
     WHERE contest_id ='".$contestId."' AND problem_id ='".$problemId."'";
     runQuery($insert);
 }
+
+function DAOConcurso_getProblems($contestId){
+    $query = "SELECT problem.problem_id, problem.name 
+     FROM co_contest_problems ctp join co_problem problem using(problem_id)
+     WHERE ctp.contest_id = '".$contestId."'";
+    return getRowsInArray($query);
+}
+
+
 ?>

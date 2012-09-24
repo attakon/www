@@ -8,7 +8,8 @@ session_start();
 
 
 function practice ($idConcurso, $idProblem){
-include_once 'z_misc/checkLoggedIn.php';
+include_once 'utils/ValidateSignedIn.php';
+
 $firstProblem = firstRow("SELECT id_problema from problema WHERE id_concurso = '$idConcurso'");
 
 $idProblem = $idProblem?$idProblem:$firstProblem[0];
