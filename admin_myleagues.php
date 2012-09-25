@@ -32,9 +32,11 @@ if(isset($_GET['delleagueid'])){
     $columnsPC = array(
     array("temporada.id_temporada",  "",     -1, ""),
     array("temporada.nombre",  "League Name",     160, "",""),
-    array("'delete'",  "Delete", 80, "", "replacement", 
+    array("'delete'",  "Delete", 80, "", 
+        "type"=>"replacement", 
         'value' => "<a href='/admin_myleagues.php?delleagueid=#{0}'>Delete</a>"),
-    array("'see_contests'",  "Contests", 80, "", "replacement", 
+    array("'see_contests'",  "Contests", 80, "", 
+        "type"=>"replacement", 
         'value' => "<a href='/admin_myleagues.php?i=#{0}'>See Contests</a>"),
     );
     $conditionPC = "WHERE temporada.creator_id = '".$_SESSION['userId']."'".

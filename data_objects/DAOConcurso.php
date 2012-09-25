@@ -1,8 +1,8 @@
 <?php
 include_once ("utils/DBUtils.php");
 
-function DAOConcurso_isContestOpen($concursoId){
-    $query = "SELECT TIMESTAMPDIFF(SECOND,now(),fecha) FROM concurso con WHERE con.id_concurso = '".$concursoId."'";
+function DAOConcurso_isContestOpen($contestId){
+    $query = "SELECT TIMESTAMPDIFF(SECOND,now(),fecha) FROM concurso con WHERE con.id_concurso = '".$contestId."'";
     $diff = getRow($query);
     if($diff<=0){
       return true;
@@ -10,21 +10,27 @@ function DAOConcurso_isContestOpen($concursoId){
       return false;
 }
 
-function DAOConcurso_getContestLeftTime($concursoId){
+function DAOConcurso_getContestPhase($contestId){
+    $leftTime = DAOConcurso_getContestLeftTime($contestId);
+    $query = "SELECT IF(".$leftTime.">TIME_TO_SEC(total_time),'NOT_STARTED',IF(".$leftTime."<=TIME_TO_SEC(total_time) AND ".$leftTime.">=0,'IN_PROGRESS','FINISHED')) FROM concurso con WHERE con.id_concurso = '".$contestId."'";
+    return getRow($query);
+}
+
+function DAOConcurso_getContestLeftTime($contestId){
     $query = "SELECT (TIME_TO_SEC(TIME(fecha))+TIME_TO_SEC(total_time)-TIME_TO_SEC(TIME(NOW())))
-      FROM concurso con WHERE con.id_concurso = '".$concursoId."'";
+      FROM concurso con WHERE con.id_concurso = '".$contestId."'";
     $secondsToFinish = getRow($query);
     return $secondsToFinish;
 }
 
-function DAOConcurso_getContestData($concursoId){
-  	$query = "SELECT con.nombre, con.estado, con.fecha, con.id_temporada FROM concurso con WHERE con.id_concurso = '".$concursoId."'";
+function DAOConcurso_getContestData($contestId){
+  	$query = "SELECT con.nombre, con.estado, con.fecha, con.id_temporada FROM concurso con WHERE con.id_concurso = '".$contestId."'";
    	$contestData = getWholeRow($query);
    	return $contestData;
 }
 
-function DAOConcurso_getLeagueId($concursoId){ 
-   $query = "SELECT con.id_temporada FROM concurso con WHERE con.id_concurso = '".$concursoId."'";
+function DAOConcurso_getLeagueId($contestId){ 
+   $query = "SELECT con.id_temporada FROM concurso con WHERE con.id_concurso = '".$contestId."'";
    $temporadaId = getRow($query);
    return $temporadaId;
 }

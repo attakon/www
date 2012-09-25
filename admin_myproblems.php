@@ -93,9 +93,11 @@ function init(){
     array("problem.problem_id",  "",     -1, ""),
     array("problem.creator_id",  "",     -1, ""),
     array("problem.name",  "Problem Name",     160, "",""),
-    array("'delete'",  "Delete", 80, "", "replacement", 
+    array("'delete'",  "Delete", 80, "", 
+        "type"=>"replacement", 
         'value' => "<a href='/admin_myproblems.php?remprobleid=#{0}'>Delete</a>"),
-    array("'view'",  "View I/O", 80, "", "replacement", 
+    array("'view'",  "View I/O", 80, "", 
+        "type"=>"replacement", 
         'value' => "<a href='/admin_myproblems_io.php?pid=#{0}'>View I/O</a>")
     );
     $conditionPC = "WHERE problem.creator_id = '".$_SESSION['userId']."'

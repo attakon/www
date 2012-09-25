@@ -6,25 +6,26 @@ include_once 'data_objects/DAOGlobalDefaults.php';
 
 if(isset($_GET['contestid'])){
     $contestid = $_GET['contestid'];
-    $body = results($contestid);
+    $body = getScoreboardHTML($contestid);
     include_once 'data_objects/DAOConcurso.php';
     $contestData = DAOConcurso_getContestData($contestid);
 
     showPage($contestData['nombre'], false, $body, "");
 }
 
-function results($contestId){
+function getScoreboardHTML($contestId){
     
     include_once 'data_objects/DAOCampaign.php';
     $campaignData = DAOCampaign_getUserCampaigns($contestId);
-    print_r($campaignData);
+    // print_r($campaignData);
 
     include_once 'data_objects/DAOConcurso.php';
     $problemData = DAOConcurso_getProblems($contestId);
 
     include_once 'data_objects/DAOConcurso.php';
     $leftTime = DAOConcurso_getContestLeftTime($contestId);
-    $body = '<div id="left_time_div_'.$contestId.'" ></div>
+    $contestPhase = DAOConcurso_getContestPhase($contestId);
+    $body = $contestPhase.'<div id="left_time_div_'.$contestId.'" ></div>
             <script type="text/javascript">
                 timers[timerCount++]=new Array("left_time_div_'.$contestId.'", '.$leftTime.');
             </script>';

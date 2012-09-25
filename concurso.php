@@ -49,8 +49,12 @@
 
         //END Changing from temporada to league
         $table = new RCTable(conecDb(),$tables,10,$columns,$condition);
-        $body = "";
+        
         // print_r($contestData);
+        include_once 'data_objects/DAOConcurso.php';
+        $contestPhase = DAOConcurso_getContestPhase($contestId);
+        $body = $contestPhase;
+            
         if($contestData['estado']=="REGISTRATION_OPEN"){
             $body .= parrafoOK("Registration is open");
         }else if ($contestData['estado']=="REGISTRATION_CLOSED"){
