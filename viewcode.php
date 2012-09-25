@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once 'utils/ValidateSignedIn.php';
 $signedInUserId = $_SESSION['userId'];
 

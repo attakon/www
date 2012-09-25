@@ -41,7 +41,7 @@ if(isset($_GET['delleagueid'])){
     " ORDER BY 1 DESC";
 
     include_once 'table2.php';
-    $problemList = new RCTable(conecDb(),$tablesPC,10,$columnsPC,$conditionPC);
+    $problemList = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
     $content = $tablePC->getForm()."<br/>".$problemList->getTable();
     include_once 'container.php';
     showPage('My Leagues', false, $content, null,'370')

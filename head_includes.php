@@ -8,6 +8,8 @@
 	<!-- add Jonathan 2012-06-10 - cambio de menu -->
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/kendo.web.min.js"></script>
+    <script type="text/javascript" src="scripts/timer.js"></script>
+    <script type="text/javascript" src="scripts/utils.js"></script>
 
     <!-- styles -->
     <link rel="stylesheet" type="text/css" href="./styles/layout.css">

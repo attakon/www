@@ -28,7 +28,7 @@ class RCTable{
     private $tableAtr;
     private $showLineBreaks;
 
-    public function __construct($connexion, $tableName, $limit, $arrayColumns, $condition) {
+    public function __construct($connexion, $tableName, $arrayColumns, $condition) {
         $this->connexion = $connexion;
         $this->tableName = $tableName;
         $this->condition = $condition;
@@ -134,8 +134,8 @@ class RCTable{
                 if(isset($this->arrayColumns[$i]['td_atr'])){
                     $atr = $this->arrayColumns[$i]['td_atr'];
                 }
-                if($this->arrayColumns[$i][4]!=null){
-                    $splited = explode(" ", $this->arrayColumns[$i][4]);
+                if($this->arrayColumns[$i]['type']!=null && $this->arrayColumns[$i]['type']!=""){
+                    $splited = explode(" ", $this->arrayColumns[$i]['type']);
                     $kind = $splited [0];
                     $field="";
                     if($kind=='replacement'){
@@ -159,6 +159,19 @@ class RCTable{
                         // print_r($data);
                         // print_r('rx'.$result.'rx');
                         $field = $result;
+                    }else if($kind=='linked'){
+                        $id = $splited [1];
+                        $type = $splited [2];
+                        $username = $data[$i];
+                        $userId=$data[$id];
+                        $field = rCLink(".", $userId, $username , $type);
+                    
+                    }else if ($kind =='img'){
+                        $path = $splited [1];
+                        $ext = $splited [2];
+                        $img = $path.'/'.$data[$i].'.'.$ext;
+                        if(file_exists($img ))
+                            $field = "<img src='$img'>";
                     }else if($kind=='date'){
                         $spl = explode('-', $data[$i]);
                         $year = $spl[0];
@@ -180,9 +193,7 @@ class RCTable{
                         if($this->showLineBreaks==true){
                             $dataF=str_replace("\n", "<br/>", $dataF);
                         }
-                        $table.= "<td $atr >
-                                    $dataF
-                                </td>";
+                        $table.= "<td $atr > ".$dataF."</td>";
                     }
                 }
             }

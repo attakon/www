@@ -7,8 +7,10 @@ include_once 'container.php';
 session_start();
 include_once 'utils/ValidateSignedIn.php';
 
-if(!isset($_POST['p'])) die;
-$idp = $_POST['p'];
+if(!isset($_POST['pid'])) die;
+
+$problemId = $_POST['pid'];
+$campaignId = $_POST['cmpid'];
 
 $tmpName = $_FILES['userout']['tmp_name'];
 
@@ -18,11 +20,15 @@ if(empty($tmpName)){
     header("Location: ".$_SESSION['lastvisitedurl']);
     die;
 }
-$respuesta = compareOutputs($tmpName,$idp);
+$respuesta = compareOutputs($tmpName,$problemId);
 
 include_once 'data_objects/DAOProblem.php';
-$problemData = DAOProblem_getProblemData($idp);
+$problemData = DAOProblem_getProblemData($problemId);
 $problemName = $problemData['name'];
+
+$userId = $_SESSION['userId'];
+include_once 'data_objects/DAOCampaign.php';
+DAOCampaign_registerAttempt($campaignId,$problemId,'NOW()',$respuesta[0],null);
 
 if($respuesta[0]) {
     include_once 'data_objects/DAOUserEvents.php';

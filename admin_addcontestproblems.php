@@ -25,7 +25,7 @@ $conditionPC = "WHERE co.estado = 'REGISTRATION_OPEN' ".
     "ORDER BY 1 DESC";
 
 include_once 'table2.php';
-$tablePC = new RCTable(conecDb(),$tablesPC,10,$columnsPC,$conditionPC);
+$tablePC = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
 //$tablePC->setTitle("Concursos Pasados");
 $tablePastContest = $tablePC->getTable();
 

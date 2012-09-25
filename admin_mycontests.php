@@ -55,12 +55,18 @@ $insertContestForm->setOnSuccessRedirectPage('admin_mycontests.php');
 
 $tablesPC="concurso co";
 $columnsPC = array(
-    array("co.id_concurso",  "",     -1, ""),
-    array("co.creator_id",  "",     -1, ""),
-    array("co.nombre",  "Concurso",     -1, "",""),    
-    array("'Contests'",  "Contest", 100, "", "replacement", 
+    array("co.id_concurso",  "",     10, "",
+        "type"=>"",
+        'td_atr'=>'style="font-size:10px; color:lightgray"'),
+    array("co.creator_id",  "", -1, "",
+        "type"=>""),
+    array("co.nombre",  "", -1, "",
+       "type"=>""),
+    array("'Contests'",  "Contest", -2, "", 
+        "type"=>"replacement", 
         'value' => "<a href='/admin_mycontestproblems.php?id=#{0}'>#{2}</a>"),
-    array("'delete'",  "Delete", 80, "", "replacement", 
+    array("'delete'",  "Delete", 80, "", 
+        "type"=>"replacement", 
         'value' => "<a href='/admin_mycontests.php?delcontestid=#{0}'>Delete</a>")
 );
 
@@ -71,7 +77,7 @@ $conditionPC = "WHERE co.estado = 'REGISTRATION_OPEN' ".
     " ORDER BY 1 DESC";
 
 include_once 'table2.php';
-$manageContestTable = new RCTable(conecDb(),$tablesPC,10,$columnsPC,$conditionPC);
+$manageContestTable = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
 //$manageContestTable->setTitle("Concursos Pasados");
 
 $content = $insertContestForm->getForm().

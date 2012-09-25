@@ -1,10 +1,13 @@
 <?php
-function getConcursoDetalle($idConcurso ) {
+function getConcursoDetalle($contestId) {
     include_once('./conexion.php');
     include_once('./CustomTags.php');
-    $q = "SELECT nombre, day(fecha),month(fecha), year(fecha), time(fecha), locacion, inscripcion, premio, estado, descripcion,
-        url_forum
-        FROM concurso where id_concurso = '".$idConcurso."'";
+    $q = "SELECT nombre, day(fecha),month(fecha), 
+        year(fecha), time(fecha), locacion, inscripcion, premio, estado, 
+        descripcion,
+        url_forum,
+        creator_id
+        FROM concurso where id_concurso = '".$contestId."'";
     $rsConcurso = mysql_query($q,conecDb());
     $data = mysql_fetch_row($rsConcurso);
 
@@ -19,8 +22,13 @@ function getConcursoDetalle($idConcurso ) {
     $estado = $data[8];
     $description = $data[9];
     $url_forum = $data[10];
-    $url_register ='./concurso_enrollUser.php?cId='.$idConcurso;
-    $url_registereds ='./concurso_registeredUsers.php?id='.$idConcurso;
+    $creatorId = $data[11];
+    include_once 'data_objects/DAOUser.php';
+    $userData = DAOUser_getUserById($creatorId);
+
+
+    $url_register ='./concurso_enrollUser.php?cId='.$contestId;
+    $url_registereds ='./concurso_registeredUsers.php?id='.$contestId;
 
     ob_start();
     $returnedValue ="";
@@ -42,11 +50,17 @@ function getConcursoDetalle($idConcurso ) {
         <td><?php echo getSpanishDate($day,$month,$year).' a las  '.$time?></td>
     </tr>
     <tr>
+        <td class='torneolabel'>Author:</td>
+        <td>
+                <?php echo userLink("",$userData['id_usuario'],$userData['username']);?>
+        </td>
+    </tr>
+    <!-- <tr>
         <td class='torneolabel'>Locaci&oacute;n:</td>
         <td>
                 <?php echo$location?>
         </td>
-    </tr>
+    </tr> -->
         <?php if($inscripcion) { ?>
     <tr>
         <td class='torneolabel'>Inscripci&oacute;n:</td>
@@ -81,7 +95,19 @@ function getConcursoDetalle($idConcurso ) {
         ?>
     <tr>
         <td align="center" colspan='2'>
-            <a href="<?php echo $url_register?>">[registrarse]</a>
+            <a href="<?php echo $url_register?>">[Register]</a>
+
+            <?php
+
+            include_once 'data_objects/DAOConcurso.php';
+            if(DAOConcurso_isContestOpen($contestId)){
+                ?>
+                    <a href="contest_arena.php?id=<?php echo $contestId?>">[Enter]</a>
+                <?php    
+            }
+
+            ?>
+            
             <!-- commenting-out Raul
             <a href="<?php echo$url_registereds?>">[ver registrados]</a>
             

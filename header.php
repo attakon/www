@@ -33,7 +33,7 @@ function headerFunction($statusBar, $path){
         <td rowspan="2" width="400">
 
             <a href="<?php echo $path;?>/index.php">
-                <img  width="400" height="150" align="left" src="<?php echo $path;?>/images/rc_HuaHCoding2.png" border="0"/>
+                <!-- <img  width="400" height="150" align="left" src="/images/rc_HuaHCoding2.png" border="0"/> -->
             </a>
         </td>
         <td height="100" ><!--width="523"> !-->

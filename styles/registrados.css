@@ -24,7 +24,8 @@ td.tr_headerTN{
 }
 tr.tr_Par{
     border-left-width: 1px;
-    border-right-width: 1px;    
+    border-right-width: 1px;
+    background: #F2F2F2;
 }
 tr.tr_Impar{
     border-left-width: 1px;

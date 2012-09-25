@@ -102,7 +102,7 @@ function init(){
      ORDER BY 1 DESC";
 
     include_once 'table2.php';
-    $problemList = new RCTable(conecDb(),$tablesPC,10,$columnsPC,$conditionPC);
+    $problemList = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
 
     $content = $problemInsertForm->getForm().'<br/>'.$problemList->getTable();
 

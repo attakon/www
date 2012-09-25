@@ -1,10 +1,26 @@
 <?php
 include_once ("utils/DBUtils.php");
 
+function DAOConcurso_isContestOpen($concursoId){
+    $query = "SELECT TIMESTAMPDIFF(SECOND,now(),fecha) FROM concurso con WHERE con.id_concurso = '".$concursoId."'";
+    $diff = getRow($query);
+    if($diff<=0){
+      return true;
+    }else 
+      return false;
+}
+
+function DAOConcurso_getContestLeftTime($concursoId){
+    $query = "SELECT (TIME_TO_SEC(TIME(fecha))+TIME_TO_SEC(total_time)-TIME_TO_SEC(TIME(NOW())))
+      FROM concurso con WHERE con.id_concurso = '".$concursoId."'";
+    $secondsToFinish = getRow($query);
+    return $secondsToFinish;
+}
+
 function DAOConcurso_getContestData($concursoId){
-	$query = "SELECT con.nombre, con.estado FROM concurso con WHERE con.id_concurso = '".$concursoId."'";
-   	$contestName = getWholeRow($query);
-   	return $contestName;
+  	$query = "SELECT con.nombre, con.estado, con.fecha, con.id_temporada FROM concurso con WHERE con.id_concurso = '".$concursoId."'";
+   	$contestData = getWholeRow($query);
+   	return $contestData;
 }
 
 function DAOConcurso_getLeagueId($concursoId){ 
@@ -47,7 +63,7 @@ function DAOConcurso_removeProblemFromContest($contestId, $problemId){
 }
 
 function DAOConcurso_getProblems($contestId){
-    $query = "SELECT problem.problem_id, problem.name 
+    $query = "SELECT problem.problem_id, problem.name , ctp.points
      FROM co_contest_problems ctp join co_problem problem using(problem_id)
      WHERE ctp.contest_id = '".$contestId."'";
     return getRowsInArray($query);

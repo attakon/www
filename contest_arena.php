@@ -1,5 +1,4 @@
 <?php
-include_once 'contest_arenasubmit.php';
 
 include_once 'CustomTags.php';
 
@@ -8,8 +7,26 @@ include_once 'utils/ValidateSignedIn.php';
 
 if(isset($_GET['id'])){
     $contestId = $_GET['id'];
+    $userId = $_SESSION['userId'];
+    include_once 'data_objects/DAOCampaign.php';
+    $userCampaignData = DAOCampaign_getCampaignForUser($userId,$contestId);
+
     include_once 'data_objects/DAOConcurso.php';
     $contestData = DAOConcurso_getContestData($contestId);
+
+    if($userCampaignData==null){
+        include_once 'container.php';
+        showPage($contestData['nombre'],false,parrafoError("You are not registered in this contest"));
+        die;
+    }
+
+    include_once 'data_objects/DAOConcurso.php';
+    if(!DAOConcurso_isContestOpen($contestId)){
+        include_once 'container.php';
+        showPage($contestData['nombre'],false,parrafoError("Contest has not started yet."));
+        die;
+    }
+    
     $contestName = $contestData['nombre'];
     
     $selectedProblemId=null;
@@ -19,12 +36,11 @@ if(isset($_GET['id'])){
     // echo practice($contestId);
 
     include_once 'container.php';
-    showPage($contestName.'\'s Arena',false,practice($contestId,$selectedProblemId));
+    showPage($contestName.'\'s Arena',false,getArenaHTML($contestId,$selectedProblemId,$userCampaignData));
 }
 
-function practice($contestId, $selectedProblemId=null){
 
-
+function getArenaHTML($contestId, $selectedProblemId=null, $userCampaignData){
 
 // include_once 'data_objects/DAOConcurso.php';
 // $firstProblem = DAOConcurso_getFirstProblem($contestId);
@@ -42,21 +58,12 @@ foreach ($problemsData as $key => $value) {
         $problemName = $value['name'];
     }
 }
-
-print_r($problemsData);
-
-
-
-
-// $queryProblem = "SELECT id_problema, abrev, nombre, id_concurso
-//     from problema where id_concurso ='".$contestId."'";
-// $rsProb = mysql_query($queryProblem,conecDb()) or die($queryProblem);
-// $nameProb = firstRow("select nombre from problema where id_problema = '".$selectedProblemId."'");
-// $concursoData = firstRow("select nombre, url_forum from concurso where id_concurso = '".$contestId."'");
-
-//$body = get($nameProb, $rsProb, $selectedProblemId);
-//echo $body;
-
+$leftTime = DAOConcurso_getContestLeftTime($contestId);
+    $body = '<div id="left_time_div_'.$contestId.'" ></div>
+            <script type="text/javascript">
+                timers[timerCount++]=new Array("left_time_div_'.$contestId.'", '.$leftTime.');
+            </script>';
+// print_r($problemsData);
 ob_start();
 ?>
     <table cellpadding="0" cellspacing="0" style="border-collapse: collapse"
@@ -96,7 +103,42 @@ ob_start();
                     Ni aqu&iacute; ni en Concurso interesa la extensi&oacute;n de tu output.
                     <br>&nbsp;
                 </label>
-                <?php echo getForm($selectedProblemId); ?>
+                <!--BEGIN SUBMIT FORM -->
+                <form method="POST" action="contest_arena_process_submit.php" enctype="multipart/form-data">
+                    <table border="0" width="600" height="50" >
+                        <tr>
+                            <td colspan="2" width="100%">
+                                <a href="contest_arenadownloadinput.php?id=<?php echo $selectedProblemId ?>">Download Input File</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="26" width="86">
+
+                                <p>Tu output:</p>
+                            </td>
+                            <td height="26" width="386">
+                                <input type="file" name="userout" size="39">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <label class="comment">
+                                    Para practicar no se requiere presentar el c&oacute;digo fuente.
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="30" width="478" colspan="2">
+                                <p align="center">
+                                    <input type="submit" value="Send" name="B1">
+                                    <input type="hidden" name="pid" value=<?php echo$selectedProblemId?> >
+                                    <input type="hidden" name="cmpid" value=<?php echo$userCampaignData['id_campaign']?> >
+                                </p>
+                            </td>            
+                        </tr>
+                    </table>
+                </form>
+                <!--END SUBMIT FORM -->
             </td>
         </tr>
         <tr>
@@ -104,8 +146,8 @@ ob_start();
         </tr>
     </table>
 <?php
-$r = ob_get_contents();
+$body .= ob_get_contents();
 ob_clean();
-return $r;
+return $body;
 }
 ?>

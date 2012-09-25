@@ -13,16 +13,14 @@
         $contestData = DAOConcurso_getContestData($contestId);
         $leagueId = DAOConcurso_getLeagueId($contestId);
         $columns = array(
-            array("@rownum:=@rownum+1 'rank'",  "N",     15, ""),
+            // array("@rownum:=@rownum+1 'rank'",  "N",     15, ""),
             array("us.id_usuario",  "username",     -1, ""),
             array("c.id_ranking",   "",             0,  "","img images/ranking gif"),
-            array("us.username",    "Inscrito",  150,   "","linked 1 user"),
-            array("cmp.checked_in",  "Confirmado",  30, "class='checked_in'","img images png")
+            array("us.username",    "Registered Competitors",  150,   "","linked 1 user")
+            // array("cmp.checked_in",  "Confirmado",  30, "class='checked_in'","img images png")
         );
 
-        $tables = "campaign cmp, concurso con, usuario us , competidor c ,
-            
-            (SELECT @rownum:=0) r";
+        $tables = "campaign cmp, concurso con, usuario us , competidor c";
         // co_league lg, co_league_contests lgc,
         //BEGIN Changing from temporada to league
         // $condition = "WHERE us.id_usuario = cmp.id_usuario AND
@@ -52,12 +50,11 @@
         //END Changing from temporada to league
         $table = new RCTable(conecDb(),$tables,10,$columns,$condition);
         $body = "";
-        print_r($contestData);
+        // print_r($contestData);
         if($contestData['estado']=="REGISTRATION_OPEN"){
-            $body .= parrafoOK("Inscripciones Abiertas");
+            $body .= parrafoOK("Registration is open");
         }else if ($contestData['estado']=="REGISTRATION_CLOSED"){
-            $body .= parrafoError("Inscripciones Cerradas<br>".
-            "Se recomienda llegar de una a media hora antes de la hora para probar su PC<br>");
+            $body .= parrafoError("Inscripciones Cerradas<br>");
         }else if ($contestData['estado']=="FINALIZED"){
             $linkToResults = "<a href='concurso_results.php?i=".$contestId."&tab=2'>Ver Resultados</a>";
             $body .= parrafoError("Concurso Finalizado ".$linkToResults);
@@ -66,7 +63,7 @@
 
         $details.=$body;
 
-        showPage($contestData['nombre']." - Detalles",false, $details, "");
+        showPage($contestData['nombre']." - Details",false, $details, "");
     }else if($show=='results'){
 
     }

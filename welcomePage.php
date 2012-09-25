@@ -1,7 +1,7 @@
 <?php
 include_once ('container.php');
 include_once 'registrationForm.php';
-include_once 'table.php';
+
 include_once 'GLOBALS.php';
 
 $rankField="position";
@@ -10,17 +10,20 @@ $rankField="position";
 $columns = array(
         array("us.id_usuario",  "username",     -1, ""),
         array("c.$rankField",   "El",            20, ""),
-        array("c.id_ranking",   "Top",             0,  "","img images/ranking gif"),
-        array("us.username",    "5",   120,"","linked 0 user"),
-        array("c.puntos",       "",          30, "class='pts'"),
+        array("c.id_ranking",   "Top",             0,  "",
+            "type"=>"img images/ranking gif"),
+        array("us.username",    "5",   120,"",
+            "type"=>"linked 0 user"),
+        array("c.puntos",       "",          30, "class='pts'")
 );
 
-$condition = "WHERE c.id_usuario = us.id_usuario ".
+$lastSeasonCondition = "WHERE c.id_usuario = us.id_usuario ".
         " AND c.id_temporada = $GLOBAL_CURRENT_SEASON ".
         " AND c.$rankField >=1 ".
         "ORDER BY 2 ASC,1 ASC LIMIT 5";
 $tables = "competidor c, usuario us";
-$table = new RCTable(conecDb(),$tables,10,$columns,$condition);
+include_once 'table2.php';
+$table = new RCTable(conecDb(),$tables,$columns,$lastSeasonCondition);
 $table->setTitle("Top 5 Rumbo a Coneis");
 $table->setFooter("<a href=\"./ranking.php\"> Ver todo el ranking </a>");
 //showPage("Ranking de $title", false, $table->getTable(), "");
@@ -30,8 +33,9 @@ $tableTopFiveSeason2 = $table->getTable();
 $columns = array(
         array("us.id_usuario",  "username",     -1, ""),
         array("c.$rankField",   "El",            20, ""),
-        array("c.id_ranking",   "Top",             0,  "","img images/ranking gif"),
-        array("us.username",    "5",   120,"","linked 0 user"),
+        array("c.id_ranking",   "Top",             0,  "",
+            "type"=>"img images/ranking gif"),
+        array("us.username",    "5",   120,"","type"=>"linked 0 user"),
         array("c.puntos",       "",          30, "class='pts'"),
 );
 
@@ -40,38 +44,55 @@ $condition = "WHERE c.id_usuario = us.id_usuario ".
         " AND c.$rankField >=1 ".
         "ORDER BY 2 ASC,1 ASC LIMIT 5";
 $tables = "competidor c, usuario us";
-$table = new RCTable(conecDb(),$tables,10,$columns,$condition);
+include_once 'table2.php';
+$table = new RCTable(conecDb(),$tables,$columns,$condition);
 $table->setTitle("Top 5 de la 1ra Temporada");
 $table->setFooter("<a href=\"./ranking.php?seasonid=1\"> Ver todo el ranking </a>");
 //showPage("Ranking de $title", false, $table->getTable(), "");
 $tableTopFive = $table->getTable();
 
-//TABLE NEXT EVENT
+//NEXT CONTESTS TABLE
 $tablesNextEvent="concurso co";
+// TIME
+// <div id="timer_"/>
+// <script type="text/javascript">window.onload = CreateTimer("timer1", 30);</script>
+
 $columnsNE = array(
         array("co.id_concurso",  "contest",     -1, ""),
-        array("nombre_corto",  "Siguente",     70, "","linked 0 concurso"),
-        array("date(fecha)",   "Evento",            90, "","date"),
-        array("time(fecha)",   "",            30, "","time")
+        array("TIMESTAMPDIFF(SECOND,now(),fecha)",   "",            -1, "",""),
+        // array("now()",   "",            -2, "",""),
+        array("nombre_corto",  "Siguente",     70, "",
+            "type"=>"linked 0 concurso"),
+        // array("date(fecha)",   "Evento",            90, "","date"),
+        // array("time(fecha)",   "",            30, "","time"),
+        array("'countdown'",   "",            100, "",
+            "type"=>"replacement",
+            'value'=>'Starts in <div id="timer_div_#{0}"/><script type="text/javascript">timers[timerCount++]=new Array("timer_div_#{0}", #{1});</script>'),
+        
 );
 $conditionNE = "WHERE co.estado in('REGISTRATION_OPEN','REGISTRATION_CLOSED')".
         "ORDER BY 1 ASC LIMIT 5";
-$tableNEvent = new RCTable(conecDb(),$tablesNextEvent,10,$columnsNE,$conditionNE);
-$tableNEvent->setTitle("Siguiente Concurso");
-$tableNEvent->setTableAtr("width='218'");
+
+include_once 'table2.php';
+$tableNEvent = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);
+$tableNEvent->setTitle("Coming Contests");
+$tableNEvent->setTableAtr("width='300'");
 $tableNextEvent = $tableNEvent->getTable();
 
-//TABLE PAST CONTESTS
+//PAST CONTESTS
 $tablesPC="concurso co";
 $columnsPC = array(
         array("co.id_concurso",  "",     -1, ""),
-        array("co.nombre_corto",  "",     60, "","linked 0 con_res"),
-        array("'practicar'",  "",     60,"", "linked 0 con_pra"),
+        array("co.nombre_corto",  "",     60, "",
+            "type"=>"linked 0 con_res"),
+        array("'practicar'",  "",     60,"", 
+            "type"=>"linked 0 con_pra"),
         array("date(fecha)",   "Evento",            80, "class='penalty'","date"),
 );
 $conditionPC = "WHERE co.estado = 'FINALIZED'".
         "ORDER BY 4 DESC";
-$tablePC = new RCTable(conecDb(),$tablesPC,10,$columnsPC,$conditionPC);
+include_once 'table2.php';
+$tablePC = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
 $tablePC->setTitle("Concursos Pasados");
 $tablePC->setFooter("<a href='./concurso_list.php'>Ver Mas</a>");
 $tablePastContest = $tablePC->getTable();
@@ -120,7 +141,8 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
 
 <!-- Twitter widget -->
 <!-- <script src="http://widgets.twimg.com/j/2/widget.js"></script> -->
-       
+
+
 <table border="1" cellpadding="0" cellspacing="0" width="100%" height="300" border="0" style="width: 100%;">
     <tr>
         <td width="230" max valign="top">

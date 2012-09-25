@@ -22,7 +22,7 @@ $conditionPC = "WHERE ptc.problem_id = pr.problem_id ".
     " ORDER BY 2 ASC ";
 
 	include_once 'table2.php';
-	$manageContestTable = new RCTable(conecDb(),$tablesPC,10,$columnsPC,$conditionPC);
+	$manageContestTable = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
 	$manageContestTable->showLineBreaks(true);
 	// $manageContestTable->setTableAtr('style ="border-width:2px; border-style:ridge;');
 	include_once 'container.php';
