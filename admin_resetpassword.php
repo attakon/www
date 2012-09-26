@@ -1,8 +1,7 @@
 <?php
 session_start();
 include_once 'utils/ValidateAdmin.php';
-include_once 'container.php';
-include_once 'CustomTags.php';
+
 include_once 'maintenanceForm.php';
 
 if(isset($_POST)){
@@ -29,6 +28,8 @@ function init(){
     'new_password'=>array('type'=>'text')
     );
     $tablePC = new RCMaintenanceForm('usuario',$fields,'updatePassword','Reset',null);
+    include_once 'container.php';
+    include_once 'CustomTags.php';
     showPage('Reset User Password', false, parrafoOK($tablePC->getForm()), null,'250');
 }
 
