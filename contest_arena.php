@@ -21,10 +21,30 @@ if(isset($_GET['id'])){
     }
 
     include_once 'data_objects/DAOConcurso.php';
+    $contestPhase = DAOConcurso_getContestPhase($contestId);
+    $head ='';
+    switch ($contestPhase) {
+        case 'NOT_STARTED':
+            include_once 'container.php';
+            showPage($contestData['nombre'],false,parrafoError("Contest has not started yet."));
+            die;
+            break;
+        case 'IN_PROGRESS':
+            $leftTime = DAOConcurso_getContestLeftTime($contestId);
+            $head = '<div id="left_time_div_'.$contestId.'" ></div>
+                    <script type="text/javascript">
+                        timers[timerCount++]=new Array("left_time_div_'.$contestId.'", '.$leftTime.');
+                    </script>';
+            break;
+        case 'FINISHED':
+            $head = 'Contest has finished. Practice mode now.';
+            break;
+    }
+
+    
+
     if(!DAOConcurso_isContestOpen($contestId)){
-        include_once 'container.php';
-        showPage($contestData['nombre'],false,parrafoError("Contest has not started yet."));
-        die;
+        
     }
     
     $contestName = $contestData['nombre'];
@@ -34,9 +54,10 @@ if(isset($_GET['id'])){
         $selectedProblemId = $_GET['pid'];    
     }
     // echo practice($contestId);
-
+    $arenaHTML = getArenaHTML($contestId,$selectedProblemId,$userCampaignData);
+    $content = $head.$arenaHTML;
     include_once 'container.php';
-    showPage($contestName.'\'s Arena',false,getArenaHTML($contestId,$selectedProblemId,$userCampaignData));
+    showPage($contestName.'\'s Arena',false,$content);
 }
 
 
@@ -58,11 +79,7 @@ foreach ($problemsData as $key => $value) {
         $problemName = $value['name'];
     }
 }
-$leftTime = DAOConcurso_getContestLeftTime($contestId);
-    $body = '<div id="left_time_div_'.$contestId.'" ></div>
-            <script type="text/javascript">
-                timers[timerCount++]=new Array("left_time_div_'.$contestId.'", '.$leftTime.');
-            </script>';
+$body="";
 // print_r($problemsData);
 ob_start();
 ?>

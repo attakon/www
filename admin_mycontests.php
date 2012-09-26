@@ -5,14 +5,28 @@ include_once 'utils/ValidateAdmin.php';
 if(isset($_GET['delcontestid'])){
     $contestId =$_GET['delcontestid'];
     include_once 'data_objects/DAOConcurso.php';
-    $leagueData = DAOConcurso_getContestData($contestId);
-    $contestName = $leagueData['nombre'];
-    if($contestName!=null){
-        DAOContest_deleteContest($contestId);
-        $_SESSION['message']='Contest '.$contestName.' was deleted';
-        $_SESSION['message_type']='ok';    
+    $contestData = DAOConcurso_getContestData($contestId);
+    $creatorId = $contestData['creator_id'];
+    if($creatorId == $_SESSION['userId']){
+        $contestName = $contestData['nombre'];
+        if($contestName!=null){
+            DAOContest_deleteContest($contestId);
+            $_SESSION['message']='Contest '.$contestName.' was deleted';
+            $_SESSION['message_type']='ok';    
+        }
+    }else{
+        // not owner of contest
     }
 }
+
+$isUpd=false;
+if(isset($_GET['updcontestid'])){
+    $isUpd=true;
+    $contestIdToUpdate = $_GET['updcontestid'];
+    include_once 'data_objects/DAOConcurso.php';
+    $contestData = DAOConcurso_getContestData($contestIdToUpdate);
+}
+
 
 $fields = array(
     'id_temporada' => 
@@ -24,7 +38,9 @@ $fields = array(
                 'labelField'=>'nombre',
                 'condition'=>"WHERE creator_id ='".$_SESSION['userId']."'")),
     'nombre'=> 
-        array('label'=>'Nombre','type'=>'text'),
+        array('label'=>'Nombre',
+            'type'=>'text'
+            ),
     'nombre_corto'=>
         array('label'=>'Nombre Corto',
             'type'=>'text'),
@@ -50,8 +66,23 @@ $fields = array(
 
 
 include_once 'maintenanceForm.php';
-$insertContestForm = new RCMaintenanceForm('concurso',$fields,NULL,'Create Contest', 'nombre','style="text-align: left; width:450px"');
+
+$buttonName = 'Create Contest';
+
+
+$insertContestForm = new RCMaintenanceForm('concurso',$fields,NULL, $buttonName, 'nombre','style="text-align: left; width:450px"');
 $insertContestForm->setOnSuccessRedirectPage('admin_mycontests.php');
+$insertContestForm->setSuccessMessage('Contest created');
+if(isset($_GET['updcontestid'])){
+    $contestIdToUpdate = $_GET['updcontestid'];
+    $insertContestForm->setUpdIdField('id_concurso');
+    $insertContestForm->setUpdIdValue($contestIdToUpdate);
+    $insertContestForm->setButtonName('Update Contest');
+    $insertContestForm->setSuccessMessage('Contest updated');
+}
+
+
+
 
 $tablesPC="concurso co";
 $columnsPC = array(
@@ -65,6 +96,9 @@ $columnsPC = array(
     array("'Contests'",  "Contest", -2, "", 
         "type"=>"replacement", 
         'value' => "<a href='/admin_mycontestproblems.php?id=#{0}'>#{2}</a>"),
+    array("'edit'",  "Edit", 80, "", 
+        "type"=>"replacement", 
+        'value' => "<a href='/admin_mycontests.php?updcontestid=#{0}'>Edit</a>"),
     array("'delete'",  "Delete", 80, "", 
         "type"=>"replacement", 
         'value' => "<a href='/admin_mycontests.php?delcontestid=#{0}'>Delete</a>")

@@ -135,9 +135,9 @@ if(isset($_GET['id'])){
 
     // button
     $button = '<a href="/admin_mycontestproblems.php?id='.$contestId.'&action=setproblems">
-        Set Problems (you will not be able to add more problems)
+        Set Problems (you will not be able to add or remove more problems)
         </a>';
-	$content = $contestProblemTable->getTable().'<br/>'.$availableProblemsTable.'<br/>'.$button.'<br/>'.$registeredUserTable->getTable();
+	$content = $contestProblemTable->getTable().'<br/>'.$button.'<br/>'.'<br/>'.$availableProblemsTable.'<br/>'.$registeredUserTable->getTable();
 
 
 

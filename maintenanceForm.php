@@ -14,6 +14,9 @@ class RCMaintenanceForm{
     private $buttonName;
     private $successMessage;
     private $onSuccessRedirectPage;
+    //upd
+    private $updIdField;
+    private $updIdValue;
 
     public function __construct($tableName, $fields, $action, $buttonName, $successMessage, $divAtributes='', $formAtributes='') {
         $this->tableName = $tableName;
@@ -33,10 +36,22 @@ class RCMaintenanceForm{
     function setTableAtr($x){
         $this->tableAtr=$x;
     }
-
-
     function setOnSuccessRedirectPage($page){
         $this->onSuccessRedirectPage=$page;
+    }
+    function setSuccessMessage($x){
+        $this->successMessage=$x;
+    }
+    //upd
+    function setUpdIdField($x){
+        $this->updIdField=$x;
+    }
+
+    function setUpdIdValue($x){
+        $this->updIdValue=$x;
+    }
+    function setButtonName($x){
+        $this->buttonName=$x;
     }
 
     function getForm(){
@@ -51,10 +66,27 @@ class RCMaintenanceForm{
             }else{
                 $action = $_SERVER['REQUEST_URI'];
             }
+
         }
         $res = '<div '.$this->divAtributes.' >';
         $res .= '<form action="'.$action.'" METHOD="POST" '.$this->formAtributes.'>';
 
+        $isUpd=false;
+        if($this->updIdField && $this->updIdValue){
+            
+            $fieldsToGet="";
+            foreach ($this->fields as $key => $val) {
+                $fieldsToGet.=$key.',';
+            }
+            $fieldsToGet=substr($fieldsToGet, 0,strlen($fieldsToGet)-1);
+
+            $query = "SELECT ".$fieldsToGet." FROM ".$this->tableName." 
+                WHERE ".$this->updIdField." ='".$this->updIdValue."'";
+            $updData = getWholeRow($query);
+            print_r($query);
+            print_r($updData);
+            $isUpd=true;
+        }
         foreach ($this->fields as $key => $val) {
             $label = $key;
             $format ='';
@@ -141,6 +173,9 @@ class RCMaintenanceForm{
                     $leftLabel ='<label>'.$label.'</label>';
                     $field = $leftLabel.'<input name="'.$key.'" id="'.$key.'" placeholder="'.$label.'"';
                     $restOfValues=" ";
+                    if($isUpd){
+                        $field.=' value="'.$updData[$key].'" ';
+                    }
                     // print_r($val);
                     foreach ($val as $k => $value){
                         if($k=='div-atr')continue;
@@ -170,6 +205,11 @@ class RCMaintenanceForm{
 
         if($this->onSuccessRedirectPage){
             $res.='<input type="hidden" name="__redirectpage" value="'.$this->onSuccessRedirectPage.'"/>';    
+        }
+        if($isUpd){
+            $res.='<input type="hidden" name="__operation" value="UPD"/>';
+            $res.='<input type="hidden" name="__upd_idfield" value="'.$this->updIdField.'"/>';
+            $res.='<input type="hidden" name="__upd_idvalue" value="'.$this->updIdValue.'"/>';
         }
         $res.='<input type="hidden" name="__success_message" value="'.$this->successMessage.'"/>';
         $res.='<input type="hidden" name="__method_to_invoke" value="'.$this->action.'"/>';

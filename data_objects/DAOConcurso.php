@@ -24,7 +24,7 @@ function DAOConcurso_getContestLeftTime($contestId){
 }
 
 function DAOConcurso_getContestData($contestId){
-  	$query = "SELECT con.nombre, con.estado, con.fecha, con.id_temporada FROM concurso con WHERE con.id_concurso = '".$contestId."'";
+  	$query = "SELECT con.nombre, con.estado, con.fecha, con.id_temporada, con.creator_id FROM concurso con WHERE con.id_concurso = '".$contestId."'";
    	$contestData = getWholeRow($query);
    	return $contestData;
 }

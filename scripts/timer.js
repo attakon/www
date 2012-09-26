@@ -37,7 +37,7 @@ function CreateTimer(TimerID, Time, i) {
 
 function Tick(i) {
         if (TotalSeconds[i] <= 0) {
-                alert("Time's up!")
+                Timer[i].innerHTML = "Contest is open!";
                 return;
         }
 
