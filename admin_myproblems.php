@@ -113,7 +113,7 @@ function init(){
 }
 
 function previewProblem($_PAR){
-    // print_r($_PAR);
+
     $inputTempName = $_FILES['input-file']['tmp_name'];
     $outputTempName = $_FILES['output-file']['tmp_name'];
     
@@ -153,7 +153,7 @@ function previewProblem($_PAR){
             break;
     }
     // $io = array ('i'=>$inputList,'o'=> $outputList);
-    // print_r($inputList);
+    
     // print_r($outputList);
     $table = getIOTabularView($inputList,$outputList);
     // print_r($io);

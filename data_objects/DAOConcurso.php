@@ -24,7 +24,7 @@ function DAOConcurso_getContestLeftTime($contestId){
 }
 
 function DAOConcurso_getContestData($contestId){
-  	$query = "SELECT con.nombre, con.estado, con.fecha, con.id_temporada, con.creator_id FROM concurso con WHERE con.id_concurso = '".$contestId."'";
+  	$query = "SELECT con.nombre, con.estado, con.fecha, con.id_temporada, con.creator_id, con.is_invitational FROM concurso con WHERE con.id_concurso = '".$contestId."'";
    	$contestData = getWholeRow($query);
    	return $contestData;
 }
@@ -48,6 +48,19 @@ function DAOContest_deleteContest($contestId){
     WHERE id_concurso ='".$contestId."'";
     runQuery($delete);
 }
+
+function DAOContest_publishContest($contestId){
+    $update = "UPDATE concurso
+    SET is_published ='1'
+    WHERE id_concurso ='".$contestId."'";
+    runQuery($update);
+}
+
+function DAOContest_uninviteUser($contestId, $userId){
+    $delete = "DELETE FROM co_contest_invites WHERE contest_id ='".$contestId."' AND user_id ='".$userId."'";
+    runQuery($delete);
+}
+
 
 // co_contest Problems
 function DAOConcurso_getFirstProblem($contestId){

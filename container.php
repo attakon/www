@@ -83,4 +83,10 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
 </html>
 <?php
 }
+
+function redirectToLastVisitedPage(){
+    // print_r($_SESSION);
+    header("Location: ".$_SESSION['lastvisitedurl']);
+    die;
+}
 ?>

@@ -48,7 +48,7 @@ function DAOCampaign_createCampaignDetail($campaignId, $problemId){
     runQuery($queryC);
 }
 
-function DAOCampaign_deregegisterUser($userId, $contestId){
+function DAOCampaign_deregegisterUser($contestId, $userId){
     $deleteQuery = "DELETE FROM campaigndetalle where id_campaign = 
       (SELECT id_campaign FROM campaign WHERE id_usuario ='".$userId."' AND id_concurso='".$contestId."')";
     runQuery($deleteQuery);

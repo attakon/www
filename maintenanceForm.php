@@ -56,7 +56,7 @@ class RCMaintenanceForm{
 
     function getForm(){
 
-//        error_reporting(E_ALL ^ E_NOTICE);  // DON'T SHOW NOTICES
+       error_reporting(E_ALL ^ E_NOTICE);  // DON'T SHOW NOTICES
 
         if(is_null($this->action)){
             $action = 'maintenanceFormController.php';
@@ -82,9 +82,7 @@ class RCMaintenanceForm{
 
             $query = "SELECT ".$fieldsToGet." FROM ".$this->tableName." 
                 WHERE ".$this->updIdField." ='".$this->updIdValue."'";
-            $updData = getWholeRow($query);
-            print_r($query);
-            print_r($updData);
+            $updData = getWholeRow($query);            
             $isUpd=true;
         }
         foreach ($this->fields as $key => $val) {

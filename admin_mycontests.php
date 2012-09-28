@@ -2,6 +2,8 @@
 session_start();
 include_once 'utils/ValidateAdmin.php';
 
+// print_r($_SESSION);
+
 if(isset($_GET['delcontestid'])){
     $contestId =$_GET['delcontestid'];
     include_once 'data_objects/DAOConcurso.php';
@@ -31,21 +33,21 @@ if(isset($_GET['updcontestid'])){
 $fields = array(
     'id_temporada' => 
         array('type'=>'list',
-            'label'=>'Temporada',
+            'label'=>'League',
             'list'=>array(
                 'table'=>'temporada',
                 'idField'=>'id_temporada',
                 'labelField'=>'nombre',
                 'condition'=>"WHERE creator_id ='".$_SESSION['userId']."'")),
     'nombre'=> 
-        array('label'=>'Nombre',
+        array('label'=>'Name',
             'type'=>'text'
             ),
     'nombre_corto'=>
-        array('label'=>'Nombre Corto',
+        array('label'=>'Short Name',
             'type'=>'text'),
     'fecha'=>
-        array('label'=>'Fecha de Realizacion',
+        array('label'=>'run date',
             'type'=>'datetime',
             'format'=>'yyyy-MM-dd hh:mm:ss',
             'value'=>'2012-12-12 12:12:12'
@@ -58,6 +60,10 @@ $fields = array(
     'left_time'=>array('type'=>'time',
             'label'=>'left_time',
             'format'=>'hh:mm:ss'),
+    'is_invitational'=>array(
+            'type'=>'text',
+            'label'=>'is_invitational'
+            ),
     'creator_id'=>array(
         'type'=>'hidden',
         'value'=>$_SESSION['userId']
@@ -95,13 +101,13 @@ $columnsPC = array(
        "type"=>""),
     array("'Contests'",  "Contest", -2, "", 
         "type"=>"replacement", 
-        'value' => "<a href='/admin_mycontestproblems.php?id=#{0}'>#{2}</a>"),
+        'value' => "<a href='./admin_mycontestproblems.php?id=#{0}'>#{2}</a>"),
     array("'edit'",  "Edit", 80, "", 
         "type"=>"replacement", 
-        'value' => "<a href='/admin_mycontests.php?updcontestid=#{0}'>Edit</a>"),
+        'value' => "<a href='./admin_mycontests.php?updcontestid=#{0}'>Edit</a>"),
     array("'delete'",  "Delete", 80, "", 
         "type"=>"replacement", 
-        'value' => "<a href='/admin_mycontests.php?delcontestid=#{0}'>Delete</a>")
+        'value' => "<a href='./admin_mycontests.php?delcontestid=#{0}'>Delete</a>")
 );
 
         // case 'con_res':return "<a href='$path/concurso_results.php?i=$id&tab=2'>$caption</a>";

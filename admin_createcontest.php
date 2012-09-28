@@ -2,7 +2,6 @@
 session_start();
 include_once 'utils/ValidateAdmin.php';
 
-include_once 'container.php';
 //include_once $_SERVER['DOCUMENT_ROOT'].'/huahcoding.com/'.'data_objects/DAOPermissions.php';
 //echo $_SERVER['DOCUMENT_ROOT'].'/huahcoding.com';
 //$userId =$_SESSION['userId'];
@@ -15,6 +14,8 @@ include_once 'container.php';
 //echo '<!DOCTYPE html>
 //    <html>';
 //echo '<html>';
+
+
 
 $fields = array(
     'id_temporada' => 
@@ -69,6 +70,7 @@ include_once 'maintenanceForm.php';
 $tablePC = new RCMaintenanceForm('concurso',$fields,NULL,'Create Contest', 'nombre','style="width:400px"');
 
 
+include_once 'container.php';
 showPage('Create New Contest', false, $tablePC->getForm(), null,'370')
 
 ?>

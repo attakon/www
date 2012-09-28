@@ -35,7 +35,7 @@ if(isset($_POST) && isset($_POST['__table'])){
 		runQuery($insertSt);
 	}
 	
-
+	$successMessage='';
 	if(isset($REQ['__redirectpage'])){
 		session_start();
 		$successMessage = $REQ['__success_message'];
