@@ -49,7 +49,7 @@ class RCTable{
 
     function getTable(){
 
-        error_reporting(E_ALL ^ E_NOTICE);  // DON'T SHOW NOTICES
+        // error_reporting(E_ALL ^ E_NOTICE);  // DON'T SHOW NOTICES
 
         $query = "SELECT ";
         foreach ($this->arrayColumns as $col => $keys) {
@@ -58,7 +58,8 @@ class RCTable{
         $query = substr($query, 0, strlen($query)-2);
         $query.=" FROM ".$this->tableName." ".$this->condition;
 
-//        echo $query;        
+
+        // echo $query;        
         $rsTop = fetchResultSet($this->connexion,$query);
         echo mysql_error($this->connexion); //DEBUG
 
@@ -148,16 +149,13 @@ class RCTable{
                                 $number = '';
                                 while($linkExpression[++$i]!='}'){
                                     $number .= $linkExpression[$i];
-                                }
-                                // print_r($number);
+                                }                                
                                 $result .= $data[$number];
                             }else 
                                 $result .= $linkExpression[$i];
                         }
 
-                        // preg_match("{(?P<digit>\d+)}", $linkExpression, $matches);
-                        // print_r($data);
-                        // print_r('rx'.$result.'rx');
+                        // preg_match("{(?P<digit>\d+)}", $linkExpression, $matches);                        
                         $field = $result;
                     }else if($kind=='linked'){
                         $id = $splited [1];

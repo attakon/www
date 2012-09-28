@@ -9,4 +9,8 @@
         showPage('Admin Panel', false, parrafoError('Not authorized'), '');
         die;
     }
+
+    function isOwner($creatorId){
+    	return $_SESSION['userId']==$creatorId;
+    }
 ?>
