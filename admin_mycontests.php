@@ -64,6 +64,10 @@ $fields = array(
             'type'=>'text',
             'label'=>'is_invitational'
             ),
+    'is_published'=>array(
+            'type'=>'text',
+            'label'=>'is_published'
+            ),
     'creator_id'=>array(
         'type'=>'hidden',
         'value'=>$_SESSION['userId']

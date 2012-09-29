@@ -2,12 +2,28 @@
 include_once ("utils/DBUtils.php");
 
 // BEGIN ARENA
-function DAOCampaign_registerAttempt($campaignId,$problemId,$time,$wasSolved,$sourceCode){
-    $query = "CALL SP__UD_CAMPAIGNDETALLE('".$campaignId."','".$problemId."','NOW()','".$wasSolved."',NULL)";
+function DAOCampaign_registerAttempt($contestId,$campaignId, $problemId, $time, $wasSolved, $sourceCode){
+
+  // $query = sprintf("SELECT * FROM users WHERE user='%s' AND password='%s'",
+  //           mysql_real_escape_string($user),
+  //           mysql_real_escape_string($password));
+    include_once 'data_objects/DAOConcurso.php';
+    $elapsedSeconds = DAOConcurso_getContestElapsedTime($contestId);
+    $query = sprintf("CALL SP__UD_CAMPAIGNDETALLE(%s,'%s',SEC_TO_TIME(".$elapsedSeconds."),'%s','%s')"
+      ,$campaignId
+      ,$problemId
+      ,$wasSolved
+      ,$sourceCode);
+    // print_r($query);
     runQuery($query);
 }
 
 // END ARENA 
+function DAOCampaign_getCampaignData($campaignId){
+  $query = "SELECT id_concurso, id_usuario FROM campaign WHERE id_campaign='".$campaignId."'";
+  return getWholeRow($query);
+}
+
 function DAOCampaign_getUserCampaigns($contestId){
   $campaignQuery = "SELECT camp.id_campaign, camp.puesto,
             camp.new_ranking, user.id_usuario, user.username, camp.puntos, camp.penalizacion " .

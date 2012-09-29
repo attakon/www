@@ -1,5 +1,5 @@
 <?php
-function getConcursoDetalle($contestId) {
+function getConcursoDetalleHTML($contestId) {
 
     //TODO This has to be refactored to use data objects.
     include_once('./conexion.php');
@@ -108,33 +108,39 @@ function getConcursoDetalle($contestId) {
         <td>&nbsp; <!-- space -->
         </td>
     </tr>
-    <tr>
+    
     <?php 
 
     include_once 'data_objects/DAOConcurso.php';
     $contestPhase = DAOConcurso_getContestPhase($contestId);
 
     if($contestPhase=='NOT_STARTED'){?>
+        <tr>
             <td align="center" colspan='2'>
                 <a href="<?php echo $url_register?>">[Register]</a>
             </td>
-            <?php
+        </tr>
+        <?php
     }else if($contestPhase=="IN_PROGRESS"){?>
+        <tr>
             <td align="center" colspan='2'>
-            <a href="contest_arena.php?id=<?php echo $contestId?>">[Enter]</a>
+                <a href="contest_arena.php?id=<?php echo $contestId?>">[Solve]</a>
+                <a href="contest_arena_scoreboard.php?id=<?php echo $contestId?>">[Scoreboard]</a>
             </td>
+        </tr>
     <?php
     }else if($contestPhase=="FINISHED"){?>
-        <td align="center" colspan='2'>
-            CONTEST HAS FINISHED
-        </td>  
-            <!-- commenting-out Raul
-            <a href="<?php echo$url_registereds?>">[ver registrados]</a>
-            
-            <a href="<?php echo$url_forum?>">[discute este evento]</a>
-            -->
-        
-    </tr>
+        <tr>
+            <td align="center" colspan='2'>
+                CONTEST HAS FINISHED
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan='2'>
+                <a href="contest_arena.php?id=<?php echo $contestId?>">[Practice]</a>
+                <a href="contest_arena_scoreboard.php?id=<?php echo $contestId?>">[Scoreboard]</a>
+            </td>
+        </tr>
     <?php 
         }
     ?>
@@ -146,4 +152,3 @@ function getConcursoDetalle($contestId) {
     return $returnedValue;
 }
 ?>
-

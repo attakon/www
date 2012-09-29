@@ -38,7 +38,7 @@ include_once 'conexion.php';
 
 //$idCampaign ="1";
 //$idProblem ="1";
-$queryData = "SELECT us.username, prob.nombre, prob.abrev, con.nombre, cd.sourcecode FROM
+$queryData = "SELECT us.username, prob.nombre, prob.abrev, con.nombre, cd.successful_source_code FROM
      usuario us, concurso con, problema prob, campaigndetalle cd, campaign ca
      WHERE us.id_usuario = ca.id_usuario AND
         ca.id_concurso = con.id_concurso AND

@@ -4,7 +4,7 @@ include_once 'CustomTags.php';
 
 session_start();
 include_once 'utils/ValidateSignedIn.php';
-
+// print_r($_SERVER);
 if(isset($_GET['id'])){
     $contestId = $_GET['id'];
     $userId = $_SESSION['userId'];
@@ -54,23 +54,23 @@ if(isset($_GET['id'])){
         $selectedProblemId = $_GET['pid'];    
     }
     // echo practice($contestId);
-    $arenaHTML = getArenaHTML($contestId,$selectedProblemId,$userCampaignData);
+    $arenaHTML = getArenaHTML($contestId,$selectedProblemId,$userCampaignData,$contestPhase=='IN_PROGRESS',$userId);
     $content = $head.$arenaHTML;
     include_once 'container.php';
     showPage($contestName.'\'s Arena',false,$content);
 }
 
 
-function getArenaHTML($contestId, $selectedProblemId=null, $userCampaignData){
-
-// include_once 'data_objects/DAOConcurso.php';
-// $firstProblem = DAOConcurso_getFirstProblem($contestId);
-// print_r($firstProblem);
-
+function getArenaHTML($contestId, $selectedProblemId=null, $userCampaignData, $isContest=0,$userId){
 
 $contestId = $contestId?$contestId:1;
 include_once 'data_objects/DAOConcurso.php';
 $problemsData = DAOConcurso_getProblems($contestId);
+
+include_once 'data_objects/DAOCompetitor.php';
+$userProblemData = DAOCompetitor_getContestProblemsForUser($userId,$contestId);
+$problemsData=$userProblemData;
+print_r($userProblemData);
 
 $firstProblem = $problemsData[0];
 $selectedProblemId = $selectedProblemId?$selectedProblemId:$firstProblem['problem_id'];
@@ -99,13 +99,17 @@ ob_start();
                     foreach ($problemsData as $key => $problemValue) {
                         $classSelected = "";
                         if($problemValue['problem_id']==$selectedProblemId){
-                            $classSelected="class='selectedProblem'";
+                            if($isContest){
+                                $classSelected="class='contest_selectedProblem'";
+                            }else{
+                                $classSelected="class='selectedProblem'";
+                            }
                         }
                         ?>
                     <tr>
                         <td <?php echo$classSelected?> width="190" height="25">
                             <a href="./contest_arena.php?id=<?php echo$contestId?>&pid=<?php echo $problemValue['problem_id']?>">
-                                <?php echo $problemValue['name']?>
+                                <?php echo $problemValue['name']." (".$problemValue['solved'].")"?>
                             </a>
                         </td>
                     </tr>
@@ -114,10 +118,10 @@ ob_start();
                 ?>
                 </table>
             </td>
-            <td class ="bordeable" height="30">
+            <td <?php echo $isContest?'class = "contest_bordeable"':'class="bordeable"'; ?> height="30">
                 <label>
-                    Aqu&iacute; puedes intentar todas las veces que desees.<br>
-                    Ni aqu&iacute; ni en Concurso interesa la extensi&oacute;n de tu output.
+                    <br>
+                    When you are ready, download the input file.
                     <br>&nbsp;
                 </label>
                 <!--BEGIN SUBMIT FORM -->
@@ -131,23 +135,32 @@ ob_start();
                         <tr>
                             <td height="26" width="86">
 
-                                <p>Tu output:</p>
+                                <p>Your output file:</p>
                             </td>
                             <td height="26" width="386">
                                 <input type="file" name="userout" size="39">
                             </td>
                         </tr>
                         <tr>
+                            <td height="26" width="86">
+
+                                <p>Your source code:</p>
+                            </td>
+                            <td height="26" width="386">
+                                <input type="file" name="usersource" size="39">
+                            </td>
+                        </tr>
+                        <tr>
                             <td colspan="2">
                                 <label class="comment">
-                                    Para practicar no se requiere presentar el c&oacute;digo fuente.
+                                    <!-- Para practicar no se requiere presentar el c&oacute;digo fuente. -->
                                 </label>
                             </td>
                         </tr>
                         <tr>
                             <td height="30" width="478" colspan="2">
                                 <p align="center">
-                                    <input type="submit" value="Send" name="B1">
+                                    <input type="submit" value="Submit solution" name="B1">
                                     <input type="hidden" name="pid" value=<?php echo$selectedProblemId?> >
                                     <input type="hidden" name="cmpid" value=<?php echo$userCampaignData['id_campaign']?> >
                                 </p>

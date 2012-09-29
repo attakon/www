@@ -135,7 +135,8 @@ class RCTable{
                 if(isset($this->arrayColumns[$i]['td_atr'])){
                     $atr = $this->arrayColumns[$i]['td_atr'];
                 }
-                if($this->arrayColumns[$i]['type']!=null && $this->arrayColumns[$i]['type']!=""){
+                if(isset($this->arrayColumns[$i]['type']) && 
+                    $this->arrayColumns[$i]['type']!=null && $this->arrayColumns[$i]['type']!=""){
                     $splited = explode(" ", $this->arrayColumns[$i]['type']);
                     $kind = $splited [0];
                     $field="";

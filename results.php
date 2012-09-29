@@ -63,7 +63,7 @@ function results($idConcurso){
             <td style="font-weight:bold"align="center"> <?php echo $data[5]?> </td>
             <td align="center"> <?php echo $data[6]?> </td>
             <?php
-            $queryCampaignDetalle ="SELECT Id_Problema, solved, tiempo_submision, intentos_fallidos, sourcecode
+            $queryCampaignDetalle ="SELECT Id_Problema, solved, tiempo_submision, intentos_fallidos, successful_source_code
                         FROM campaigndetalle WHERE id_campaign = " .$data[0]. " " .
                         "ORDER BY Id_Problema";
 

@@ -12,19 +12,26 @@ function DAOConcurso_isContestOpen($contestId){
 
 function DAOConcurso_getContestPhase($contestId){
     $leftTime = DAOConcurso_getContestLeftTime($contestId);
+    // echo $leftTime;
     $query = "SELECT IF(".$leftTime.">TIME_TO_SEC(total_time),'NOT_STARTED',IF(".$leftTime."<=TIME_TO_SEC(total_time) AND ".$leftTime.">=0,'IN_PROGRESS','FINISHED')) FROM concurso con WHERE con.id_concurso = '".$contestId."'";
     return getRow($query);
 }
 
+function DAOConcurso_getContestElapsedTime($contestId){
+    $query = "SELECT (TO_SECONDS(NOW())-TO_SECONDS(fecha))
+      FROM concurso con WHERE con.id_concurso = '".$contestId."'";
+    $elapsedSeconds = getRow($query);
+    return $elapsedSeconds;
+}
 function DAOConcurso_getContestLeftTime($contestId){
-    $query = "SELECT (TIME_TO_SEC(TIME(fecha))+TIME_TO_SEC(total_time)-TIME_TO_SEC(TIME(NOW())))
+    $query = "SELECT (TO_SECONDS(fecha)+TIME_TO_SEC(total_time)-TO_SECONDS(NOW()))
       FROM concurso con WHERE con.id_concurso = '".$contestId."'";
     $secondsToFinish = getRow($query);
     return $secondsToFinish;
 }
 
 function DAOConcurso_getContestData($contestId){
-  	$query = "SELECT con.nombre, con.estado, con.fecha, con.id_temporada, con.creator_id, con.is_invitational FROM concurso con WHERE con.id_concurso = '".$contestId."'";
+  	$query = "SELECT nombre, estado, fecha, id_temporada, creator_id, is_invitational, is_published FROM concurso con WHERE id_concurso = '".$contestId."'";
    	$contestData = getWholeRow($query);
    	return $contestData;
 }
@@ -61,6 +68,11 @@ function DAOContest_uninviteUser($contestId, $userId){
     runQuery($delete);
 }
 
+function DAOContest_isUserInvited($contestId, $userId){
+    $query = "SELECT count(*) FROM co_contest_invites WHERE contest_id ='".$contestId."' AND user_id ='".$userId."'";
+    $res = getRow($query);
+    return $res == 1;
+}
 
 // co_contest Problems
 function DAOConcurso_getFirstProblem($contestId){
@@ -70,9 +82,9 @@ function DAOConcurso_getFirstProblem($contestId){
   return getWholeRow($query);
 }
 
-function DAOConcurso_addProblemToContest($contestId, $problemId){
-    $insert = "INSERT INTO co_contest_problems (contest_id, problem_id)
-    VALUES ('".$contestId."','".$problemId."')";
+function DAOConcurso_addProblemToContest($contestId, $problemId, $points){
+    $insert = "INSERT INTO co_contest_problems (contest_id, problem_id,points)
+    VALUES ('".$contestId."','".$problemId."','".$points."')";
     runQuery($insert);
 }
 function DAOConcurso_removeProblemFromContest($contestId, $problemId){

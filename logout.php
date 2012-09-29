@@ -38,5 +38,10 @@ session_start();
 	unset($_SESSION['fbUserName']);
 	unset($_SESSION['fbImgURL']);
 	unset($_SESSION['userDisplayName']);
-	header('Location: '.$_SESSION['lastvisitedurl']);
+	if(isset($_SESSION['lastvisitedurl'])){
+		header('Location: '.$_SESSION['lastvisitedurl']);
+	}else{
+		header('Location: ./index.php');
+	}
+	
 ?>

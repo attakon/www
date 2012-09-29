@@ -7,7 +7,7 @@ include_once 'practice_page.php';
 
 
 //$idConcurso = 1;
-error_reporting(E_ALL ^ E_NOTICE);
+// error_reporting(E_ALL ^ E_NOTICE);
 conecDb();
 $idConcurso = mysql_real_escape_string($_GET['i']);
 $estadoContest = firstRow("SELECT estado from concurso where id_concurso= '$idConcurso' ");

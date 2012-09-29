@@ -22,12 +22,16 @@ if(isset($_GET['id'])){
 //END validate ownership
     
 
-if(isset($_GET['id']) &&  isset($_GET['addproblemid'])){
+if(isset($_GET['id']) &&  isset($_GET['addproblemid'])&& isset($_GET['pts'])){
 	$contestId = $_GET['id'];
 	$problemId = $_GET['addproblemid'];
+    $pts = $_GET['pts'];
+    
+    include_once 'data_objects/DAOConcurso.php';
+    DAOConcurso_addProblemToContest($contestId,$problemId,$pts);
     
     include_once 'data_objects/DAOProblem.php';
-    DAOConcurso_addProblemToContest($contestId,$problemId);
+    $problemData = DAOProblem_getProblemData($problemId);
     
     $_SESSION['message']='problem '.$problemData['name'].' was successfully added';
 
@@ -49,22 +53,22 @@ else if(isset($_GET['id']) &&  isset($_GET['delproblemid'])){
 }
 else if(isset($_GET['id']) &&  isset($_GET['action'])){
     if($_GET['action']=="setproblems"){
-        // $contestId = $_GET['id'];
-        // // include_once 'data_objects/DAOConcurso.php';
-        // // $contestData = DAOConcurso_getContestData($contestId);
-        // include_once 'data_objects/DAOCampaign.php';
-        // $campaigns = DAOCampaign_getUserCampaigns($contestId);
-        // $message = '';
-        // foreach ($campaigns as $key => $campaignValue) {
-        //     // $campaignValue['id_usuario'];
-        //     $campaignDetailToInsert = DAOCampaign_getCampaignsNotCreatedForUserInContest($campaignValue['id_usuario'],$contestId);
-        //     $message .=''.sizeof($campaignDetailToInsert).' created for '.$campaignValue['username']."</br>";
-        //     foreach ($campaignDetailToInsert as $key => $problemsToInsertValue) {
-        //         DAOCampaign_createCampaignDetail($campaignValue['id_campaign'],$problemsToInsertValue['problem_id']);
-        //     }
-        // }
-        // $_SESSION['message']=$message;
-        // redirectToLastVisitedPage();
+        $contestId = $_GET['id'];
+        // include_once 'data_objects/DAOConcurso.php';
+        // $contestData = DAOConcurso_getContestData($contestId);
+        include_once 'data_objects/DAOCampaign.php';
+        $campaigns = DAOCampaign_getUserCampaigns($contestId);
+        $message = '';
+        foreach ($campaigns as $key => $campaignValue) {
+            // $campaignValue['id_usuario'];
+            $campaignDetailToInsert = DAOCampaign_getCampaignsNotCreatedForUserInContest($campaignValue['id_usuario'],$contestId);
+            $message .=''.sizeof($campaignDetailToInsert).' created for '.$campaignValue['username']."</br>";
+            foreach ($campaignDetailToInsert as $key => $problemsToInsertValue) {
+                DAOCampaign_createCampaignDetail($campaignValue['id_campaign'],$problemsToInsertValue['problem_id']);
+            }
+        }
+        $_SESSION['message']=$message;
+        redirectToLastVisitedPage();
     }if($_GET['action']=="publish"){
         include_once 'data_objects/DAOConcurso.php';
         DAOContest_publishContest($contestId);
@@ -117,6 +121,7 @@ else if(isset($_GET['id'])){
     array("problem.problem_id",  "",     -1, ""),
     array("problem.creator_id",  "",     -1, ""),
     array("problem.name",  "Problems for ".$contestName,     160, "",""),
+    array("contest_problems.points",  "points",     -2, "",""),
     array("'view'",  "View I/O", 80, "", 
         "type"=>"replacement", 
         'value' => "<a href='./admin_myproblems_io.php?pid=#{0}'>View I/O</a>"),
@@ -125,7 +130,8 @@ else if(isset($_GET['id'])){
         'value' => "<a href='./admin_mycontestproblems.php?id=".$contestId."&delproblemid=#{0}'>Remove</a>")
     );
     $conditionPC = "WHERE problem.problem_id = contest_problems.problem_id ".
-    "ORDER BY 1 DESC";
+    " AND contest_problems.contest_id='".$contestId."'".
+    " ORDER BY 1 DESC";
 
     include_once 'table2.php';
     $contestProblemTable = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
@@ -142,9 +148,18 @@ else if(isset($_GET['id'])){
     array("'view'",  "View I/O", 80, "", 
         "type"=>"replacement", 
         'value' => "<a href='./admin_myproblems_io.php?pid=#{0}'>View I/O</a>"),
-    array("'delete'",  "Add", -2, "", 
+    array("'view'",  "Add Problem", -2, "", 
         "type"=>"replacement", 
-        'value' => "<a href='./admin_mycontestproblems.php?id=".$contestId."&addproblemid=#{0}'>Add Problem to ".$contestName."</a>")
+        'value' => "<form method='GET' action='./admin_mycontestproblems.php?'>
+                        <input type='number' name='pts' style='width:30px;'  />
+                        points
+                        <input type='hidden' name='id' value='".$contestId."'/>
+                        <input type='hidden' name='addproblemid' value='#{0}'/>
+                        <input type='submit' value='Add Problem to ".$contestName."'/>
+                    </form> "),
+    // array("'add'",  "Add", -2, "", 
+    //     "type"=>"replacement", 
+    //     'value' => "<a href='./admin_mycontestproblems.php?id=".$contestId."&addproblemid=#{0}'>Add Problem to ".$contestName."</a>")
     );
     $conditionPC = "ORDER BY 1 DESC";
 
@@ -191,11 +206,11 @@ else if(isset($_GET['id'])){
     $registeredUserTable = new RCTable(conecDb(),$tables,$columns,$condition);
 
     // button
-    // $sealLink = '<a href="./admin_mycontestproblems.php?id='.$contestId.'&action=setproblems">
-    //     Set Problems (you will not be able to add or remove more problems)
-    //     </a>';
+    $sealLink = '<a href="./admin_mycontestproblems.php?id='.$contestId.'&action=setproblems">
+        [Create Campaigns Details]
+        </a>';
     $publishLink = '<a href="./admin_mycontestproblems.php?id='.$contestId.'&action=publish">
-        Publish Contest (The contest will show up in the main page and users will be able to register. You will not be able to add or remove more problems)
+        [Publish Contest]
         </a>';
 
     $invitesHTML = '';
@@ -251,6 +266,7 @@ else if(isset($_GET['id'])){
 
 	$content = $contestProblemTable->getTable().
         '<br/>'
+        .$sealLink.'<br/>'
         .$publishLink.'<br/>'.'<br/>'
         .$availableProblemsTable.'<br/>'
         .$registeredUserTable->getTable().'<br/>'

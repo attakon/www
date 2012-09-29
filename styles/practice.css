@@ -1,13 +1,33 @@
 root { 
     display: block;
 }
+/*BEGIN Contest Mode*/
+td.contest_selectedProblem{
+    background-color: #0B1D29;
+    color: #0B1D29;
+    font-weight: bold;
+}
+td.contest_bordeable{
+    border-width: 2px;
+    border-color: #0B1D29;
+    border-style: double;
+}
+/*BEGIN Contest Mode*/
+
+/*BEGIN Practice Mode*/
 td.selectedProblem{
     background-color: #ff9900;
     color: #ffffff;
     font-weight: bold;
 }
-label.problemTitle{
+td.bordeable{
+    border-width: 2px;
+    border-color: #ff9900;
+    border-style: double;
+}
+/*END Practice Mode*/
 
+label.problemTitle{
     font-size: 14px;
     color: #0066cc;
     font-weight: bold;
@@ -25,19 +45,4 @@ a.headerSelected{
 a.header{
 
     font-size: 12px;
-}
-td.bordeable{
-
-    border-top-width: 2px;
-    border-bottom-width: 2px;
-    border-left-width: 2px;
-    border-right-width: 2px;
-    border-top-color: #ff9900;
-    border-bottom-color: #ff9900;
-    border-left-color: #ff9900;
-    border-right-color: #ff9900;
-    border-top-style: double;
-    border-bottom-style: double;
-    border-left-style: double;
-    border-right-style: double;
 }

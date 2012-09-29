@@ -70,7 +70,7 @@ $columnsNE = array(
             'value'=>'Starts in <div id="timer_div_#{0}"/><script type="text/javascript">timers[timerCount++]=new Array("timer_div_#{0}", #{1});</script>'),
         
 );
-$conditionNE = "WHERE co.estado in('REGISTRATION_OPEN','REGISTRATION_CLOSED')".
+$conditionNE = "WHERE co.is_published = 1 ".
         "ORDER BY 1 ASC LIMIT 5";
 
 include_once 'table2.php';

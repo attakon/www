@@ -8,7 +8,7 @@
     $contestId = $_GET['idt'];
 
     if($show=='det'){
-        $details = getConcursoDetalle($contestId);
+        $details = getConcursoDetalleHTML($contestId);
 
         $contestData = DAOConcurso_getContestData($contestId);
         $leagueId = DAOConcurso_getLeagueId($contestId);
@@ -21,23 +21,6 @@
         );
 
         $tables = "campaign cmp, concurso con, usuario us , competidor c";
-        // co_league lg, co_league_contests lgc,
-        //BEGIN Changing from temporada to league
-        // $condition = "WHERE us.id_usuario = cmp.id_usuario AND
-        //     cmp.id_concurso = con.id_concurso AND
-        //     c.id_temporada=con.id_temporada AND
-        //     con.id_concurso='".$contestId."' AND
-        //     c.id_usuario = us.id_usuario
-        //     ORDER BY cmp.id_campaign";
-
-        // $condition = "WHERE us.id_usuario = cmp.id_usuario AND
-        //     cmp.id_concurso = con.id_concurso AND
-        //     lgc.contest_id = con.id_concurso AND 
-        //     lgc.leagueId = lg.leagueId AND 
-        //     con.id_concurso = '".$contestId."' AND
-        //     c.id_usuario = us.id_usuario
-        //     ORDER BY cmp.id_campaign";
-
 
         $condition = "WHERE us.id_usuario = cmp.id_usuario AND
             cmp.id_concurso = con.id_concurso 
@@ -53,17 +36,18 @@
         // print_r($contestData);
         include_once 'data_objects/DAOConcurso.php';
         $contestPhase = DAOConcurso_getContestPhase($contestId);
-        $body = $contestPhase;
+        // $body = $contestPhase;
             
-        if($contestData['estado']=="REGISTRATION_OPEN"){
-            $body .= parrafoOK("Registration is open");
-        }else if ($contestData['estado']=="REGISTRATION_CLOSED"){
-            $body .= parrafoError("Inscripciones Cerradas<br>");
-        }else if ($contestData['estado']=="FINALIZED"){
-            $linkToResults = "<a href='concurso_results.php?i=".$contestId."&tab=2'>Ver Resultados</a>";
-            $body .= parrafoError("Concurso Finalizado ".$linkToResults);
-        }
-        $body.=$table->getTable();
+        // if($contestData['estado']=="REGISTRATION_OPEN"){
+        //     $body .= parrafoOK("Registration is open");
+        // }else if ($contestData['estado']=="REGISTRATION_CLOSED"){
+        //     $body .= parrafoError("Inscripciones Cerradas<br>");
+        // }else if ($contestData['estado']=="FINALIZED"){
+        //     $linkToResults = "<a href='concurso_results.php?i=".$contestId."&tab=2'>Ver Resultados</a>";
+        //     $body .= parrafoError("Concurso Finalizado ".$linkToResults);
+        // }
+        
+        $body=$table->getTable();
 
         $details.=$body;
 

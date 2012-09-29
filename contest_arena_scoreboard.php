@@ -1,15 +1,33 @@
 <?php
 include_once ("conexion.php");
 include_once 'CustomTags.php';
-include_once 'container.php';
+
 include_once 'data_objects/DAOGlobalDefaults.php';
 
-if(isset($_GET['contestid'])){
-    $contestid = $_GET['contestid'];
-    $body = getScoreboardHTML($contestid);
-    include_once 'data_objects/DAOConcurso.php';
-    $contestData = DAOConcurso_getContestData($contestid);
+if(isset($_GET['id'])){
+    $contestId = $_GET['id'];
 
+    include_once 'data_objects/DAOConcurso.php';
+    $contestPhase = DAOConcurso_getContestPhase($contestId);
+    $contestData = DAOConcurso_getContestData($contestId);
+
+    if($contestPhase=='NOT_STARTED'){
+        include_once 'container.php';
+        showPage($contestData['nombre'], false, parrafoError("Contest has not started yet"), "");
+    }
+    $body='';
+    if($contestPhase=='IN_PROGRESS'){
+        $secondsLeft = DAOConcurso_getContestLeftTime($contestId);
+        $body .= '<div id="left_time_div_'.$contestId.'" ></div>
+            <script type="text/javascript">
+                timers[timerCount++]=new Array("left_time_div_'.$contestId.'", '.$secondsLeft.');
+            </script>';
+    }else if($contestPhase=='FINISHED'){
+        $body .='<label>Contest has finished</label>';
+    }
+    $body .= getScoreboardHTML($contestId);
+
+    include_once 'container.php';
     showPage($contestData['nombre'], false, $body, "");
 }
 
@@ -21,14 +39,9 @@ function getScoreboardHTML($contestId){
 
     include_once 'data_objects/DAOConcurso.php';
     $problemData = DAOConcurso_getProblems($contestId);
-
-    include_once 'data_objects/DAOConcurso.php';
-    $leftTime = DAOConcurso_getContestLeftTime($contestId);
-    $contestPhase = DAOConcurso_getContestPhase($contestId);
-    $body = $contestPhase.'<div id="left_time_div_'.$contestId.'" ></div>
-            <script type="text/javascript">
-                timers[timerCount++]=new Array("left_time_div_'.$contestId.'", '.$leftTime.');
-            </script>';
+    
+    
+    
     // $body ="<br>xxx";
     ob_start();
     ?>
@@ -74,7 +87,7 @@ function getScoreboardHTML($contestId){
             <td style="font-weight:bold"align="center"> <?php echo $campaignValue['puntos']?> </td>
             <td align="center"> <?php echo $campaignValue['penalizacion']?> </td>
             <?php
-            $queryCampaignDetalle ="SELECT Id_Problema, solved, tiempo_submision, intentos_fallidos, sourcecode
+            $queryCampaignDetalle ="SELECT Id_Problema, solved, tiempo_submision, intentos_fallidos, successful_source_code
                         FROM campaigndetalle WHERE id_campaign = " .$campaignValue['id_campaign']. " " .
                         "ORDER BY Id_Problema";
 

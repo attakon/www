@@ -49,13 +49,13 @@ function DAOUser_getUserByName($userName){
    return $n;
 }
 
-function DAOUser_isUserRegisteredInContest($userId,$concursoId){ 
+function DAOUser_isUserRegisteredInContest($userId, $concursoId){ 
    $query = "SELECT COUNT(*) FROM campaign cpg WHERE cpg.id_concurso = '".$concursoId."' AND cpg.id_usuario = '".$userId."'";
    $n = getRow($query);
    return $n>0;
 }
 
-function DAOUser_isUserRegisteredInSeason($userId, $temporadaId){ 
+function DAOUser_isUserRegisteredInLeague($userId, $temporadaId){ 
    $query = "SELECT COUNT(*) FROM competidor c
                        WHERE c.id_usuario = '".$userId."'
                        AND c.id_temporada = '".$temporadaId."'";
@@ -63,14 +63,14 @@ function DAOUser_isUserRegisteredInSeason($userId, $temporadaId){
    return $n>0;
 }
 
-function DAOUser_getUserPuntosForSeason($userId,$temporadaId){ 
+function DAOUser_getUserLeaguePoints($userId,$temporadaId){ 
    $query = "SELECT c.puntos FROM competidor c WHERE c.id_usuario = '".$userId."' AND c.id_temporada= '".$temporadaId."'";
    $n = getRow($query);
    return $n;
 }
 
 
-function DAOUser_registerInSeason($userId,$temporadaId){
+function DAOUser_registerInLeague($userId,$temporadaId){
    $insertQ = "INSERT INTO competidor(id_usuario, id_temporada, puntos, penalty_time, `position`,
       position_school, competitions_count) VALUES
     ('".$userId."', '".$temporadaId."', 0, '0:0:0', -1, -1, 0)";

@@ -1,30 +1,56 @@
 <?php
 session_start();
-include_once ('container.php');
+include_once 'utils/ValidateAdmin.php';
+
 include_once ("conexion.php");
 include_once ("CustomTags.php");
-include_once 'data_objects/DAOUser.php';
-include_once 'data_objects/DAOConcurso.php';
+
+
 //./concurso_enrollUser.php?cId=7
 $userId = $_SESSION['userId'];
-$concursoId=$_GET['cId'];
-if(!isset($_SESSION['userId'])){// no ha iniciado session
-    $msg = "<p class='mensaje'> Debe Iniciar sesi&oacute;n para inscribirse</p>";
-    showPage("Inscribirse...",false,$msg, "");
-}else{// session iniciada    
-    $dat = firstRow("SELECT estado from concurso where id_concurso = '".$concursoId."'");
-    if($dat[0]=="REGISTRATION_OPEN"){
+$contestId=$_GET['cId'];
+include_once 'data_objects/DAOConcurso.php';
+$contestData = DAOConcurso_getContestData($contestId);
+if(!$contestData['is_published']){
+    include_once 'container.php';
+    showPage($contestData['nombre'],false,parrafoError('Contest is not published yet. Come back later.'), "");
+}
+$contestPhase = DAOConcurso_getContestPhase($contestId);
+if($contestPhase=='FINISHED'){
+    include_once 'container.php';
+    showPage($contestData['nombre'],false,parrafoError('You cannot register because the contest has already finished'), "");
+}
+if($contestPhase=='IN_PROGRESS'){
+    include_once 'container.php';
+    showPage($contestData['nombre'],false,parrafoError('Contest has already started. You can check the scoreboard here'), "");
+}
+
+if($contestData['is_invitational']){
+    if(!DAOContest_isUserInvited($contestId, $_SESSION['userId'])){
+        include_once 'container.php';
+        showPage($contestData['nombre'],false,parrafoError('Sorry, you are not invited to this contest'), "");       
+        die;
+    }
+}
+    
+
         //Begin [10-Jun-2012] Raul - moving the registration from store procedure to php code.
-        if(!DAOUser_isUserRegisteredInContest($userId,$concursoId)){
-            $leagueId = DAOConcurso_getLeagueId($concursoId);
-            if(!DAOUser_isUserRegisteredInSeason($userId, $leagueId)){
-                DAOUser_registerInSeason($userId, $leagueId);
+        include_once 'data_objects/DAOUser.php';
+        if(!DAOUser_isUserRegisteredInContest($userId,$contestId)){
+            // include_once 'data_objects/DAOConcurso.php';
+            $leagueId = DAOConcurso_getLeagueId($contestId);
+            if(!DAOUser_isUserRegisteredInLeague($userId, $leagueId)){
+                DAOUser_registerInLeague($userId, $leagueId);
             }
-            $puntosForSeason = DAOUser_getUserPuntosForSeason($userId, $leagueId);
-            DAOUser_registerInContest($concursoId, $userId, $puntosForSeason);
+            
+            $leaguePoints = DAOUser_getUserLeaguePoints($userId, $leagueId);
+            DAOUser_registerInContest($contestId, $userId, $leaguePoints);
             $msg = parrafoOK("&iexcl;Inscrito Correctamente!");
+            include_once 'container.php';
+            showPage($contestData['nombre'],false,$msg, "");
         }else{
-            $msg = parrafoError("&iexcl;Ud. ya est&aacute; inscrito en este concurso!");
+            include_once 'container.php';
+            showPage($contestData['nombre'],false,parrafoError('You are already registered in this contest'), "");
         }
 //        $queryEnroll = "SELECT FC__enrollConcursante('".$concursoId."', '".$userId."');";
 //        $rs = mysql_query($queryEnroll,conecDb()) or die($queryEnroll." ".mysql_error());
@@ -37,10 +63,11 @@ if(!isset($_SESSION['userId'])){// no ha iniciado session
 //        showPage("Join The Fun!",false,$msg, "");
 //        
         //End [10-Jun-2012] Raul - moving the registration from store procedure to php code.
-        showPage("Join The Fun!",false,$msg, "");
-    }else{
-        $msg = parrafoError("Inscripciones cerradas");
-        showPage("too late ;(",false,$msg, "");
-    }
-}
+        
+    // }else{
+    //     $msg = parrafoError("Inscripciones cerradas");
+    //     showPage("too late ;(",false,$msg, "");
+    // }
+    // }
+    // }
 ?>
