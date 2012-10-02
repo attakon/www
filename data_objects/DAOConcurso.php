@@ -11,7 +11,7 @@ function DAOConcurso_isContestOpen($contestId){
 }
 
 function DAOConcurso_getContestPhase($contestId){
-    $leftTime = DAOConcurso_getContestLeftTime($contestId);
+    $leftTime = DAOConcurso_getContestLeftSeconds($contestId);
     // echo $leftTime;
     $query = "SELECT IF(".$leftTime.">TIME_TO_SEC(total_time),'NOT_STARTED',IF(".$leftTime."<=TIME_TO_SEC(total_time) AND ".$leftTime.">=0,'IN_PROGRESS','FINISHED')) FROM concurso con WHERE con.id_concurso = '".$contestId."'";
     return getRow($query);
@@ -23,7 +23,7 @@ function DAOConcurso_getContestElapsedTime($contestId){
     $elapsedSeconds = getRow($query);
     return $elapsedSeconds;
 }
-function DAOConcurso_getContestLeftTime($contestId){
+function DAOConcurso_getContestLeftSeconds($contestId){
     $query = "SELECT (TO_SECONDS(fecha)+TIME_TO_SEC(total_time)-TO_SECONDS(NOW()))
       FROM concurso con WHERE con.id_concurso = '".$contestId."'";
     $secondsToFinish = getRow($query);

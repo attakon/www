@@ -68,7 +68,7 @@ if($contestPhase=='IN_PROGRESS'){
     // $escapedSourceContent = mysql_real_escape_string($sourceContent);
 
     include_once 'data_objects/DAOCampaign.php';
-    DAOCampaign_registerAttempt($campaignData['id_concurso'], $campaignId,$problemId,'NOW()',$respuesta[0],$escapedSourceContent);
+    DAOCampaign_registerSubmission($campaignData['id_concurso'], $campaignId, $problemId,'NOW()',$respuesta[0],$escapedSourceContent);
 
 
     include_once 'data_objects/DAOProblem.php';

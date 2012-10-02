@@ -14,7 +14,7 @@ $columns = array(
             "type"=>"img images/ranking gif"),
         array("us.username",    "5",   120,"",
             "type"=>"linked 0 user"),
-        array("c.puntos",       "",          30, "class='pts'")
+        array("c.puntos",       "",      30, "class='pts'")
 );
 
 $lastSeasonCondition = "WHERE c.id_usuario = us.id_usuario ".
@@ -67,7 +67,10 @@ $columnsNE = array(
         // array("time(fecha)",   "",            30, "","time"),
         array("'countdown'",   "",            100, "",
             "type"=>"replacement",
-            'value'=>'Starts in <div id="timer_div_#{0}"/><script type="text/javascript">timers[timerCount++]=new Array("timer_div_#{0}", #{1});</script>'),
+            'value'=>'<div id="timer_div_#{0}"/>
+                <script type="text/javascript">
+                timers[timerCount++]={ "div_name":"timer_div_#{0}", "left_time":#{1}, "end_message":\'contest has stared\'};
+                </script>'),
         
 );
 $conditionNE = "WHERE co.is_published = 1 ".

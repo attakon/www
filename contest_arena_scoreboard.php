@@ -17,11 +17,16 @@ if(isset($_GET['id'])){
     }
     $body='';
     if($contestPhase=='IN_PROGRESS'){
-        $secondsLeft = DAOConcurso_getContestLeftTime($contestId);
-        $body .= '<div id="left_time_div_'.$contestId.'" ></div>
-            <script type="text/javascript">
-                timers[timerCount++]=new Array("left_time_div_'.$contestId.'", '.$secondsLeft.');
-            </script>';
+        $leftSeconds = DAOConcurso_getContestLeftSeconds($contestId);
+        $countDown = '<div id="left_time_div_'.$contestId.'" ></div>
+                    <script type="text/javascript">
+                        timers[timerCount++]={
+                            div_name:"left_time_div_'.$contestId.'"
+                            ,left_time:'.$leftSeconds.'
+                            ,end_message:"contest has finished"
+                            };
+                    </script>';
+        $body .= $countDown;
     }else if($contestPhase=='FINISHED'){
         $body .='<label>Contest has finished</label>';
     }
@@ -87,19 +92,29 @@ function getScoreboardHTML($contestId){
             <td style="font-weight:bold"align="center"> <?php echo $campaignValue['puntos']?> </td>
             <td align="center"> <?php echo $campaignValue['penalizacion']?> </td>
             <?php
-            $queryCampaignDetalle ="SELECT Id_Problema, solved, tiempo_submision, intentos_fallidos, successful_source_code
-                        FROM campaigndetalle WHERE id_campaign = " .$campaignValue['id_campaign']. " " .
-                        "ORDER BY Id_Problema";
+            $campaignDetailData = DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignValue['id_campaign']);
+            // $queryCampaignDetalle ="SELECT Id_Problema, solved, tiempo_submision, intentos_fallidos, successful_source_code
+            //             FROM campaigndetalle WHERE id_campaign = " .$campaignValue['id_campaign']. " " .
+            //             "ORDER BY Id_Problema";
 
-            $rsCampaingDetalle = mysql_query($queryCampaignDetalle,conecDb()) or die ($queryCampaignDetalle);
-            while($campaingDetalle = mysql_fetch_row($rsCampaingDetalle)){
+
+            include_once 'data_objects/DAOCampaign.php';
+            // $campaignDetail = DAOCampaign_getCampaigneDetailForCampaign($campaignValue['id_campaign']);
+
+            // $rsCampaingDetalle = mysql_query($queryCampaignDetalle,conecDb()) or die ($queryCampaignDetalle);
+            // while($campaingDetalle = mysql_fetch_row($rsCampaingDetalle)){
+            foreach ($campaignDetailData as $key => $campaignDetailValue) {
+            //     # code...
+            // }
                 ?>
             <td class="det" align="center" height="40"> <?php
-                if($campaingDetalle[1]){
+                if($campaignDetailValue['solved']){
                     if(DAOGlobalDefaults_getGlobalValue('SHOW_USER_CODE_IN_RESULTS')=='Y'){
-                        echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaingDetalle[0].'">'.$campaingDetalle[2]."</a>";
+                        echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['id_problema'].'">
+                        '.$campaignDetailValue['tiempo_submision']
+                        ."</a>";
                     }else{
-                        echo '<a class="det">'.$campaingDetalle[2]."</a>";
+                        echo '<a class="det">'.$campaignDetailValue['tiempo_submision']."</a>";
                     }
                 }else{
                     echo "--";
@@ -107,8 +122,8 @@ function getScoreboardHTML($contestId){
                 ?><br>
                 <?php
                 echo "<label class='wrongTrie'>";
-                if($campaingDetalle[3]>0){
-                    echo $campaingDetalle[3]." intento".($campaingDetalle[3]!=1?"s fallidos":" fallido");
+                if($campaignDetailValue['attempts']>0){
+                    echo $campaignDetailValue['attempts']." intento".($campaignDetailValue['attempts']!=1?"s fallidos":" fallido");
                 }else{
                     echo "&nbsp;";
                 }

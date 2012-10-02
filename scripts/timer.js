@@ -23,7 +23,7 @@ var TotalSeconds=new Array();
 
 window.onload = function(){
 	for (var i = timers.length - 1; i >= 0; i--) {
-		CreateTimer(timers[i][0],timers[i][1],i)
+		CreateTimer(timers[i]['div_name'],timers[i]['left_time'],i)
 	};
 };
 
@@ -37,7 +37,7 @@ function CreateTimer(TimerID, Time, i) {
 
 function Tick(i) {
         if (TotalSeconds[i] <= 0) {
-                Timer[i].innerHTML = "Contest is open!";
+                Timer[i].innerHTML = timers[i]['end_message'];
                 return;
         }
 
@@ -63,7 +63,8 @@ function UpdateTimer(i) {
         var minuteNoun=Minutes==1?" minute ":" minutes ";
         var secNoun=Seconds==1?" second ":" seconds ";
         
-        var TimeStr = ((Days > 0) ? Days + dayNoun : "") + LeadingZero(Hours) + hourNoun 
+        var TimeStr = ((Days > 0) ? Days + dayNoun : "") + 
+            (Hours>0?LeadingZero(Hours) + hourNoun :"")+
         	+ LeadingZero(Minutes) + minuteNoun + LeadingZero(Seconds) + secNoun;
 
 

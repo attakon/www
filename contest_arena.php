@@ -30,10 +30,14 @@ if(isset($_GET['id'])){
             die;
             break;
         case 'IN_PROGRESS':
-            $leftTime = DAOConcurso_getContestLeftTime($contestId);
+            $leftSeconds = DAOConcurso_getContestLeftSeconds($contestId);
             $head = '<div id="left_time_div_'.$contestId.'" ></div>
                     <script type="text/javascript">
-                        timers[timerCount++]=new Array("left_time_div_'.$contestId.'", '.$leftTime.');
+                        timers[timerCount++]={
+                            div_name:"left_time_div_'.$contestId.'"
+                            ,left_time:'.$leftSeconds.'
+                            ,end_message:"contest has finished"
+                            };
                     </script>';
             break;
         case 'FINISHED':
@@ -63,6 +67,7 @@ if(isset($_GET['id'])){
 
 function getArenaHTML($contestId, $selectedProblemId=null, $userCampaignData, $isContest=0,$userId){
 
+$campaignId = $userCampaignData['id_campaign'];
 $contestId = $contestId?$contestId:1;
 include_once 'data_objects/DAOConcurso.php';
 $problemsData = DAOConcurso_getProblems($contestId);
@@ -72,10 +77,10 @@ $userProblemData = DAOCompetitor_getContestProblemsForUser($userId,$contestId);
 $problemsData=$userProblemData;
 print_r($userProblemData);
 
-$firstProblem = $problemsData[0];
-$selectedProblemId = $selectedProblemId?$selectedProblemId:$firstProblem['problem_id'];
+$firstProblemData = $problemsData[0];
+$problemId = $selectedProblemId?$selectedProblemId:$firstProblemData['problem_id'];
 foreach ($problemsData as $key => $value) {
-    if($value['problem_id']==$selectedProblemId){
+    if($value['problem_id']==$problemId){
         $problemName = $value['name'];
     }
 }
@@ -98,7 +103,7 @@ ob_start();
                     // while($problems = mysql_fetch_row($rsProb)){
                     foreach ($problemsData as $key => $problemValue) {
                         $classSelected = "";
-                        if($problemValue['problem_id']==$selectedProblemId){
+                        if($problemValue['problem_id']==$problemId){
                             if($isContest){
                                 $classSelected="class='contest_selectedProblem'";
                             }else{
@@ -129,7 +134,30 @@ ob_start();
                     <table border="0" width="600" height="50" >
                         <tr>
                             <td colspan="2" width="100%">
-                                <a href="contest_arenadownloadinput.php?id=<?php echo $selectedProblemId ?>">Download Input File</a>
+                                <?php
+                                    include_once 'data_objects/DAOCampaign.php';
+                                    $isSubmissionPending = DAOCampaign_isSubmissionPending($contestId, $campaignId, $problemId);
+                                    $result ='';
+                                    // print_r($isSubmissionPending);
+                                    $downloadLink = "<a href='contest_arenadownloadinput.php?pid=".$problemId."&cmpid=".$userCampaignData['id_campaign']."'>Download Input File</a>";
+                                    if($isSubmissionPending){
+                                        $divId = "submission_left_time'.$contestId.'_'.$campaignId.'_'.$problemId.'";
+                                        $countDown = '<div id="'.$divId.'"></div>
+                                        <script type="text/javascript">
+                                            timers[timerCount++]={
+                                                div_name:"'.$divId.'"
+                                                ,left_time:'.$isSubmissionPending['submission_left_time'].'
+                                                ,end_message:"'.$downloadLink.'"
+                                                };
+                                        </script>';
+                                        $result = $countDown;
+                                    }else{
+                                        $result = $downloadLink;
+                                        // '<a href="contest_arenadownloadinput.php?pid='.$problemId.'&cmpid='.$userCampaignData['id_campaign'].'">Download Input File</a>';
+                                    }
+                                    echo $result;
+                                ?>
+                                
                             </td>
                         </tr>
                         <tr>
@@ -161,7 +189,7 @@ ob_start();
                             <td height="30" width="478" colspan="2">
                                 <p align="center">
                                     <input type="submit" value="Submit solution" name="B1">
-                                    <input type="hidden" name="pid" value=<?php echo$selectedProblemId?> >
+                                    <input type="hidden" name="pid" value=<?php echo$problemId?> >
                                     <input type="hidden" name="cmpid" value=<?php echo$userCampaignData['id_campaign']?> >
                                 </p>
                             </td>            
