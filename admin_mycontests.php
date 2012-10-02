@@ -62,11 +62,13 @@ $fields = array(
             'format'=>'hh:mm:ss'),
     'is_invitational'=>array(
             'type'=>'text',
-            'label'=>'is_invitational'
+            'label'=>'is_invitational',
+            'value'=>'0'
             ),
     'is_published'=>array(
             'type'=>'text',
-            'label'=>'is_published'
+            'label'=>'is_published',
+            'value'=>'0'
             ),
     'creator_id'=>array(
         'type'=>'hidden',

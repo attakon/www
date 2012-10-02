@@ -89,6 +89,7 @@ class RCMaintenanceForm{
             $label = $key;
             $format ='';
             $value = '';
+            $type=$val['type'];
             if(is_array($val)){
                 if(isset($val['label']))
                     $label=$val['label'];
@@ -97,7 +98,7 @@ class RCMaintenanceForm{
             }
             
 //            echo $type;
-            $type=$val['type'];
+            
             switch($type){
                 case 'checkbox': 
                     $leftLabel ='<label>'.$label.'</label>';
@@ -146,22 +147,22 @@ class RCMaintenanceForm{
                     // $res.=$field;
                     break;
                 case 'select':
-                        $values = $val['options'];
-                        
-                        $field = '';
-                       // print_r($values);
-                        foreach ($values as $k=>$v){
-                            $optionLabel = $v['label'];
-                            $optionAtr = $v['attributes'];
-                            $field.= '<input type="radio" name ="'.$key.'" id="'.$k.'" value="'.$k.'" '.$optionAtr.'/>
-                            <label for = "'.$k.'">'.$optionLabel.'</label>';
-                        }
-                        // $field.='<select/>';
-                        // $res.=$field;
-                        break;
+                    $values = $val['options'];
+                    
+                    $field = '';
+                   // print_r($values);
+                    foreach ($values as $k=>$v){
+                        $optionLabel = $v['label'];
+                        $optionAtr = $v['attributes'];
+                        $field.= '<input type="radio" name ="'.$key.'" id="'.$k.'" value="'.$k.'" '.$optionAtr.'/>
+                        <label for = "'.$k.'">'.$optionLabel.'</label>';
+                    }
+                    // $field.='<select/>';
+                    // $res.=$field;
                     break;
                 case 'hidden':
                     $field = '<input type="'.$type.'" name="'.$key.'" ';
+                    $restOfValues='';
                     foreach ($val as $jKey => $jValue)
                         $restOfValues.=$jKey.'="'.$jValue.'"';
                     $field = $field.$restOfValues."/>";
@@ -170,11 +171,11 @@ class RCMaintenanceForm{
                 default:
                     $leftLabel ='<label>'.$label.'</label>';
                     $field = $leftLabel.'<input name="'.$key.'" id="'.$key.'" placeholder="'.$label.'"';
-                    $restOfValues=" ";
                     if($isUpd){
                         $field.=' value="'.$updData[$key].'" ';
                     }
                     // print_r($val);
+                    $restOfValues='';
                     foreach ($val as $k => $value){
                         if($k=='div-atr')continue;
                         $restOfValues.=$k."='".$value."' ";
