@@ -55,7 +55,7 @@ function getScoreboardHTML($contestId){
 <!-- <p> Click en el tiempo de env&iacute;o para ver el c&oacute;digo </p> -->
     <table style="border-collapse: collapse">
         <tr>
-            <th > Rank </th>
+            <th > Place </th>
             <th > &nbsp; </th>
             <th width="100"> Coder </th>
             <th > Points </th>

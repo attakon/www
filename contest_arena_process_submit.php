@@ -56,6 +56,12 @@ if($contestPhase=='IN_PROGRESS'){
         showPage("X.X", false, parrafoError('user not allowed'), "");
         die;
     }
+    $isProblemSolved = DAOCampaign_isProblemSolved($campaignData['id_concurso'], $campaignId, $problemId);
+    if($isProblemSolved){
+        include_once 'container.php';
+        showPage("X.X", false, parrafoError('Problem has already been solved. Go pick another one ;)'), "");
+        die;
+    }
     $respuesta = compareOutputs($userOutputTempName,$problemId);
 
     
@@ -68,6 +74,7 @@ if($contestPhase=='IN_PROGRESS'){
     // $escapedSourceContent = mysql_real_escape_string($sourceContent);
 
     include_once 'data_objects/DAOCampaign.php';
+
     DAOCampaign_registerSubmission($campaignData['id_concurso'], $campaignId, $problemId,'NOW()',$respuesta[0],$escapedSourceContent);
 
 

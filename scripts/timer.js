@@ -31,14 +31,23 @@ function CreateTimer(TimerID, Time, i) {
         Timer[i] = document.getElementById(TimerID);
         TotalSeconds[i] = Time;
         
-        UpdateTimer(i);
-        window.setTimeout("Tick("+i+")", 1000);
+        // UpdateTimer(i);
+        Tick(i);
+        // window.setTimeout(, 1000);
 }
 
 function Tick(i) {
         if (TotalSeconds[i] <= 0) {
-                Timer[i].innerHTML = timers[i]['end_message'];
+            if(timers[i]['next_hop']!=undefined){
+                var div_name = timers[i]['next_hop']['div_name'];
+                var left_time = timers[i]['next_hop']['left_time'];
+                timers[i]['next_hop']=undefined;
+                CreateTimer(div_name,left_time,i);
                 return;
+            }else{
+                Timer[i].innerHTML = timers[i]['end_message'];    
+            }
+            return;
         }
 
         TotalSeconds[i] -= 1;

@@ -43,6 +43,13 @@ function DAOCampaign_isSubmissionPending($contestId, $campaignId, $problemId){
   return getWholeRow($query);
 }
 
+function DAOCampaign_isProblemSolved($contestId, $campaignId, $problemId){
+  $query = "SELECT solved FROM campaigndetalle WHERE id_campaign = '".$campaignId."' 
+    AND id_problema ='".$problemId."'";
+  $res = getRow($query);
+  return $res=='1';
+}
+
 function DAOCampaign_startSubmission($contestId, $campaignId, $problemId){
   include_once 'data_objects/DAOConcurso.php';
   $elapsedSeconds = DAOConcurso_getContestElapsedTime($contestId);

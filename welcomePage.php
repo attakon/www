@@ -20,7 +20,7 @@ $columns = array(
 $lastSeasonCondition = "WHERE c.id_usuario = us.id_usuario ".
         " AND c.id_temporada = $GLOBAL_CURRENT_SEASON ".
         " AND c.$rankField >=1 ".
-        "ORDER BY 2 ASC,1 ASC LIMIT 10";
+        "ORDER BY 2 ASC,1 ASC LIMIT 5";
 $tables = "competidor c, usuario us";
 include_once 'table2.php';
 $table = new RCTable(conecDb(),$tables,$columns,$lastSeasonCondition);
@@ -51,7 +51,7 @@ $table->setFooter("<a href=\"./ranking.php?seasonid=1\"> Ver todo el ranking </a
 //showPage("Ranking de $title", false, $table->getTable(), "");
 $tableTopFive = $table->getTable();
 
-//NEXT CONTESTS TABLE
+//UPCOMING CONTESTS TABLE
 $tablesNextEvent="concurso co";
 // TIME
 // <div id="timer_"/>
@@ -69,18 +69,102 @@ $columnsNE = array(
             "type"=>"replacement",
             'value'=>'<div id="timer_div_#{0}"/>
                 <script type="text/javascript">
-                timers[timerCount++]={ "div_name":"timer_div_#{0}", "left_time":#{1}, "end_message":\'contest has stared\'};
+                timers[timerCount++]={ "div_name":"timer_div_#{0}"
+                    ,"left_time":#{1}
+                    ,"end_message":\'contest will open\'
+                };
                 </script>'),
-        
+        array("'scoreboard'","register",
+            "type"=>'replacement',
+            "value"=>'<a href="./concurso_enrollUser.php?cId=#{0}">register</a>')
 );
-$conditionNE = "WHERE co.is_published = 1 ".
+
+$conditionNE = "WHERE co.is_published = 1 
+        AND TIMESTAMPDIFF(SECOND,now(),fecha) >= 0 ".
         "ORDER BY 1 ASC";
 
 include_once 'table2.php';
-$tableNEvent = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);
-$tableNEvent->setTitle("Coming Contests");
-$tableNEvent->setTableAtr("width='300'");
-$tableNextEvent = $tableNEvent->getTable();
+$upcomingContestsTable = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);
+$upcomingContestsTable->setTitle("Upcoming Contests");
+$upcomingContestsTable->setTableAtr("width='400'");
+$tableNextEvent = $upcomingContestsTable->getTable();
+
+
+// ACTIVE CONTESTS TABLE
+
+$tablesNextEvent="concurso co";
+// TIME
+// <div id="timer_"/>
+// <script type="text/javascript">window.onload = CreateTimer("timer1", 30);</script>
+
+$columnsNE = array(
+        array("co.id_concurso",  "contest",     -1, ""),
+        array("TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time))",  "total_time",     -1, ""),
+        // array("now()",   "",            -2, "",""),
+        array("nombre",  "Siguente",     70, "",
+            "type"=>"linked 0 concurso"),
+        // array("date(fecha)",   "Evento",            90, "","date"),
+        // array("time(fecha)",   "",            30, "","time"),
+        array("'countdown'",   "",            100, "",
+            "type"=>"replacement",
+            'value'=>'<div id="timer_div_#{0}"/>
+                <script type="text/javascript">
+                timers[timerCount++]={ "div_name":"timer_div_#{0}"
+                    ,"left_time":#{1}
+                    ,"end_message":\'Contest has finished.\'
+                };
+                </script>'),
+        array("'scoreboard'","",
+            "type"=>'replacement',
+            "value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>')
+);
+
+$conditionNE = "WHERE co.is_published = 1 
+        AND TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time)) >= 0
+        AND TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time)) <= TIME_TO_SEC(total_time) ".
+        "ORDER BY 1 ASC"; 
+
+include_once 'table2.php';
+$runningContestsTable = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);
+$runningContestsTable->setTitle("Running Contests");
+$runningContestsTable->setTableAtr("width='400'");
+$tableNextEvent = $runningContestsTable->getTable();
+
+//PAST CONTESTS TABLE
+
+$columnsNE = array(
+        array("co.id_concurso",  "contest",     -1, ""),
+        array("TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time))",  "total_time",     -1, ""),
+        // array("now()",   "",            -2, "",""),
+        array("nombre",  "Siguente",     70, "",
+            "type"=>"linked 0 concurso"),
+        // array("date(fecha)",   "Evento",            90, "","date"),
+        // array("time(fecha)",   "",            30, "","time"),
+        array("'countdown'",   "",            100, "",
+            "type"=>"replacement",
+            'value'=>'<div id="timer_div_#{0}"/>
+                <script type="text/javascript">
+                timers[timerCount++]={ "div_name":"timer_div_#{0}"
+                    ,"left_time":#{1}
+                    ,"end_message":\'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>\'
+                };
+                </script>'),
+        array("'practice'","practice","type"=>"replacement",
+            "value"=>"<a href='./contest_arena.php?id=#{0}'>practice</a>"),
+        array("DATE(fecha)","")
+
+);
+
+$conditionNE = "WHERE co.is_published = 1 
+        AND TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time)) < 0 ".
+        "ORDER BY 1 DESC"; 
+
+include_once 'table2.php';
+$pastContestsTable = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);
+$pastContestsTable->setTitle("Past Contests");
+$pastContestsTable->setTableAtr("width='400'");
+$tableNextEvent = $pastContestsTable->getTable();
+
 
 //PAST CONTESTS
 $tablesPC="concurso co";
@@ -157,7 +241,7 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
 
             <!-- FB Badge START -->
             <br/>
-            <a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="HuaH Facebook" target="_blank" style="font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; font-variant: normal; font-style: normal; font-weight: normal; color: #3B5998; text-decoration: none;">We are on FB!</a><br/><a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="Huah Facebook" target="_blank"><img src="http://badge.facebook.com/badge/100001127811497.393.2141042559.png" width="120" height="77" style="border: 0px;" /></a><br/>
+            <!-- <a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="HuaH Facebook" target="_blank" style="font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; font-variant: normal; font-style: normal; font-weight: normal; color: #3B5998; text-decoration: none;">We are on FB!</a><br/><a href="http://www.facebook.com/profile.php?id=100001127811497&v=wall" title="Huah Facebook" target="_blank"><img src="http://badge.facebook.com/badge/100001127811497.393.2141042559.png" width="120" height="77" style="border: 0px;" /></a><br/> -->
             <!-- FB Badge END -->
         </td>
         <td align="center">
@@ -206,7 +290,10 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
             </table>
         </td>
         <td width="230" valign="top">
-            <?php echo $tableNextEvent."<br/>".
+            <?php echo 
+            $upcomingContestsTable->getTable()."<br/>".
+            $runningContestsTable->getTable()."<br/>".
+            $pastContestsTable->getTable()."<br/>".
                     $tableTopFiveSeason2."</br>".
                     $tableTopFive."</br>";
             ?>
