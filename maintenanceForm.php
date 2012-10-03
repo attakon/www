@@ -102,8 +102,14 @@ class RCMaintenanceForm{
             switch($type){
                 case 'checkbox': 
                     $leftLabel ='<label>'.$label.'</label>';
-                    $field = $leftLabel.'<input placeholder="'.$label.'" type='.$type.' name="'.$key.'" ';
+                    $field = "<input type='hidden' name=".$key." value='0' />";
+                    $field .= $leftLabel.'<input placeholder="'.$label.'" type='.$type.' name="'.$key.'" value="1"';
                     $restOfValues=" ";
+                    if($isUpd){
+                        if($updData[$key]=='1'){
+                            $field.=' checked ';
+                        }
+                    }
                     foreach ($val as $k => $jValue){
                         if($k=='div-atr')continue;
                         $restOfValues.=$k."='".$jValue."' ";

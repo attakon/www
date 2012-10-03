@@ -5,11 +5,11 @@ include_once 'container.php';
 
 // print_r($_POST);
 if(isset($_POST) && isset($_POST['__table'])){
-	$REQ = $_POST;
+	// $REQ = $_POST;
 	if(isset($_POST['__operation']) && $_POST['__operation']=='UPD'){
-		$updateStatement = 'UPDATE '.$_POST['__table'].' SET '.
-		' ';
-		foreach($REQ  as $key => $val){
+		$updateStatement = 'UPDATE '.$_POST['__table'].' SET '.' ';
+		// print_r($_POST);
+		foreach($_POST  as $key => $val){
 		    if($key == '__table'){
 		        break;
 		    }
@@ -20,9 +20,9 @@ if(isset($_POST) && isset($_POST['__table'])){
 		// print_r($updateStatement);
 		runQuery($updateStatement);
 	}else{
-		$insertSt = 'INSERT INTO '.$REQ['__table']." (";
+		$insertSt = 'INSERT INTO '.$_POST['__table']." (";
 		$values = '';
-		foreach($REQ  as $key => $val){
+		foreach($_POST  as $key => $val){
 		    if($key == '__table'){
 		        break;
 		    }
@@ -36,12 +36,12 @@ if(isset($_POST) && isset($_POST['__table'])){
 	}
 	
 	$successMessage='';
-	if(isset($REQ['__redirectpage'])){
+	if(isset($_POST['__redirectpage'])){
 		session_start();
-		$successMessage = $REQ['__success_message'];
+		$successMessage = $_POST['__success_message'];
 		$_SESSION['message']=$successMessage;
 		$_SESSION['message_type']='ok';
-		$redirectPage = $REQ['__redirectpage'];
+		$redirectPage = $_POST['__redirectpage'];
 		header('Location: '.$redirectPage);
 	}else{
 		showPage($successMessage , false, parrafoOK($successMessage ), null);	

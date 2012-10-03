@@ -37,7 +37,7 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
         }else{
             include_once 'container.php';
             include_once 'CustomTags.php';
-            showPage("X.X", false, parrafoError('You have already download'), "");
+            showPage("X.X", false, parrafoError('You have already downloaded'), "");
             die;
         }
         
@@ -93,7 +93,7 @@ function processDownload($contestId, $problemId, $campaignId){
 
         header("Content-type: text/in");
         header("Content-Disposition: attachment; filename=".$problemName."_in.txt");
-        header("Content-Description: PHP Generated Data");
+        header("Content-Description: Input File");
         echo $inputContent;
 }
 ?>

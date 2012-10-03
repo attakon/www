@@ -20,7 +20,7 @@ $columns = array(
 $lastSeasonCondition = "WHERE c.id_usuario = us.id_usuario ".
         " AND c.id_temporada = $GLOBAL_CURRENT_SEASON ".
         " AND c.$rankField >=1 ".
-        "ORDER BY 2 ASC,1 ASC LIMIT 5";
+        "ORDER BY 2 ASC,1 ASC LIMIT 10";
 $tables = "competidor c, usuario us";
 include_once 'table2.php';
 $table = new RCTable(conecDb(),$tables,$columns,$lastSeasonCondition);
@@ -61,7 +61,7 @@ $columnsNE = array(
         array("co.id_concurso",  "contest",     -1, ""),
         array("TIMESTAMPDIFF(SECOND,now(),fecha)",   "",            -1, "",""),
         // array("now()",   "",            -2, "",""),
-        array("nombre_corto",  "Siguente",     70, "",
+        array("nombre",  "Siguente",     70, "",
             "type"=>"linked 0 concurso"),
         // array("date(fecha)",   "Evento",            90, "","date"),
         // array("time(fecha)",   "",            30, "","time"),
@@ -74,7 +74,7 @@ $columnsNE = array(
         
 );
 $conditionNE = "WHERE co.is_published = 1 ".
-        "ORDER BY 1 ASC LIMIT 5";
+        "ORDER BY 1 ASC";
 
 include_once 'table2.php';
 $tableNEvent = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);

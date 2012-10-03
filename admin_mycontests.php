@@ -40,35 +40,31 @@ $fields = array(
                 'labelField'=>'nombre',
                 'condition'=>"WHERE creator_id ='".$_SESSION['userId']."'")),
     'nombre'=> 
-        array('label'=>'Name',
+        array('label'=>'Contest Name',
             'type'=>'text'
             ),
-    'nombre_corto'=>
-        array('label'=>'Short Name',
-            'type'=>'text'),
     'fecha'=>
         array('label'=>'run date',
             'type'=>'datetime',
             'format'=>'yyyy-MM-dd hh:mm:ss',
             'value'=>'2012-12-12 12:12:12'
             ),
-    'descripcion'=>array("type"=>'text'),
+    'descripcion'=>array("type"=>'text',
+        'label'=>'Description',),
     'total_time'=>
         array('type'=>'time',
-            'label'=>'total_time',
+            'label'=>'Contest Duration:',
             'format'=>'hh:mm:ss'),
-    'left_time'=>array('type'=>'time',
-            'label'=>'left_time',
-            'format'=>'hh:mm:ss'),
+    // 'left_time'=>array('type'=>'time',
+    //         'label'=>'left_time',
+    //         'format'=>'hh:mm:ss'),
     'is_invitational'=>array(
-            'type'=>'text',
-            'label'=>'is_invitational',
-            'value'=>'0'
+            'type'=>'checkbox',
+            'label'=>'is_invitational'
             ),
     'is_published'=>array(
-            'type'=>'text',
-            'label'=>'is_published',
-            'value'=>'0'
+            'type'=>'checkbox',
+            'label'=>'is_published'
             ),
     'creator_id'=>array(
         'type'=>'hidden',
