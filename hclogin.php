@@ -28,9 +28,11 @@ if(mysql_num_rows($rs)==1){
     DAOUserEvents_logEvent($userData['id_usuario'],'log_in','');
     //End Adding Raul July 28, 2012
 
-    header ('Location: '.$_SESSION['lastvisitedurl']);
+    include_once 'container.php';
+    redirectToLastVisitedPage();
 }else{
     $_SESSION['wpass'] ='1';
-    header ('Location: '.$_SESSION['lastvisitedurl']);
+    include_once 'container.php';
+    redirectToLastVisitedPage();
 }
 ?>

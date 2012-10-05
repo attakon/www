@@ -5,6 +5,24 @@ include_once 'utils/DBUtils.php';
 /*
   Second Group: problem creation; table co_problem, co_problem_testcase
 */
+function DAOProblem_getProblemStatements($problemId){
+    $query = "SELECT statement, languages.language_id, languages.name FROM co_problem_statement join languages using(language_id)
+      WHERE problem_id='".$problemId."'";
+    return getRowsInArray($query);
+}
+
+function DAOProblem_getProblemStatementForLanguage($problemId, $languageId){
+    $query = "SELECT statement FROM co_problem_statement WHERE problem_id='".$problemId."' 
+    AND language_id = '".$languageId."'";
+    return getRow($query);
+}
+
+function DAOProblem_insertProblemStatement($problemId, $languageId, $statement){
+    $query = "INSERT INTO co_problem_statement (problem_id, language_id, statement) 
+      VALUES ('".$problemId."','".$languageId."','".$statement."')";
+    runQuery($query);
+}
+
 function DAOProblem_registerProblem($problemName, $problemDifficulty, $creatorId){
     $insert = "INSERT INTO co_problem (name, difficulty, creator_id)
     VALUES ('".$problemName."','".$problemDifficulty."','".$creatorId."')";

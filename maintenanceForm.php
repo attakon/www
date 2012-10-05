@@ -66,11 +66,21 @@ class RCMaintenanceForm{
             }else{
                 $action = $_SERVER['REQUEST_URI'];
             }
-
         }
+
         $res = '<div '.$this->divAtributes.' >';
         $res .= '<form action="'.$action.'" METHOD="POST" '.$this->formAtributes.'>';
+        $res .= $this->getInputControls();
+        $res.='<div id="button-div" style="text-align:center"><input type="submit" value="'.$this->buttonName.'" />
+                </div>';
+        $res .='</form>
+            </div>';
+        return $res;
+    }
+    
 
+    function getInputControls(){
+        $res='';
         $isUpd=false;
         if($this->updIdField && $this->updIdValue){
             
@@ -126,7 +136,10 @@ class RCMaintenanceForm{
                     $idfield = $val['list']['idField'];
                     $labelField = $val['list']['labelField'];
                     
-                    $condition = $val['list']['condition'];
+                    $condition='';
+                    if(isset($val['list']['condition'])){
+                        $condition = $val['list']['condition'];    
+                    }
                     $query = 'SELECT '.$idfield.','.$labelField.' FROM '.$table.' '.$condition;
                     
                     $options = getRowsInArray($query);
@@ -218,9 +231,9 @@ class RCMaintenanceForm{
         }
         $res.='<input type="hidden" name="__success_message" value="'.$this->successMessage.'"/>';
         $res.='<input type="hidden" name="__method_to_invoke" value="'.$this->action.'"/>';
-        $res.='<div id="button-div" style="text-align:center"><input type="submit" value="'.$buttonName.'" /></div><form/>';
-        $res.= "</div>";
+        
         return $res;
     }
+
 }
 ?>

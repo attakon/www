@@ -116,12 +116,13 @@ else if(isset($_GET['id'])){
 	$contestName = $contestData['nombre'];
 	//Contest's Problem List 
 
-	$tablesPC="co_problem problem, co_contest_problems contest_problems";
+	$tablesPC="co_problem problem, co_contest_problems left join languages on(co_contest_problems.problem_language_id=languages.language_id)";
     $columnsPC = array(
     array("problem.problem_id",  "",     -1, ""),
     array("problem.creator_id",  "",     -1, ""),
     array("problem.name",  "Problems for ".$contestName,     160, "",""),
-    array("contest_problems.points",  "points",     -2, "",""),
+    array("languages.name",  "Statement language",     -2, "",""),
+    array("co_contest_problems.points",  "points",     -2, "",""),
     array("'view'",  "View I/O", 80, "", 
         "type"=>"replacement", 
         'value' => "<a href='./admin_myproblems_io.php?pid=#{0}'>View I/O</a>"),
@@ -129,8 +130,8 @@ else if(isset($_GET['id'])){
         "type"=>"replacement", 
         'value' => "<a href='./admin_mycontestproblems.php?id=".$contestId."&delproblemid=#{0}'>Remove</a>")
     );
-    $conditionPC = "WHERE problem.problem_id = contest_problems.problem_id ".
-    " AND contest_problems.contest_id='".$contestId."'".
+    $conditionPC = "WHERE problem.problem_id = co_contest_problems.problem_id ".
+    " AND co_contest_problems.contest_id='".$contestId."'".
     " ORDER BY 1 DESC";
 
     include_once 'table2.php';
@@ -150,13 +151,7 @@ else if(isset($_GET['id'])){
         'value' => "<a href='./admin_myproblems_io.php?pid=#{0}'>View I/O</a>"),
     array("'view'",  "Add Problem", -2, "", 
         "type"=>"replacement", 
-        'value' => "<form method='GET' action='./admin_mycontestproblems.php?'>
-                        <input type='number' name='pts' style='width:30px;'  />
-                        points
-                        <input type='hidden' name='id' value='".$contestId."'/>
-                        <input type='hidden' name='addproblemid' value='#{0}'/>
-                        <input type='submit' value='Add Problem to ".$contestName."'/>
-                    </form> "),
+        'value' => "<a href='./admin_mycontestproblems_add.php?cid=".$contestId."&pid=#{0}'>Add Problem..</a>"),
     // array("'add'",  "Add", -2, "", 
     //     "type"=>"replacement", 
     //     'value' => "<a href='./admin_mycontestproblems.php?id=".$contestId."&addproblemid=#{0}'>Add Problem to ".$contestName."</a>")
@@ -179,7 +174,7 @@ else if(isset($_GET['id'])){
         array("us.id_usuario",  "username",     -1, ""),
         array("us.username",  "username",     -1, ""),
         // array("c.id_ranking",   "",             0,  "","img images/ranking gif"),
-        array("us.username",    "Inscrito",  150,   "",
+        array("us.username",    "Registered Users",  150,   "",
             "type"=>"replacement",
             'value'=>'<a class="userLink" href="./user.php?u=#{1}" >#{2}</a>'),
         // array("count(us.id_usuario)",   "campaign_detalle", 2,  ""),

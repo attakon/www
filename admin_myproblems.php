@@ -92,13 +92,17 @@ function init(){
     $columnsPC = array(
     array("problem.problem_id",  "",     -1, ""),
     array("problem.creator_id",  "",     -1, ""),
-    array("problem.name",  "Problem Name",     160, "",""),
+    array("problem.name",  "Problem Name",     -1, "",""),
+    array("'view'",  "Problems", 80, "", 
+        "type"=>"replacement", 
+        'value' => "<a href='/admin_myproblem.php?pid=#{0}'>#{2}</a>"),
     array("'delete'",  "Delete", 80, "", 
         "type"=>"replacement", 
-        'value' => "<a href='/admin_myproblems.php?remprobleid=#{0}'>Delete</a>"),
-    array("'view'",  "View I/O", 80, "", 
-        "type"=>"replacement", 
-        'value' => "<a href='/admin_myproblems_io.php?pid=#{0}'>View I/O</a>")
+        'value' => "<a href='/admin_myproblems.php?remprobleid=#{0}'>Delete</a>")
+    // array("'add statement'",  "Add Statement", -2, "", 
+    //     "type"=>"replacement", 
+    //     'value' => "<a href='/admin_myproblem_addstatement.php?pid=#{0}'>Add Statement</a>")
+
     );
     $conditionPC = "WHERE problem.creator_id = '".$_SESSION['userId']."'
      ORDER BY 1 DESC";
@@ -107,7 +111,7 @@ function init(){
     $problemList = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
 
     $content = $problemInsertForm->getForm().'<br/>'.$problemList->getTable();
-
+    // $content = getEditorHTML();
     include_once 'container.php';
     showPage('My Problems', false, $content, null,'370');
 }
@@ -324,4 +328,5 @@ function getIOTabularView($inputList, $outputList){
     ob_end_clean();
     return $result;
 }
+
 ?>

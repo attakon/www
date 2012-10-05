@@ -140,15 +140,8 @@ $columnsNE = array(
             "type"=>"linked 0 concurso"),
         // array("date(fecha)",   "Evento",            90, "","date"),
         // array("time(fecha)",   "",            30, "","time"),
-        array("'countdown'",   "",            100, "",
-            "type"=>"replacement",
-            'value'=>'<div id="timer_div_#{0}"/>
-                <script type="text/javascript">
-                timers[timerCount++]={ "div_name":"timer_div_#{0}"
-                    ,"left_time":#{1}
-                    ,"end_message":\'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>\'
-                };
-                </script>'),
+        array("'space'","","type"=>"replacement","value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>'),
+        array("'space'","","type"=>"replacement","value"=>"|"),
         array("'practice'","practice","type"=>"replacement",
             "value"=>"<a href='./contest_arena.php?id=#{0}'>practice</a>"),
         array("DATE(fecha)","")
