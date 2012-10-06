@@ -37,9 +37,9 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
                 }
                 ?>
                 <div id="<?php echo $divid;?>" >
-                    <h3>
-                        <?php echo $_SESSION['message']; ?>
-                    </h3>
+                        <div id="<?php echo $divid."-inner" ?>">
+                            <?php echo $_SESSION['message']; ?>
+                        </div>
                 </div>
                 <br/>
                 <?php

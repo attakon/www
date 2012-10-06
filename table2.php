@@ -66,20 +66,17 @@ class RCTable{
         $cl = 'class= "tr_Par"';
         $cl2 = 'class= "tr_Impar"';
 
-        $classLeftCorner ='class = "tr_LeftCorner"';
         $clRC ='class = "tr_RightCorner"';
         $clHeaderTN = 'class = "tr_headerTN"';
-        $clHeaderTS = 'class = "tr_headerTS"';
-
-        $clLeft ='class ="tr_Left"';
-        $clRight ='class ="tr_Right"';
+        
         $clTN='class = "tr_TeamName"';
 
         $table = "
             <table class='rCTable' $this->tableAtr align =\"center\" title ='$this->tableTitle' border=\"0\" style=\"border-collapse: collapse\" $cl>";
-        $header = '
-                <tr>
-                    <td '.$classLeftCorner.'></td>';
+        // $header = '
+        //         <tr>
+        //             <td '.$classLeftCorner.'></td>';
+        $header = "<tr $clHeaderTN>";
         $nroColumnsToShow=0;
         $totalWidth=0;
         foreach ($this->arrayColumns as $key=>$keys) {
@@ -109,15 +106,22 @@ class RCTable{
             //     $totalWidth+=$this->arrayColumns[$key][2];
             // }
         }
-        $header.="
-                    <td class = 'right'></td>
-                </tr>";
+        // $header.="
+        //             <td class = 'right'></td>
+        //         </tr>";
+        $header.="</tr>";
+        // $title= "
+        //         <tr>
+        //             <td $classLeftCorner ></td>
+        //             <td $clHeaderTN colspan='$nroColumnsToShow'>$this->tableTitle </td>
+        //             <td class = \"right\"></td>
+        //         </tr>";
+
         $title= "
                 <tr>
-                    <td $classLeftCorner ></td>
                     <td $clHeaderTN colspan='$nroColumnsToShow'>$this->tableTitle </td>
-                    <td class = \"right\"></td>
                 </tr>";
+
         if($this->tableTitle!=null){
             $table.=$title;
         }else{
@@ -126,8 +130,8 @@ class RCTable{
         $col=1;
         while($data = mysql_fetch_row($rsTop)){
             $table .="
-                <tr ".(($col%2==0)?$cl:$cl2).">
-                    <td $clLeft></td>";
+                <tr ".(($col%2==0)?$cl:$cl2).">";
+                    // <td $clLeft></td>";
 
             foreach ($data as $i=>$keys) {
                 $atr = $this->arrayColumns[$i][3];
@@ -196,15 +200,13 @@ class RCTable{
                     }
                 }
             }
-            $table.="
-                    <td $clRight></td>
-                </tr>";
+            $table.="</tr>";
             $col++;
         }
         $table.="
                 <tr style='border-bottom-width: 1px'></tr>
                 <tr>
-                    <td $clHeaderTN  align=\"right\" colspan=\"".($nroColumnsToShow+2)."\"> $this->footer
+                    <td class='tr_footerTN'  align=\"right\" colspan=\"".($nroColumnsToShow+2)."\"> ".$this->footer."
                     </td>
                 </tr>
             </table>";

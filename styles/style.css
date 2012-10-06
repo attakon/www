@@ -23,7 +23,7 @@ table,td,tr,tc {
     border-left-width: 0px;
     border-right-width: 0px;
     border-top-width: 0px;
-    font-size:12px;
+    /*font-size:12px;*/
     border-top-color: #cccccc;
     border-bottom-color: #cccccc;
     border-left-color: #cccccc;
@@ -137,10 +137,19 @@ a:hover{
 /*user message*/
 
 #ok-user-message-div{
-    height: 20px;
-    background: #A9F5BC;
-    color:#09F;
+    height: 26px;
+    background: #4D7730;
+    color:white;
+    background-image: -webkit-linear-gradient(top,#74A446 0,#4D7730 45px);
+    background-image: linear-gradient(to bottom,#74A446 0,#4D7730 45px);
+    font: 12px arial,sans-serif;
 }
+
+#ok-user-message-div-inner{
+    padding: 6px;
+    font: 12px arial,sans-serif;
+}
+
 
 #error-user-message-div{
     vertical-align: middle;

@@ -16,6 +16,18 @@ if(isset($_POST)){
 function init(){
 
     
+    if(isset($_GET['pid']) && isset($_GET['dellid'])){
+        $problemId = $_GET['pid'];        
+        $delLanguageId = $_GET['dellid'];
+        // $problemData = $DAOProblem_getProblemData($problemId);
+        include_once 'data_objects/DAOProblem.php';
+        DAOProblem_deleteProblemStatementForLanguage($problemId, $delLanguageId);
+        $_SESSION['message']='Statement deleted';
+        
+        include_once 'container.php';
+        redirectToLastVisitedPage();
+    }
+
     if(isset($_GET['pid'])){
 
     	$problemId = $_GET['pid'];

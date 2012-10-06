@@ -16,12 +16,32 @@ table.rCTable{
     border-left-style: outset;
     border-right-style: outset;
 }
+
 td.tr_headerTN{
-    background-image: url(../images/bar2_middle.png);
+    /*background-image: url(../images/bar2_middle.png);*/
+    background-image: -webkit-linear-gradient(top,#2C3638 0,#E9E9E9 45px);
+    background-image: linear-gradient(to bottom,#2C3638 0,#E9E9E9 45px);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    /*border-bottom-left-radius: 3px;*/
+    /*border-bottom-right-radius: 3px;*/
     font-size: 10px;
     font-weight: normal;
-    color: #cccc00;
+    color: #DACF54;
+    /*color: white;*/
 }
+td.tr_footerTN{
+    /*background-image: url(../images/bar2_middle.png);*/
+    background-image: -webkit-linear-gradient(top,#2C3638 0,#E9E9E9 45px);
+    background-image: linear-gradient(to bottom,#2C3638 0,#E9E9E9 45px);
+    /*border-bottom-left-radius: 3px;*/
+    /*border-bottom-right-radius: 3px;*/
+    font-size: 10px;
+    font-weight: normal;
+    color: #DACF54;
+    /*color: white;*/
+}
+
 tr.tr_Par{
     border-left-width: 1px;
     border-right-width: 1px;

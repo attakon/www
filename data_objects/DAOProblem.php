@@ -5,6 +5,12 @@ include_once 'utils/DBUtils.php';
 /*
   Second Group: problem creation; table co_problem, co_problem_testcase
 */
+function DAOProblem_deleteProblemStatementForLanguage($problemId, $languageId){
+    $query = "DELETE FROM co_problem_statement WHERE problem_id='".$problemId."' 
+    AND language_id = '".$languageId."'";
+    runQuery($query);
+}
+
 function DAOProblem_getProblemStatements($problemId){
     $query = "SELECT statement, languages.language_id, languages.name FROM co_problem_statement join languages using(language_id)
       WHERE problem_id='".$problemId."'";
