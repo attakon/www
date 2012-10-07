@@ -100,7 +100,8 @@ function getEditorHTML($problemName, $extraInputControls, $problemId){
                // General options
                 mode : "textareas",
                 theme : "advanced",
-                plugins : "lists,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,inlinepopups,preview,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+                plugins : "lists,spellchecker,pagebreak,style,layer,table,save,preview,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+                // plugins : "paste,style",
 
                 // Theme options
                 theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
@@ -122,8 +123,8 @@ function getEditorHTML($problemName, $extraInputControls, $problemId){
                 // Drop lists for link/image/media/template dialogs
                 template_external_list_url : "js/template_list.js",
                 external_link_list_url : "js/link_list.js",
-                external_image_list_url : "js/image_list.js",
-                media_external_list_url : "js/media_list.js",
+                // external_image_list_url : "js/image_list.js",
+                // media_external_list_url : "js/media_list.js",
 
                 // Replace values for the template plugin
                 // template_replace_values : {
