@@ -113,6 +113,36 @@ function DAOUser_getUserCampaignHistory($userId){
     return getRowsInArray($q);
 //    return getRowsInArray($q);
 }
+
+function DAOUser_getUserCampaignHistory2($userId){
+    $p = "(
+        SELECT 
+          p.problem_id, 
+          p.name, 
+          con.nombre as 'contest_name', 
+          con.id_concurso as 'contest_id', 4 as 'status', 
+          cd.id_campaign as 'cpg_id', 
+          con.fecha
+        FROM campaigndetalle cd join co_problem p on(cd.id_problema = p.problem_id) 
+          join campaign camp on(cd.id_campaign=camp.id_campaign)
+          join co_contest_problems cp using(problem_id)
+          join concurso con on (con.id_concurso = cp.contest_id and con.id_concurso=camp.id_concurso) 
+        WHERE camp.id_usuario = '".$userId."'
+            AND cd.solved = 1)";
+            
+        
+    $q = "(SELECT p.problem_id, p.name, 
+        con.nombre as 'contest_name', con.id_concurso as 'contest_id', pc.status, '-1' as 'cpg_id', con.fecha
+        FROM practice_campaigns pc join co_problem p on(pc.id_problema = p.problem_id) 
+        join co_contest_problems cp using(problem_id)
+        join concurso con on (con.id_concurso = cp.contest_id)
+        WHERE pc.id_usuario = '".$userId."' and pc.status<>1)"; 
+    $query = $p ." UNION ".$q;
+//            ORDER BY concurso.fecha";
+    return getRowsInArray($query);
+//    return getRowsInArray($q);
+}
+
 function DAOUser_getUserPracticeCampaignHistory($userId){
     $q = "SELECT p.id_problema, p.nombre, con.nombre_corto as 'contest_name', pc.status
         FROM practice_campaigns pc join problema p using(id_problema)

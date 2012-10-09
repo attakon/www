@@ -6,9 +6,10 @@
     $outputList=$io['outputList'];
 
     $problemName=$_SESSION['problemName'];
+    $exampleCasesCount=$_SESSION['exampleCasesCount'];
 
     include_once('data_objects/DAOProblem.php');
-    DAOProblem_registerProblem($problemName,'1', $_SESSION['userId']);
+    DAOProblem_registerProblem($problemName,'1', $_SESSION['userId'],$exampleCasesCount);
     $problemId = DAOProblem_getProblemByName($problemName);
 
     for ($i =0;$i<sizeof($inputList);$i++) {

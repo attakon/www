@@ -29,9 +29,9 @@ function DAOProblem_insertProblemStatement($problemId, $languageId, $statement){
     runQuery($query);
 }
 
-function DAOProblem_registerProblem($problemName, $problemDifficulty, $creatorId){
-    $insert = "INSERT INTO co_problem (name, difficulty, creator_id)
-    VALUES ('".$problemName."','".$problemDifficulty."','".$creatorId."')";
+function DAOProblem_registerProblem($problemName, $problemDifficulty, $creatorId, $exampleCases){
+    $insert = "INSERT INTO co_problem (name, difficulty, creator_id, example_cases)
+    VALUES ('".$problemName."','".$problemDifficulty."','".$creatorId."', ".$exampleCases.")";
     runQuery($insert);
 }
 function DAOProblem_registerTestCase($problemId, $input, $output){

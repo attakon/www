@@ -142,7 +142,9 @@ function getCompetitionProfile($idUser){
     return $returnedValue;
 }
 function getUserContestsHistory($userId){
-    $arr = DAOUser_getUserCampaignHistory($userId);
+    include_once 'data_objects/DAOUser.php';
+    $arr = DAOUser_getUserCampaignHistory2($userId);
+    print_r($arr);
     $map = array();
     $contestData = array();
     foreach($arr as $key => $val){
@@ -154,13 +156,13 @@ function getUserContestsHistory($userId){
     $n = sizeof($map);
     foreach($map as $key => $problems){
         $returnedValue.="<tr>
-            <td><a href='concurso_results.php?i=".$contestData[$key]."&tab=2'>".$key."
+            <td><a href='./contest_arena_scoreboard.php?id=".$contestData[$key]."'>".$key."
                 </a>
             </td>";
         foreach($problems as $key => $val){
             $cssClass = '';
             
-            $problemName = $val['abrev'].'_'.$val['nombre'];
+            $problemName = $val['name'];
             
             switch($val['status']){
                 case 1:
@@ -178,7 +180,7 @@ function getUserContestsHistory($userId){
             }
             if($val['status']=='4'){
                 $defaultOutput = '<td class="'.$cssClass.'">
-                        <a class="det" href="./viewcode.php?cpg='.$val['cpg_id'].'&p='.$val['id_problema'].'">
+                        <a class="det" href="./viewcode.php?cpg='.$val['cpg_id'].'&p='.$val['problem_id'].'">
                          '.$problemName.'</a>
                          </td>';
             }else{

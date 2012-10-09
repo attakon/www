@@ -75,6 +75,8 @@ function init(){
         array("ptc.case_input",  "Input",     -2, "","",
             'td_atr'=>'style ="border-width:2px; border-style:ridge; font-family:courier;"'),
         array("ptc.case_output",  "Output",     -2, "","",
+            'td_atr'=>'style ="border-width:2px; border-style:ridge; font-family:courier;"'),
+        array("ptc.explanation",  "Explanation",     -2, "","",
             'td_atr'=>'style ="border-width:2px; border-style:ridge; font-family:courier;"')
         );
 

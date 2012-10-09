@@ -135,6 +135,7 @@ function previewProblem($_PAR){
 
     // $table = getIOTabularView($inputTempName,$outputTempName,$linesPerInputCase, $linesPerOutputCase,$isFirstLineCounter);
     $problemName = $_PAR['name'];
+    $exampleCasesCount = $_PAR['example_cases'];
     $inputList;
     switch($_PAR['input-parse-type']){
         case 'STATIC-LINE-separated-input':
@@ -162,7 +163,8 @@ function previewProblem($_PAR){
     // $io = array ('i'=>$inputList,'o'=> $outputList);
     
     // print_r($outputList);
-    $table = getIOTabularView($inputList,$outputList);
+    // echo $exampleCasesCount;
+    $table = getIOTabularView($inputList,$outputList,$exampleCasesCount);
     // print_r($io);
     
     $result = '<label>Problem Name: </label>'.$problemName.'<br/>';
@@ -177,6 +179,7 @@ function previewProblem($_PAR){
 
         $_SESSION['io']=array('inputList'=>$inputList,'outputList'=>$outputList);
         $_SESSION['problemName']=$problemName;
+        $_SESSION['exampleCasesCount']=$exampleCasesCount;
 
         showPage('Problem Preview', false, $result, null);
     }else{
@@ -311,16 +314,18 @@ function getListSeparetedByMark($tempName, $caseMark, $nroFirstLinesToSkip=0, $i
 //     return $io;
 // }
 
-function getIOTabularView($inputList, $outputList){
+function getIOTabularView($inputList, $outputList, $exampleCasesCount){
     
     ob_start();
     $totalRead=sizeof($inputList);
+    // echo $exampleCasesCount;
+    $exampleCaseStyle='background-color:yellow;';
     for($i=0; $i<$totalRead ; $i++) {
         ?>
             <tr>
-                <td style ="border-width:2px; border-style:ridge; font-family:courier;" >
+                <td style ="border-width:2px; border-style:ridge; font-family:courier; <?php echo $i<$exampleCasesCount?$exampleCaseStyle:''; ?>" >
                     <?php echo str_replace("\n", "</br>", $inputList[$i]) ?></td>
-                <td style ="border-width:2px; border-style:ridge; font-family:courier;">
+                <td style ="border-width:2px; border-style:ridge; font-family:courier; <?php echo $i<$exampleCasesCount?$exampleCaseStyle:''; ?>">
                     <?php echo str_replace("\n", "</br>", $outputList[$i]) ?></td>
             </tr>
         <?php
