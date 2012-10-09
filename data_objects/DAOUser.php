@@ -45,11 +45,13 @@ function DAOUser_registerUser($firstName, $lastName, $school, $email, $userName,
 
 function DAOUser_getUserByName($userName){ 
    $query = "SELECT id_usuario, username  FROM usuario WHERE lower(username) = lower('".$userName."')";
+  // $query = "SELECT id_usuario, username  FROM usuario WHERE username = '".$userName."'";
+  // echo $query;
    $n = getWholeRow($query);
    return $n;
 }
 
-function DAOUser_isUserRegisteredInContest($userId, $concursoId){ 
+function DAOUser_isUserRegisteredInContest($userId, $concursoId){  
    $query = "SELECT COUNT(*) FROM campaign cpg WHERE cpg.id_concurso = '".$concursoId."' AND cpg.id_usuario = '".$userId."'";
    $n = getRow($query);
    return $n>0;

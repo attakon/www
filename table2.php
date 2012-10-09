@@ -52,10 +52,13 @@ class RCTable{
         // error_reporting(E_ALL ^ E_NOTICE);  // DON'T SHOW NOTICES
 
         $query = "SELECT ";
+        // print_r($this->arrayColumns);
+        // print_r($this->condition);
         foreach ($this->arrayColumns as $col => $keys) {
             $query .= $this->arrayColumns[$col][0].", ";
         }
         $query = substr($query, 0, strlen($query)-2);
+
         $query.=" FROM ".$this->tableName." ".$this->condition;
 
 
@@ -81,7 +84,7 @@ class RCTable{
         $totalWidth=0;
         foreach ($this->arrayColumns as $key=>$keys) {
             switch ($this->arrayColumns[$key][2]) {
-                case -2:
+                case -2://valid auto adjustable
                      $header .= "
                     <td $clHeaderTN >".$this->arrayColumns[$key][1]."</td>";
                     $nroColumnsToShow++;

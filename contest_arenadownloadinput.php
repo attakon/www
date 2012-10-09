@@ -45,6 +45,7 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
     }else if ($contestPhase=='FINISHED'){//practice mode
         include_once 'container.php';
         // redirectToLastVisitedPage();
+        include_once 'CustomTags.php';
         showPage("X.X", false, parrafoError('go to practice mode'), "");
     }else if ($contestPhase=='NOT_STARTED'){//invalid
         include_once 'container.php';
@@ -74,8 +75,10 @@ function processDownload($contestId, $problemId, $campaignId){
 
             include_once 'data_objects/DAOProblem.php';
             $problemIO = DAOProblem_getProblemIO($problemId);
-            $inputContent = '';
+            
             $outputContent = '';
+            $inputSize = sizeof($problemIO);
+            $inputContent = $inputSize.chr(13);
             foreach ($problemIO as $key => $value) {
                 $inputContent .= $value['case_input'];
                 $outputContent .= $value['case_output'];

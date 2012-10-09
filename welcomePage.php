@@ -71,7 +71,7 @@ $columnsNE = array(
                 <script type="text/javascript">
                 timers[timerCount++]={ "div_name":"timer_div_#{0}"
                     ,"left_time":#{1}
-                    ,"end_message":\'contest will open\'
+                    ,"end_message":\'contest is now open\'
                 };
                 </script>'),
         array("'scoreboard'","register",

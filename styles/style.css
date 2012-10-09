@@ -13,7 +13,7 @@ body{
 ul{
     font-size:11px;
 }
-table,td,tr,tc {
+table,td,tr {
     font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, 'sans-serif';
     border-top-style: ridge;
     border-bottom-style: ridge;
@@ -23,7 +23,7 @@ table,td,tr,tc {
     border-left-width: 0px;
     border-right-width: 0px;
     border-top-width: 0px;
-    /*font-size:12px;*/
+    font-size:12px;
     border-top-color: #cccccc;
     border-bottom-color: #cccccc;
     border-left-color: #cccccc;

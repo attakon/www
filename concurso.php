@@ -1,7 +1,7 @@
 <?php
     include_once './container.php';
     include_once './concursoForm.php';
-    include_once 'table.php';
+    include_once 'table2.php';
     include_once 'data_objects/DAOConcurso.php';
     // ./concurso.php?idt=8&show=det
     $show = $_GET['show'];
@@ -15,14 +15,17 @@
         $columns = array(
             // array("@rownum:=@rownum+1 'rank'",  "N",     15, ""),
             array("us.id_usuario",  "username",     -1, ""),
-            array("c.id_ranking",   "",             0,  "","img images/ranking gif"),
-            array("us.username",    "Registered Competitors",  150,   "","linked 1 user")
+            // array("us.username",  "username",     -1, ""),
+            // array("c.id_ranking",   "",             0,  "","img images/ranking gif"),
+            array("us.username",    "Registered Users",  150,   "",
+                "type"=>"replacement",
+                'value'=>'<a class="userLink" href="./user.php?u=#{0}" >#{1}</a>'),
             // array("cmp.checked_in",  "Confirmado",  30, "class='checked_in'","img images png")
         );
 
-        $tables = "campaign cmp, concurso con, usuario us , competidor c";
+        $tables = "campaign cmp, concurso con, usuario us , competidor c ";
 
-        $condition = "WHERE us.id_usuario = cmp.id_usuario AND
+        $userTableCondition = "WHERE us.id_usuario = cmp.id_usuario AND
             cmp.id_concurso = con.id_concurso 
             AND c.id_usuario = us.id_usuario
             AND c.id_temporada='".$leagueId."'
@@ -31,7 +34,7 @@
             // AND c.id_usuario = us.id_usuario
 
         //END Changing from temporada to league
-        $table = new RCTable(conecDb(),$tables,10,$columns,$condition);
+        $userTable = new RCTable(conecDb(),$tables,$columns,$userTableCondition);
         
         // print_r($contestData);
         include_once 'data_objects/DAOConcurso.php';
@@ -47,7 +50,7 @@
         //     $body .= parrafoError("Concurso Finalizado ".$linkToResults);
         // }
         
-        $body=$table->getTable();
+        $body=$userTable->getTable();
 
         $details.=$body;
 

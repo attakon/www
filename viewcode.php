@@ -9,6 +9,17 @@ include_once 'CustomTags.php';
 $idCampaign = $_GET['cpg'];
 $problemId = $_GET['p'];
 
+include_once 'data_objects/DAOCampaign.php';
+$campaignData = DAOCampaign_getCampaignData($idCampaign);
+$contestId = $campaignData['id_concurso'];
+include_once 'data_objects/DAOConcurso.php';
+$contestPhase = DAOConcurso_getContestPhase($contestId);
+$contestData = DAOConcurso_getContestData($contestId);
+if($contestData['creator_id']!=$_SESSION['userId'] && $contestPhase!='FINISHED'){
+    include_once 'container.php';
+    include_once 'CustomTags.php';
+    showPage('X.X', false, parrafoError('Code is not available yet'), '');
+}
 
 include_once 'data_objects/DAOProblem.php';
 
@@ -38,26 +49,26 @@ include_once 'conexion.php';
 
 //$idCampaign ="1";
 //$idProblem ="1";
-$queryData = "SELECT us.username, prob.nombre, prob.abrev, con.nombre, cd.successful_source_code FROM
-     usuario us, concurso con, problema prob, campaigndetalle cd, campaign ca
+$queryData = "SELECT us.username, prob.name, con.nombre, cd.successful_source_code FROM
+     usuario us, concurso con, co_problem prob, campaigndetalle cd, campaign ca
      WHERE us.id_usuario = ca.id_usuario AND
         ca.id_concurso = con.id_concurso AND
         ca.id_campaign = cd.id_campaign AND
-        prob.id_problema = cd.id_problema AND
+        prob.problem_id = cd.id_problema AND
         ca.id_campaign = '".$idCampaign."' AND
-        prob.id_problema = '".$problemId."'";
+        prob.problem_id = '".$problemId."'";
 //echo $queryData;
 $rsData = mysql_query($queryData, conecDb()) or die ($queryData);
 $data = mysql_fetch_row($rsData);
 
-$title = $data[3]." > Problema ".$data[2]."(".$data[1].") > c&oacute;digo de ".$data[0];
-$dataLines = explode("\n", $data[4]);
+$title = $data[2]." > Problema ".$data[2]."(".$data[1].") > c&oacute;digo de ".$data[0];
+$dataLines = explode("\n", $data[3]);
 $maxCol=0;
 $maxRow=sizeof($dataLines);
 foreach ($dataLines as $line) {
     $maxCol = max($maxCol,strlen($line));
 }
-$body = formatCode($title, $data[4],$maxRow,$maxCol);
+$body = formatCode($title, $data[3],$maxRow,$maxCol);
 
 showPage($title, false, $body , "");
 

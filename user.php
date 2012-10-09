@@ -9,6 +9,7 @@ if(isset($_GET['u'])){
     $searchedUserId = $_GET['u'];
 }else if(isset($_GET['uname'])){
     $userName = $_GET['uname'];
+    echo $userName;
     $row = DAOUser_getUserByName($userName);
     $searchedUserId = $row['id_usuario'];
 }

@@ -80,7 +80,10 @@ function init(){
             array('label'=>'Ouput Case Mark','type'=>'text', 'value'=>'#CASEMARK',
                 'div-atr'=>'style="display:none"'),
         'output-file'=> 
-            array('label'=>'Output File','type'=>'file')
+            array('label'=>'Output File','type'=>'file'),
+        'example_cases'=> 
+            array('label'=>'Example Cases','type'=>'number')
+
         );
     include_once 'maintenanceForm.php';
     $problemInsertForm = new RCMaintenanceForm('problem',$fields,'previewProblem','Next', 'name',

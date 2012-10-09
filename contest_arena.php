@@ -75,7 +75,7 @@ $problemsData = DAOConcurso_getProblems($contestId);
 include_once 'data_objects/DAOCompetitor.php';
 $userProblemData = DAOCompetitor_getContestProblemsForUser($userId,$contestId);
 $problemsData=$userProblemData;
-print_r($problemsData);
+// print_r($problemsData);
 
 $firstProblemData = $problemsData[0];
 $problemId = $selectedProblemId?$selectedProblemId:$firstProblemData['problem_id'];
@@ -87,8 +87,31 @@ foreach ($problemsData as $key => $value) {
 }
 $body="";
 // print_r($problemsData);
+
+// example cases
+$exampleCases = $selectedProblemData['example_cases'];
+
+        $tablesPC="co_problem_testcase ptc, co_problem pr , (SELECT @rownum:=0) r";
+        $columnsPC = array(
+        array("ptc.testcase_id ",  "",     -1, ""),
+        array("ptc.case_input",  "Input",     -2, "","",
+            'td_atr'=>'style ="border-width:2px; border-style:ridge; font-family:courier;"'),
+        array("ptc.case_output",  "Output",     -2, "","",
+            'td_atr'=>'style ="border-width:2px; border-style:ridge; font-family:courier;"')
+        );
+
+        $conditionPC = "WHERE ptc.problem_id = pr.problem_id ".
+            " AND pr.problem_id = '".$problemId."' ".
+            " ORDER BY 1 ASC LIMIT ".$exampleCases;
+
+        include_once 'table2.php';
+        $manageContestTable = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
+        $manageContestTable->showLineBreaks(true);
+
+
 ob_start();
 ?>
+
     <table cellpadding="0" cellspacing="0" style="border-collapse: collapse"
            align="center" width="100%" height="181" >
         <tr>
@@ -141,7 +164,10 @@ ob_start();
             </td>
         </tr>
         <tr>
-            <td height="300" >&nbsp;</td>
+            <td height="300" style="padding-left: 10px;
+                                padding-right: 10px;
+                                width: 1000px;" >
+            <?php echo $selectedProblemData['statement'].'<br/><h4 style="text-align:center">Example Cases</h4>'.$manageContestTable->getTable(); ?></td>
         </tr>
     </table>
 <?php

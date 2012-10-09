@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once 'utils/ValidateAdmin.php';
+include_once 'utils/ValidateSignedIn.php';
 
 include_once ("conexion.php");
 include_once ("CustomTags.php");
