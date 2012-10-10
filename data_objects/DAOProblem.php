@@ -5,6 +5,12 @@ include_once 'utils/DBUtils.php';
 /*
   Second Group: problem creation; table co_problem, co_problem_testcase
 */
+
+function DAOProblem_updateExplanationForTestCase($testCaseId, $explanation){
+    $query = "UPDATE co_problem_testcase SET explanation = '".$explanation."' WHERE testcase_id='".$testCaseId."'";
+    runQuery($query);
+}
+
 function DAOProblem_deleteProblemStatementForLanguage($problemId, $languageId){
     $query = "DELETE FROM co_problem_statement WHERE problem_id='".$problemId."' 
     AND language_id = '".$languageId."'";
@@ -45,7 +51,7 @@ function DAOProblem_getProblemByName($problemName){
 }
 
 function DAOProblem_getProblemData($problemId){
-    $query = "SELECT problem_id, name FROM co_problem WHERE problem_id='".$problemId."'";
+    $query = "SELECT problem_id, name, example_cases FROM co_problem WHERE problem_id='".$problemId."'";
     return getWholeRow($query);
 }
 

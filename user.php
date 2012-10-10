@@ -144,7 +144,7 @@ function getCompetitionProfile($idUser){
 function getUserContestsHistory($userId){
     include_once 'data_objects/DAOUser.php';
     $arr = DAOUser_getUserCampaignHistory2($userId);
-    print_r($arr);
+    // print_r($arr);
     $map = array();
     $contestData = array();
     foreach($arr as $key => $val){

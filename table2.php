@@ -62,7 +62,7 @@ class RCTable{
         $query.=" FROM ".$this->tableName." ".$this->condition;
 
 
-        // echo $query;        
+        // echo "<![CDATA[".$query."]]>";
         $rsTop = fetchResultSet($this->connexion,$query);
         echo mysql_error($this->connexion); //DEBUG
 
@@ -193,9 +193,12 @@ class RCTable{
                     // $table.= "<td $atr width=\"".$this->arrayColumns[$i][2]."\">$field</td>";
                     $table.= "<td $atr >$field</td>";
                 }else {
-                    if($this->arrayColumns[$i][2]!=-1){                        
-                        $dataF=str_replace("<", "&lt;",$data[$i]);
-                        $dataF=str_replace(">", "&gt;",$dataF);
+                    if($this->arrayColumns[$i][2]!=-1){
+                        $dataF=$data[$i];
+                        if(!isset($this->arrayColumns[$i]['keepLTGT'])){
+                            $dataF=str_replace("<", "&lt;",$dataF);
+                            $dataF=str_replace(">", "&gt;",$dataF);
+                        }
                         if($this->showLineBreaks==true){
                             $dataF=str_replace("\n", "<br/>", $dataF);
                         }

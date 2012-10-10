@@ -27,6 +27,17 @@ function init(){
         include_once 'container.php';
         redirectToLastVisitedPage();
     }
+    if(isset($_GET['testcase_id']) && isset($_GET['exp'])){
+        $testCaseId = $_GET['testcase_id'];        
+        $explanation = $_GET['exp'];
+        // $problemData = $DAOProblem_getProblemData($problemId);
+        include_once 'data_objects/DAOProblem.php';
+        DAOProblem_updateExplanationForTestCase($testCaseId,$explanation);
+        $_SESSION['message']='Explanation for case was successfuly updated';
+        
+        include_once 'container.php';
+        redirectToLastVisitedPage();
+    }
 
     if(isset($_GET['pid'])){
 
@@ -65,19 +76,32 @@ function init(){
             $statementsHTML.='<a href="admin_myproblem.php?pid='.$problemId.'&dellid='.$value['language_id'].'">[x]</a> ';
         }
         $content.=$statementsHTML."<hr/>
-            <br/>".$statement."<hr/>";
+            <br/>".$statement."<hr/>".'Example cases to show: '.$problemData['example_cases'];
 
+        $explanationHTML0 = '<form method="GET" action = "./admin_myproblem.php">
+                                <input type="text" name="exp" value ="#{4}">
+                                <input type="hidden" name="testcase_id" value="#{1}"/>
+                                <input type="submit" value="save"/>
+                            </form>';
         // IO
+        // echo $explanationHTML;
         $tablesPC="co_problem_testcase ptc, co_problem pr , (SELECT @rownum:=0) r";
         $columnsPC = array(
-        array("@rownum:=@rownum+1 'order'",  "N",     15, ""),
-        array("ptc.testcase_id ",  "",     -1, ""),
-        array("ptc.case_input",  "Input",     -2, "","",
-            'td_atr'=>'style ="border-width:2px; border-style:ridge; font-family:courier;"'),
-        array("ptc.case_output",  "Output",     -2, "","",
-            'td_atr'=>'style ="border-width:2px; border-style:ridge; font-family:courier;"'),
-        array("ptc.explanation",  "Explanation",     -2, "","",
-            'td_atr'=>'style ="border-width:2px; border-style:ridge; font-family:courier;"')
+            array("@rownum:=@rownum+1 'order'",  "N",     15, ""),
+            array("ptc.testcase_id ",  "",     -1, ""),
+            array("ptc.case_input",  "Input",     -2, "","",
+                'td_atr'=>'style = "border-width:2px; border-style:ridge; font-family:courier;"'),
+            array("ptc.case_output",  "Output",     -2, "","",
+                'td_atr'=>'style = "border-width:2px; border-style:ridge; font-family:courier;"'),
+            // array("ptc.explanation",  "Explanation",     -2, "","",
+            //     'td_atr'=>'style = "border-width:2px; border-style:ridge; font-family:courier;"'),
+            array("ptc.explanation",  "Explanation",     -2, "","",
+                'td_atr'=>'style = "border-width:2px; border-style:ridge; font-family:courier;"',
+                "type"=>"replacement",
+                "value"=>$explanationHTML0,
+                'keepLTGT'=>'a'),
+            array("if(@rownum<=".$problemData['example_cases'].",'x','') as test2",  "Is Example",     -2, "","",
+                'td_atr'=>'style = "border-width:2px; border-style:ridge; font-family:courier;"')
         );
 
         $conditionPC = "WHERE ptc.problem_id = pr.problem_id ".
