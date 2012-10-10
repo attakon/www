@@ -87,7 +87,7 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
 function redirectToLastVisitedPage(){
     // print_r($_SESSION);
     if(isset($_SESSION['lastvisitedurl'])){
-        header("Location: ".$_SESSION['lastvisitedurl']);    
+        header("Location: ".$_SESSION['lastvisitedurl']);
     }else{
         header("Location: ./index.php");
     }
