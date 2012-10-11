@@ -101,20 +101,40 @@ function DAOProblem_markProblemAsSeenInPractice($problemId,$userId){
     runQuery($query);
 }
 
-function DAOProblem_markAsSolved($problemId, $userId){
-    if(DAOProblem_isSolvedByUserInContest($problemId, $userId))
-            return;
+function DAOProblem_markAsSolved($problemId, $userId, $sourceCode=null){
+    // if(DAOProblem_isSolvedByUserInContest($problemId, $userId))
+    //         return;
     $status = DAOProblem_isAlrearySeenByUserInPractite($problemId, $userId);
     
      if(!$status){
-        $query = "INSERT INTO practice_campaigns (id_problema, id_usuario, status)
-         VALUES ('".$problemId."','".$userId."',3)";
+        $query = "INSERT INTO practice_campaigns 
+          (id_problema, id_usuario, status, solving_date, source_code)
+         VALUES ('".$problemId."','".$userId."',3, CURRENT_TIMESTAMP(),'".$sourceCode."')";
         runQuery($query);
-    }else if($status==1){
-        $query = "UPDATE practice_campaigns 
-            SET status = '2' 
+    }else { //$status =1,2,3
+        $newStatus = 0;
+        if($status==1){
+          $newStatus=2;
+        }else if($status==2){
+          $newStatus = 2;
+        }else if($status==3){
+          $newStatus = 3;
+        }
+        if($sourceCode){
+          $query = "UPDATE practice_campaigns
+            SET status = '".$newStatus."',
+              solving_date = CURRENT_TIMESTAMP(),
+              source_code = '".$sourceCode."'
             WHERE id_problema= '".$problemId."'
-            AND id_usuario = '".$userId."'";
+            AND id_usuario = '".$userId."'";  
+        }else{
+          $query = "UPDATE practice_campaigns
+            SET status = '".$newStatus."',
+              solving_date = CURRENT_TIMESTAMP()
+            WHERE id_problema= '".$problemId."'
+            AND id_usuario = '".$userId."'";  
+        }
+        
         runQuery($query);
     }
 }

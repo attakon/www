@@ -18,7 +18,7 @@ if(isset($_GET['u'])){
 $hasCompetitorProfile = firstRow("SELECT puntos, id_ranking FROM competidor WHERE id_usuario = '$searchedUserId'");
 $bodyContent = getUserProfile($searchedUserId,$hasCompetitorProfile[0],$hasCompetitorProfile[1] );
 if($hasCompetitorProfile){
-    $bodyContent .= "<br>".getCompetitionProfile($searchedUserId).'<br/>';
+    // $bodyContent .= "<br>".getCompetitionProfile($searchedUserId).'<br/>';
     //$bodyContent .= "<br>".getCompetitionProfile($searchedUserId).'<br/>'.getUserContestsHistory($searchedUserId);
 }
 
@@ -78,6 +78,7 @@ function getUserProfile($idUser, $puntos, $id_ranking){
     return $returnedValue;
 }
 
+// deprecated. will be removed soon
 function getCompetitionProfile($idUser){
     $query = "SELECT puntos, penalty_time, position,
                 position_school, default_lang, competitions_count

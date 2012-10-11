@@ -217,7 +217,7 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
            }(document));
         </script>
 
-<br/>
+<!-- <br/> -->
 
 <!-- Twitter widget -->
 <!-- <script src="http://widgets.twimg.com/j/2/widget.js"></script> -->

@@ -48,7 +48,7 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
             }
         ?>
         <!-- <div style="text-align"align="center"> -->
-        <div align="center">
+        <div align="center" style="margin-top: 20px;">
         <!-- <table width="<?php echo $contentWidth?>">
                 <tr>
                     <td colspan="2" class="body" height="300"  <?php echo $bodyOptionalAtr?> > -->

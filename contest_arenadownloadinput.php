@@ -33,32 +33,35 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
         }
         $isSubmissionPending = DAOCampaign_isSubmissionPending($campaignData['id_concurso'], $campaignId, $problemId);
         if(!$isSubmissionPending){
-            processDownload($campaignData['id_concurso'],$problemId, $campaignId);    
+            include_once 'data_objects/DAOCampaign.php';
+            $contestId=$campaignData['id_concurso'];
+            $submissionId = DAOCampaign_startSubmission($contestId, $campaignId, $problemId);
+            processDownload($problemId);    
         }else{
             include_once 'container.php';
             include_once 'CustomTags.php';
-            showPage("X.X", false, parrafoError('You have already downloaded'), "");
+            showPage("X.X", false, parrafoError('You have already downloaded this input file, and we are waiting for your response.'), "");
             die;
         }
         
 
     }else if ($contestPhase=='FINISHED'){//practice mode
-        include_once 'container.php';
-        // redirectToLastVisitedPage();
-        include_once 'CustomTags.php';
-        showPage("X.X", false, parrafoError('go to practice mode'), "");
+        processDownload($problemId);    
+        // include_once 'container.php';
+        // // redirectToLastVisitedPage();
+        // include_once 'CustomTags.php';
+        // showPage("X.X", false, parrafoError('go to practice mode'), "");
     }else if ($contestPhase=='NOT_STARTED'){//invalid
         include_once 'container.php';
         showPage("X.X", false, parrafoError('not allowed to be here'), "");
     }
 }
-function processDownload($contestId, $problemId, $campaignId){
+function processDownload($problemId){
         include_once 'data_objects/DAOProblem.php';
         $problemData = DAOProblem_getProblemData($problemId);
         $problemName = $problemData['name'];
         // print_r($problemData);
-        include_once 'data_objects/DAOCampaign.php';
-        $submissionId = DAOCampaign_startSubmission($contestId, $campaignId, $problemId);
+        
         // echo $submissionId;
 
         // include_once 'data_objects/DAOProblem.php';

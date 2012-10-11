@@ -97,9 +97,10 @@ $exampleCases = $selectedProblemData['example_cases'];
         array("ptc.case_input",  "Input",     -2, "","",
             'td_atr'=>'style ="border-width:2px; border-style:ridge; font-family:courier;"'),
         array("ptc.case_output",  "Output",     -2, "","",
+            'td_atr'=>'style ="border-width:2px; border-style:ridge; font-family:courier;"'),
+        array("ptc.explanation",  "Explanation",     -2, "","",
             'td_atr'=>'style ="border-width:2px; border-style:ridge; font-family:courier;"')
         );
-
         $conditionPC = "WHERE ptc.problem_id = pr.problem_id ".
             " AND pr.problem_id = '".$problemId."' ".
             " ORDER BY 1 ASC LIMIT ".$exampleCases;
@@ -151,15 +152,20 @@ ob_start();
                 </table>
             </td>
             <td <?php echo $isContest?'class = "contest_bordeable"':'class="bordeable"'; ?> height="30">
-                <?php 
-                if($selectedProblemData['solved']=='0'){
-                    include_once 'contest_arena_submission_form_html.php';
+                <?php
+                if($isContest){
+                    if($selectedProblemData['solved']=='0'){
+                        include_once 'contest_arena_submission_form_html.php';
+                    }else{
+                        ?>
+                        <h4 style="color:green; text-align:center; background-color:lightgreen">Solved</h4>
+                        <br/><br/><br/>
+                        <?php
+                    }
                 }else{
-                    ?>
-                    <h4 style="color:green; text-align:center; background-color:lightgreen">Solved</h4>
-                    <br/><br/><br/>
-                    <?php
+                    include_once 'contest_arena_submission_form_html.php';
                 }
+                
                 ?>
             </td>
         </tr>
