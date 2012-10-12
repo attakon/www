@@ -1,11 +1,10 @@
 <?php
 include_once ("data_objects/DAOConcurso.php");
 
-function headerFunction($statusBar, $path){
+function headerFunction($statusBar){
     //print_r($_SESSION);
 
     ob_start();
-    $path;
 
    	$arr=DAOConcurso_getActiveContests();
 	$contestMenuItems='';

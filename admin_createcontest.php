@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once 'utils/ValidateAdmin.php';
+include_once 'utils/ValidateAuthor.php';
 
 //include_once $_SERVER['DOCUMENT_ROOT'].'/huahcoding.com/'.'data_objects/DAOPermissions.php';
 //echo $_SERVER['DOCUMENT_ROOT'].'/huahcoding.com';
@@ -8,7 +8,6 @@ include_once 'utils/ValidateAdmin.php';
 //test 2
 //$userId =1;
 //echo $userId;
-//echo DAOPermissions_isUserGrantedWithPermission($userId, 'admin_button', 'Y');
 //
 //test 3
 //echo '<!DOCTYPE html>

@@ -1,17 +1,18 @@
 <?php
-include_once ("data_objects/DAOConcurso.php");
 
-function headerFunction($statusBar, $path){
+
+function headerFunction($statusBar){
     //print_r($_SESSION);
 
     ob_start();
     $path;
 
+    include_once ("data_objects/DAOConcurso.php");
    	$arr=DAOConcurso_getActiveContests();
+   	// print_r($arr);
 	$contestMenuItems='';
 	$count = 0;
     foreach($arr as $key => $val){
-    	$count++;
         $contestName = $val['nombre'];
         $contestId = $val['id_concurso'];
         if($count>0){
@@ -22,7 +23,7 @@ function headerFunction($statusBar, $path){
 					text: "'.$contestName.'",
 					url: "./concurso.php?idt='.$contestId.'&show=det"
 				}';
-
+		$count++;
 
     }
     if($count==0){
@@ -35,8 +36,8 @@ function headerFunction($statusBar, $path){
     ?>
 <div id="header" >
 	<div id="h_left">
-		<a href="<?php echo $path;?>/index.php">
-            <img  width="400" height="150" align="left" src="<?php echo $path;?>/images/rc_HuaHCoding2.png" border="0"/>
+		<a href="./index.php">
+            <!-- <img  width="400" height="150" align="left" src="./images/rc_HuaHCoding2.png" border="0"/> -->
         </a>
 	</div>
 	<div id="h_right">

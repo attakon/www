@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once 'utils/ValidateAdmin.php';
+include_once 'utils/ValidateAuthor.php';
 
 if(isset($_GET['pid']) && isset($_GET['cid'])){
     $problemId = $_GET['pid'];

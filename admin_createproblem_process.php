@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include_once 'utils/ValidateAdmin.php';
+	include_once 'utils/ValidateAuthor.php';
     $io=$_SESSION['io'];
     $inputList=$io['inputList'];
     $outputList=$io['outputList'];

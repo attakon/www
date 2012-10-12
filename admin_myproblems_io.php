@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once 'utils/ValidateAdmin.php';
+include_once 'utils/ValidateAuthor.php';
 
 $problemId = $_GET['pid'];
 include_once 'data_objects/DAOProblem.php';

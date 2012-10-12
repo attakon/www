@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once 'utils/ValidateAdmin.php';
+include_once 'utils/ValidateAuthor.php';
 
 if(isset($_POST)){
     if(sizeof($_POST)==0){

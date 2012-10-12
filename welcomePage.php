@@ -7,27 +7,28 @@ include_once 'GLOBALS.php';
 $rankField="position";
 
 //LAST SEASON
-$columns = array(
-        array("us.id_usuario",  "username",     -1, ""),
-        array("c.$rankField",   "El",            20, ""),
-        array("c.id_ranking",   "Top",             0,  "",
-            "type"=>"img images/ranking gif"),
-        array("us.username",    "5",   120,"",
-            "type"=>"linked 0 user"),
-        array("c.puntos",       "",      30, "class='pts'")
-);
+// $columns = array(
+//         array("us.id_usuario",  "username",     -1, ""),
+//         array("c.$rankField",   "El",            20, ""),
+//         array("c.id_ranking",   "Top",             0,  "",
+//             "type"=>"img images/ranking gif"),
+//         array("us.username",    "5",   120,"",
+//             "type"=>"linked 0 user"),
+//         array("c.puntos",       "",      30, "class='pts'")
+// );
 
-$lastSeasonCondition = "WHERE c.id_usuario = us.id_usuario ".
-        " AND c.id_temporada = $GLOBAL_CURRENT_SEASON ".
-        " AND c.$rankField >=1 ".
-        "ORDER BY 2 ASC,1 ASC LIMIT 5";
-$tables = "competidor c, usuario us";
-include_once 'table2.php';
-$table = new RCTable(conecDb(),$tables,$columns,$lastSeasonCondition);
-$table->setTitle("Top 5 Rumbo a Coneis");
-$table->setFooter("<a href=\"./ranking.php\"> Ver todo el ranking </a>");
+// $lastSeasonCondition = "WHERE c.id_usuario = us.id_usuario ".
+//         " AND c.id_temporada = $GLOBAL_CURRENT_SEASON ".
+//         " AND c.$rankField >=1 ".
+//         "ORDER BY 2 ASC,1 ASC LIMIT 5";
+        
+// $tables = "competidor c, usuario us";
+// include_once 'table2.php';
+// $table = new RCTable(conecDb(),$tables,$columns,$lastSeasonCondition);
+// $table->setTitle("Top 5 Rumbo a Coneis");
+// $table->setFooter("<a href=\"./ranking.php\"> Ver todo el ranking </a>");
 //showPage("Ranking de $title", false, $table->getTable(), "");
-$tableTopFiveSeason2 = $table->getTable();
+// $tableTopFiveSeason2 = $table->getTable();
 //END LAST SEASON
 
 $columns = array(
@@ -52,20 +53,17 @@ $table->setFooter("<a href=\"./ranking.php?seasonid=1\"> Ver todo el ranking </a
 $tableTopFive = $table->getTable();
 
 //UPCOMING CONTESTS TABLE
-$tablesNextEvent="concurso co";
-// TIME
-// <div id="timer_"/>
-// <script type="text/javascript">window.onload = CreateTimer("timer1", 30);</script>
+$tablesNextEvent="concurso co join usuario us on(co.creator_id = us.id_usuario)";
 
 $columnsNE = array(
         array("co.id_concurso",  "contest",     -1, ""),
         array("TIMESTAMPDIFF(SECOND,now(),fecha)",   "",            -1, "",""),
         // array("now()",   "",            -2, "",""),
-        array("nombre",  "Siguente",     70, "",
+        array("co.nombre",  "Upcoming Contests",    -2, "",
             "type"=>"linked 0 concurso"),
         // array("date(fecha)",   "Evento",            90, "","date"),
         // array("time(fecha)",   "",            30, "","time"),
-        array("'countdown'",   "",            100, "",
+        array("'countdown'",   "",            200, "",
             "type"=>"replacement",
             'value'=>'<div id="timer_div_#{0}"/>
                 <script type="text/javascript">
@@ -76,23 +74,27 @@ $columnsNE = array(
                 </script>'),
         array("'scoreboard'","register",
             "type"=>'replacement',
-            "value"=>'<a href="./concurso_enrollUser.php?cId=#{0}">register</a>')
+            "value"=>'<a href="./concurso_enrollUser.php?cId=#{0}">register</a>'),
+        array("co.creator_id",  "username",     -1, "",""),
+        array("us.username",  "creator",     -2, "",
+            "type"=>"replacement",
+            "value"=>"<a class='userLink' href='./user.php?u=#{5}'>#{6}</a>")
 );
 
 $conditionNE = "WHERE co.is_published = 1 
         AND TIMESTAMPDIFF(SECOND,now(),fecha) >= 0 ".
-        "ORDER BY 1 ASC";
+        "ORDER BY co.id_concurso ASC";
 
 include_once 'table2.php';
 $upcomingContestsTable = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);
-$upcomingContestsTable->setTitle("Upcoming Contests");
+// $upcomingContestsTable->setTitle("Upcoming Contests");
 $upcomingContestsTable->setTableAtr("width='400'");
 $tableNextEvent = $upcomingContestsTable->getTable();
 
 
-// ACTIVE CONTESTS TABLE
+// RUNNING CONTESTS TABLE
 
-$tablesNextEvent="concurso co";
+$tablesNextEvent="concurso co join usuario us on(co.creator_id = us.id_usuario)";
 // TIME
 // <div id="timer_"/>
 // <script type="text/javascript">window.onload = CreateTimer("timer1", 30);</script>
@@ -101,7 +103,7 @@ $columnsNE = array(
         array("co.id_concurso",  "contest",     -1, ""),
         array("TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time))",  "total_time",     -1, ""),
         // array("now()",   "",            -2, "",""),
-        array("nombre",  "Siguente",     70, "",
+        array("nombre",  "Siguente",     -2, "",
             "type"=>"linked 0 concurso"),
         // array("date(fecha)",   "Evento",            90, "","date"),
         // array("time(fecha)",   "",            30, "","time"),
@@ -116,7 +118,11 @@ $columnsNE = array(
                 </script>'),
         array("'scoreboard'","",
             "type"=>'replacement',
-            "value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>')
+            "value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>'),
+        array("co.creator_id",  "username",     -1, "",""),
+        array("us.username",  "creator",     -2, "",
+            "type"=>"replacement",
+            "value"=>"<a class='userLink' href='./user.php?u=#{5}'>#{6}</a>")
 );
 
 $conditionNE = "WHERE co.is_published = 1 
@@ -144,7 +150,11 @@ $columnsNE = array(
         array("'space'","","type"=>"replacement","value"=>"|"),
         array("'practice'","practice","type"=>"replacement",
             "value"=>"<a href='./contest_arena.php?id=#{0}'>practice</a>"),
-        array("DATE(fecha)","")
+        array("DATE(fecha)","",-1),
+        array("co.creator_id",  "username",     -1, "",""),
+        array("us.username",  "creator",     -2, "",
+            "type"=>"replacement",
+            "value"=>"<a class='userLink' href='./user.php?u=#{7}'>#{8}</a>")
 
 );
 
@@ -154,28 +164,28 @@ $conditionNE = "WHERE co.is_published = 1
 
 include_once 'table2.php';
 $pastContestsTable = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);
-$pastContestsTable->setTitle("Past Contests");
-$pastContestsTable->setTableAtr("width='400'");
-$tableNextEvent = $pastContestsTable->getTable();
+$pastContestsTable->setTitle("Completed Contests");
+$pastContestsTable->setTableAtr("width='250'");
+// $tableNextEvent = $pastContestsTable->getTable();
 
 
-//PAST CONTESTS
-$tablesPC="concurso co";
-$columnsPC = array(
-        array("co.id_concurso",  "",     -1, ""),
-        array("co.nombre_corto",  "",     60, "",
-            "type"=>"linked 0 con_res"),
-        array("'practicar'",  "",     60,"", 
-            "type"=>"linked 0 con_pra"),
-        array("date(fecha)",   "Evento",            80, "class='penalty'","date"),
-);
-$conditionPC = "WHERE co.estado = 'FINALIZED'".
-        "ORDER BY 4 DESC";
-include_once 'table2.php';
-$tablePC = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
-$tablePC->setTitle("Concursos Pasados");
-$tablePC->setFooter("<a href='./concurso_list.php'>Ver Mas</a>");
-$tablePastContest = $tablePC->getTable();
+//COMPLETED CONTESTS
+// $tablesPC="concurso co";
+// $columnsPC = array(
+//         array("co.id_concurso",  "",     -1, ""),
+//         array("co.nombre_corto",  "",     60, "",
+//             "type"=>"linked 0 con_res"),
+//         array("'practicar'",  "",     60,"", 
+//             "type"=>"linked 0 con_pra"),
+//         array("date(fecha)",   "Evento", -1, "class='penalty'","date"),
+// );
+// $conditionPC = "WHERE co.estado = 'FINALIZED'".
+//         "ORDER BY 4 DESC";
+// include_once 'table2.php';
+// $tablePC = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
+// $tablePC->setTitle("Concursos Pasados");
+// $tablePC->setFooter("<a href='./concurso_list.php'>Ver Mas</a>");
+// $tablePastContest = $tablePC->getTable();
 //TABLE RECENT Threads
 /*
 $tablesThread= "thread t, forum f";
@@ -226,7 +236,7 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
 <table border="1" cellpadding="0" cellspacing="0" width="100%" height="300" border="0" style="width: 100%;">
     <tr>
         <td width="230" max valign="top">
-            <?php echo $tablePastContest ?>
+            <?php echo $pastContestsTable->getTable() ?>
             <br/>
             
 
@@ -286,7 +296,7 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
             <?php echo 
             $upcomingContestsTable->getTable()."<br/>".
             $runningContestsTable->getTable()."<br/>".
-            $pastContestsTable->getTable()."<br/>".
+            // $pastContestsTable->getTable()."<br/>".
                     $tableTopFiveSeason2."</br>".
                     $tableTopFive."</br>";
             ?>

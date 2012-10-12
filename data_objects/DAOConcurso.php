@@ -13,7 +13,8 @@ function DAOConcurso_isContestOpen($contestId){
 function DAOConcurso_getContestPhase($contestId){
     $leftTime = DAOConcurso_getContestLeftSeconds($contestId);
     // echo $leftTime;
-    $query = "SELECT IF(".$leftTime.">TIME_TO_SEC(total_time),'NOT_STARTED',IF(".$leftTime."<=TIME_TO_SEC(total_time) AND ".$leftTime.">=0,'IN_PROGRESS','FINISHED')) FROM concurso con WHERE con.id_concurso = '".$contestId."'";
+    $query = "SELECT IF(".$leftTime.">TIME_TO_SEC(total_time),'NOT_STARTED',IF(".$leftTime."<=TIME_TO_SEC(total_time) AND ".$leftTime.">=0,'IN_PROGRESS','FINISHED')) 
+    FROM concurso con WHERE con.id_concurso = '".$contestId."'";
     return getRow($query);
 }
 
@@ -43,9 +44,13 @@ function DAOConcurso_getLeagueId($contestId){
 }
 
 function DAOConcurso_getActiveContests(){
-	$query = "select id_concurso, nombre from concurso 
-    	WHERE estado in('REGISTRATION_OPEN')
-        ORDER BY 1 ASC LIMIT 5";
+	$query = "select id_concurso, nombre from concurso co
+    	WHERE co.is_published = 1 ".
+      " AND TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time)) >= 0".
+      " AND TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time)) <= TIME_TO_SEC(total_time)".
+      "ORDER BY co.id_concurso ASC";
+  
+  // $query = "SELECT IF(".$leftTime.">TIME_TO_SEC(total_time),'NOT_STARTED',IF(".$leftTime."<=TIME_TO_SEC(total_time) AND ".$leftTime.">=0,'IN_PROGRESS','FINISHED')) FROM concurso con WHERE con.id_concurso = '".$contestId."'";
 
     return getRowsInArray($query);
 }

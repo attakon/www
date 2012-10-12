@@ -8,16 +8,20 @@ include_once $incl;
 
 //echo $_SERVER['DOCUMENT_ROOT'];
 function DAOPermissions_isUserGrantedWithPermission($userId, $featureName, $grantingValue){
-   $userRoleId = DAOPermissions_getUserRoleId($userId);
+   $roles = DAOPermissions_getUserRoleId($userId);
    $userRoleName = DAOPermissions_getUserRoleName($userId);
-   if(!is_null($userRoleId)){
-       $permissions = DAOPermissions_getRolePermissions($userRoleId);
-       foreach ($permissions as $key => $value) {
-           if($value['feature_name']==$featureName && $value['permission_value']==$grantingValue){
-               return true;
-           }
-       }
+   foreach ($roles as $key => $value) {
+      $userRoleId = $value['role_id'];
+      if(!is_null($userRoleId)){
+         $permissions = DAOPermissions_getRolePermissions($userRoleId);
+         foreach ($permissions as $key => $value) {
+             if($value['feature_name']==$featureName && $value['permission_value']==$grantingValue){
+                 return true;
+             }
+         }
+      }
    }
+   
    return false;
 }
 
@@ -25,8 +29,8 @@ function DAOPermissions_getUserRoleId($userId){
    $query = "SELECT role_id FROM user_roles 
                        WHERE id_usuario = '".$userId."'";
 //   echo print_r($_SERVER);
-   $n = getRow($query);
-   return $n;
+   return getRowsInArray($query);
+   // return $n;
 }
 
 function DAOPermissions_getUserRoleName($userId){

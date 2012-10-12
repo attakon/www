@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once 'utils/ValidateAdmin.php';
+include_once 'utils/ValidateAuthor.php';
 
 if(isset($_POST['language_id']) || isset($_POST['pid'])|| isset($_POST['content'])){
     $languageId=$_POST['language_id'];

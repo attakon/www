@@ -34,7 +34,7 @@ function DAOCampaign_isSubmissionPending($contestId, $campaignId, $problemId){
   include_once 'data_objects/DAOConcurso.php';
   $elapsedSeconds = DAOConcurso_getContestElapsedTime($contestId);
 
-  $query = "SELECT campaign_submission_id, 3*60 - (".$elapsedSeconds." - TIME_TO_SEC(download_time)) 'submission_left_time' 
+  $query = "SELECT campaign_submission_id, 4*60 - (".$elapsedSeconds." - TIME_TO_SEC(download_time)) 'submission_left_time' 
     FROM campaign_submission 
     WHERE campaign_id = '".$campaignId."' AND problem_id = '".$problemId."'
       AND ".$elapsedSeconds." - TIME_TO_SEC(download_time) <=3*60 AND submission_time IS NULL";

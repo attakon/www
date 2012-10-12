@@ -5,8 +5,8 @@
 	include_once 'utils/ValidateSignedIn.php';
 
 	include_once 'data_objects/DAOPermissions.php';
-    if(!DAOPermissions_isUserGrantedWithPermission($_SESSION['userId'], 'admin_feature', 'Y')){
-        showPage('Admin Panel', false, parrafoError('Not authorized'), '');
+    if(!DAOPermissions_isUserGrantedWithPermission($_SESSION['userId'], 'author_feature', 'Y')){
+        showPage('Author', false, parrafoError('Not authorized'), '');
         die;
     }
 
