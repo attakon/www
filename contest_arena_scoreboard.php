@@ -55,11 +55,11 @@ function getScoreboardHTML($contestId){
 <!-- <p> Click en el tiempo de env&iacute;o para ver el c&oacute;digo </p> -->
     <table style="border-collapse: collapse">
         <tr>
-            <th > Place </th>
-            <th > &nbsp; </th>
-            <th width="100"> Coder </th>
+            <th > </th>
+            <th > </th>
+            <th width="100" style="text-align:left"> Coder </th>
             <th > Points </th>
-            <th width="100"> Penalizaci&oacute;n </th>
+            <th width="100"> Penalty time </th>
             <?php
             // while($problems = mysql_fetch_array($rsProblems)){
             foreach ($problemData as $key => $problemValue) {
@@ -86,8 +86,10 @@ function getScoreboardHTML($contestId){
         <tr bgcolor="<?php if($i++%2==0)echo "#f1f0f0"?>">
             <td> <?php echo $campaignValue['puesto']?> </td>       <!-- rank in contest-->
             <td width="5"> <?php
-                echo "<img src=./images/ranking/".$campaignValue['new_ranking']."gif>";
-                ?> </td>       <!-- class -->
+                // echo "<img src=./images/ranking/".$campaignValue['new_ranking']."gif>";
+                ?> 
+            </td>  
+                 <!-- class -->
             <td> <?php echo userLink(".", $campaignValue['id_usuario'], $campaignValue['username'])?> </td>        <!-- user-->
             <td style="font-weight:bold"align="center"> <?php echo $campaignValue['puntos']?> </td>
             <td align="center"> <?php echo $campaignValue['penalizacion']?> </td>
