@@ -104,7 +104,7 @@ function DAOCampaign_getUserCampaigns_V2($contestId){
             camp.new_ranking, user.id_usuario, user.username, camp.puntos, camp.penalizacion " .
                     "FROM usuario user, campaign camp " .
                     "WHERE user.id_usuario = camp.id_usuario " .
-                    "AND camp.Id_Concurso = '".$contestId."' " .
+                    "AND camp.id_concurso = '".$contestId."' " .
                     "ORDER BY camp.puesto ASC, camp.id_campaign ASC";
 
   $campaignData = getRowsInArray($campaignQuery);
@@ -116,7 +116,7 @@ function DAOCampaign_getUserCampaigns($contestId){
             camp.new_ranking, user.id_usuario, user.username, camp.puntos, camp.penalizacion " .
                     "FROM usuario user, campaign camp " .
                     "WHERE user.id_usuario = camp.id_usuario " .
-                    "AND camp.Id_Concurso = '".$contestId."' " .
+                    "AND camp.id_concurso = '".$contestId."' " .
                     "ORDER BY camp.puesto ASC, camp.id_campaign ASC";
 
   $campaignData = getRowsInArray($campaignQuery);
@@ -149,6 +149,34 @@ function DAOCampaign_createCampaignDetail($campaignId, $problemId){
     $queryC = "INSERT INTO campaigndetalle".
     "(id_campaign, id_problema) VALUES (".$campaignId.",".$problemId.")";
     runQuery($queryC);
+}
+
+function DAOCampaign_resetCampaignDetails($contestId){
+  // delete old campaigns
+  $deleteCampaignsForContest = "DELETE FROM 
+    campaigndetalle WHERE id_campaign in 
+      (SELECT id_campaign FROM campaign WHERE id_concurso = '".$contestId."')";
+  runQuery($deleteCampaignsForContest);
+  //add new campaigns
+  
+  DAOCampaign_createCampaingDetailsForContestans($contestId);
+}
+
+function DAOCampaign_createCampaingDetailsForContestans($contestId){
+  $campaigns = DAOCampaign_getUserCampaigns($contestId);
+  // echo 'x';
+  // print_r($campaigns);
+  include_once 'data_objects/DAOConcurso.php';
+  foreach ($campaigns as $key => $campaignValue) {
+    $campaignDetailToInsert = DAOConcurso_getProblems($contestId);
+    // print_r($campaignDetailToInsert);
+    foreach ($campaignDetailToInsert as $key => $problemsToInsertValue) {
+        DAOCampaign_createCampaignDetail(
+          $campaignValue['id_campaign'],
+          $problemsToInsertValue['problem_id']
+          );
+    }
+  }
 }
 
 function DAOCampaign_deregegisterUser($contestId, $userId){

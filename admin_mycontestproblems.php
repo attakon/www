@@ -20,64 +20,48 @@ if(isset($_GET['id'])){
     die;
 }
 //END validate ownership
-    
 
-if(isset($_GET['id']) &&  isset($_GET['addproblemid'])&& isset($_GET['pts'])){
-	$contestId = $_GET['id'];
-	$problemId = $_GET['addproblemid'];
-    $pts = $_GET['pts'];
-    
-    include_once 'data_objects/DAOConcurso.php';
-    DAOConcurso_addProblemToContest($contestId,$problemId,$pts);
-    
-    include_once 'data_objects/DAOProblem.php';
-    $problemData = DAOProblem_getProblemData($problemId);
-    
-    $_SESSION['message']='problem '.$problemData['name'].' was successfully added';
-
-    include_once 'container.php';
-    redirectToLastVisitedPage();
-    // redirectToLastVisitedPage();
-    // die;
-}
-else if(isset($_GET['id']) &&  isset($_GET['delproblemid'])){
+if(isset($_GET['id']) &&  isset($_GET['delproblemid'])){
 	$contestId = $_GET['id'];
 	$problemId = $_GET['delproblemid'];
     include_once 'data_objects/DAOProblem.php';
     $problemData = DAOProblem_getProblemData($problemId);
+
     DAOConcurso_removeProblemFromContest($contestId,$problemId);
     $_SESSION['message']='problem '.$problemData['name'].'was successfully removed';
 
     include_once 'container.php';
     redirectToLastVisitedPage();
 }
-else if(isset($_GET['id']) &&  isset($_GET['action'])){
-    if($_GET['action']=="setproblems"){
-        $contestId = $_GET['id'];
-        // include_once 'data_objects/DAOConcurso.php';
-        // $contestData = DAOConcurso_getContestData($contestId);
-        include_once 'data_objects/DAOCampaign.php';
-        $campaigns = DAOCampaign_getUserCampaigns($contestId);
-        $message = '';
-        foreach ($campaigns as $key => $campaignValue) {
-            // $campaignValue['id_usuario'];
-            $campaignDetailToInsert = DAOCampaign_getCampaignsNotCreatedForUserInContest($campaignValue['id_usuario'],$contestId);
-            $message .=''.sizeof($campaignDetailToInsert).' created for '.$campaignValue['username']."</br>";
-            foreach ($campaignDetailToInsert as $key => $problemsToInsertValue) {
-                DAOCampaign_createCampaignDetail($campaignValue['id_campaign'],$problemsToInsertValue['problem_id']);
-            }
-        }
-        $_SESSION['message']=$message;
-        redirectToLastVisitedPage();
-    }if($_GET['action']=="publish"){
-        include_once 'data_objects/DAOConcurso.php';
-        DAOContest_publishContest($contestId);
-        $contestData = DAOConcurso_getContestData($contestId);
-        $_SESSION['message']=$contestData['nombre'].' was successfully published. It should appear in the main page';
-    }
-    include_once 'container.php';
-    redirectToLastVisitedPage();
-}
+// else if(isset($_GET['id']) &&  isset($_GET['action'])){
+//     if($_GET['action']=="setproblems"){
+//         $contestId = $_GET['id'];
+//         // include_once 'data_objects/DAOConcurso.php';
+//         // $contestData = DAOConcurso_getContestData($contestId);
+//         include_once 'data_objects/DAOCampaign.php';
+//         DAOCampaign_createCampaingsForContestans($contestId);
+
+//         $campaigns = DAOCampaign_getUserCampaigns($contestId);
+//         $message = '';
+//         foreach ($campaigns as $key => $campaignValue) {
+//             // $campaignValue['id_usuario'];
+//             $campaignDetailToInsert = DAOCampaign_getCampaignsNotCreatedForUserInContest($campaignValue['id_usuario'],$contestId);
+//             $message .=''.sizeof($campaignDetailToInsert).' created for '.$campaignValue['username']."</br>";
+//             foreach ($campaignDetailToInsert as $key => $problemsToInsertValue) {
+//                 DAOCampaign_createCampaignDetail($campaignValue['id_campaign'],$problemsToInsertValue['problem_id']);
+//             }
+//         }
+//         $_SESSION['message']=$message;
+//         redirectToLastVisitedPage();
+//     }if($_GET['action']=="publish"){
+//         include_once 'data_objects/DAOConcurso.php';
+//         DAOContest_publishContest($contestId);
+//         $contestData = DAOConcurso_getContestData($contestId);
+//         $_SESSION['message']=$contestData['nombre'].' was successfully published. It should appear in the main page';
+//     }
+//     include_once 'container.php';
+//     redirectToLastVisitedPage();
+// }
 else if(isset($_GET['id']) &&  isset($_GET['deregisterid'])){
     $deregisterId = $_GET['deregisterid'];
     include_once 'data_objects/DAOUser.php';
@@ -102,7 +86,6 @@ else if(isset($_GET['id']) &&  isset($_GET['uninviteid'])){
     $_SESSION['message']=$userData['username'].' was successfully blacklisted';
 
     // include_once 'container.php';
-    
     
     include_once 'container.php';
     redirectToLastVisitedPage();
@@ -201,9 +184,9 @@ else if(isset($_GET['id'])){
     $registeredUserTable = new RCTable(conecDb(),$tables,$columns,$condition);
 
     // button
-    $sealLink = '<a href="./admin_mycontestproblems.php?id='.$contestId.'&action=setproblems">
-        [Create Campaigns Details]
-        </a>';
+    // $sealLink = '<a href="./admin_mycontestproblems.php?id='.$contestId.'&action=setproblems">
+    //     [Create Campaigns Details]
+    //     </a>';
     $publishLink = '<a href="./admin_mycontestproblems.php?id='.$contestId.'&action=publish">
         [Publish Contest]
         </a>';
@@ -261,7 +244,7 @@ else if(isset($_GET['id'])){
 
 	$content = $contestProblemTable->getTable().
         '<br/>'
-        .$sealLink.'<br/>'
+        // .$sealLink.'<br/>'
         .$publishLink.'<br/>'.'<br/>'
         .$availableProblemsTable.'<br/>'
         .$registeredUserTable->getTable().'<br/>'

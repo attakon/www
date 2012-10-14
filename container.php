@@ -12,7 +12,7 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
   //  session_end();
     include_once("session_routines.php");
     // include_once("header.php");
-    include_once("header_div.php");
+include_once("header_div.php");
     ?>
 <!DOCTYPE html>
 <html xmlns:fb="http://ogp.me/ns/fb#">
@@ -82,6 +82,12 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
     </body>
 </html>
 <?php
+}
+
+function redirectToPage($page){
+    // print_r($_SESSION);
+    header("Location: ./".$page);
+    die;
 }
 
 function redirectToLastVisitedPage(){

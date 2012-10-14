@@ -79,10 +79,24 @@ function DAOUser_registerInLeague($userId,$temporadaId){
     runQuery($insertQ);
 }
 
-function DAOUser_registerInContest($concursoId, $userId, $oldPts){
-   $insertQ = "INSERT INTO campaign (id_concurso, id_usuario, old_puntaje)
-    VALUES ('".$concursoId."', '".$userId."', '".$oldPts."');";
-   runQuery($insertQ);
+function DAOUser_registerInContest($contestId, $userId, $oldPts){
+  $insertQ = "INSERT INTO campaign (id_concurso, id_usuario, old_puntaje)
+    VALUES ('".$contestId."', '".$userId."', '".$oldPts."');";
+
+  runQuery($insertQ);
+  
+  include_once 'data_objects/DAOCampaign.php';
+  $campaignData = DAOCampaign_getCampaignForUser($userId, $contestId);
+
+  $campaignDetailToInsert = DAOConcurso_getProblems($contestId);
+  // print_r($campaignDetailToInsert);
+  foreach ($campaignDetailToInsert as $key => $problemsToInsertValue) {
+      DAOCampaign_createCampaignDetail(
+        $campaignData['id_campaign'],
+        $problemsToInsertValue['problem_id']
+        );
+  }
+
 }
 
 function DAOUser_login($incomingUserName, $incomingPassword){

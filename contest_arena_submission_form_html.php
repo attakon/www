@@ -18,6 +18,7 @@
         }
         var url = "contest_arenadownloadinput.php?pid="+problemId+"&cmpid="+campaignId;
         var divId = "submission_left_time_"+campaignId+'_'+problemId;
+        document.getElementById('download-link').style.display='none';
         CreateTimer(divId,4*60,timerCount++);
         document.location.href=url;
         console.log('x');
@@ -37,9 +38,9 @@
                 $divId = "submission_left_time_".$campaignId.'_'.$problemId;
                 $result ='<div id="'.$divId.'"></div>';
                                     // print_r($isSubmissionPending);
-                $downloadLink = "<a href='contest_arenadownloadinput.php?pid=".$problemId."&cmpid=".$campaignId."'>Download New Input File</a>";
+                $downloadLink = "<a id='download-link' href='contest_arenadownloadinput.php?pid=".$problemId."&cmpid=".$campaignId."'>Download New Input File</a>";
                 if($isContest){
-                    $downloadLink = "<a onclick='downloadFile(".$campaignId.",".$problemId.")'>Download New Input File</a>";    
+                    $downloadLink = "<a id='download-link' onclick='downloadFile(".$campaignId.",".$problemId.")'>Download New Input File</a>";    
                 }
                 
                 if($isSubmissionPending){

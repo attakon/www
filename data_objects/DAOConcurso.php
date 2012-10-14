@@ -87,16 +87,23 @@ function DAOConcurso_getFirstProblem($contestId){
   return getWholeRow($query);
 }
 
-function DAOConcurso_addProblemToContest($contestId, $problemId, $points){
-    $insert = "INSERT INTO co_contest_problems (contest_id, problem_id,points)
-    VALUES ('".$contestId."','".$problemId."','".$points."')";
-    runQuery($insert);
+function DAOConcurso_addProblemToContest($contestId, $problemId, $points, $languageId){
+  $addProblemQuery = "INSERT INTO co_contest_problems (contest_id, problem_id, points, problem_language_id)
+  VALUES ('".$contestId."','".$problemId."','".$points."','".$languageId."')";
+  runQuery($addProblemQuery);
+  include_once 'data_objects/DAOCampaign.php';
+  DAOCampaign_resetCampaignDetails($contestId);
 }
+
 function DAOConcurso_removeProblemFromContest($contestId, $problemId){
-    $insert = "DELETE FROM co_contest_problems
+    $removeProblemQuery = "DELETE FROM co_contest_problems
     WHERE contest_id ='".$contestId."' AND problem_id ='".$problemId."'";
-    runQuery($insert);
+    runQuery($removeProblemQuery);
+    include_once 'data_objects/DAOCampaign.php';
+    DAOCampaign_resetCampaignDetails($contestId);
 }
+
+
 
 function DAOConcurso_getProblems($contestId){
     $query = "SELECT problem.problem_id, problem.name , ctp.points
