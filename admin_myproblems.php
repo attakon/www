@@ -141,6 +141,7 @@ function previewProblem($_PAR){
         case 'STATIC-LINE-separated-input':
             $linesPerCaseInput = $_PAR['input-lines-per-case'];
             $initialSkipLines=$_PAR['input-initial-skip-lines'];
+
             $inputList = getListSeparatedByLines($inputTempName, $linesPerCaseInput,$initialSkipLines);
             break;
         case '#CASEMARK-separated-input':
@@ -224,6 +225,7 @@ function getListSeparatedByLines($tempName, $linesPerCase, $nroFirstLinesToSkip=
     while($line = fgets($file_handle)){
         if($nroFirstLinesToSkip-->0)continue;
         $line = trim($line);
+        $line = mysql_real_escape_string($line);
         $singleCase.=$line."\n";
         if(++$counter==$linesPerCase){
             $counter=0;
@@ -248,6 +250,7 @@ function getListSeparetedByMark($tempName, $caseMark, $nroFirstLinesToSkip=0, $i
     while($line = fgets($file_handle)){
         if($nroFirstLinesToSkip-->0)continue;
         $line = trim($line);
+        $line = mysql_real_escape_string($line);
         $matches = false;
         if($isRegex){
             $matches = preg_match($caseMark, $line, $m, PREG_OFFSET_CAPTURE);
