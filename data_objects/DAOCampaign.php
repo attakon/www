@@ -3,8 +3,8 @@ include_once ("utils/DBUtils.php");
 
 // BEGIN ARENA
 function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
-  include_once 'data_objects/DAOConcurso.php';
-  $elapsedSeconds = DAOConcurso_getContestElapsedTime($contestId);
+  include_once 'data_objects/DAOContest.php';
+  $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
 
   $queryCampaignDetalle =
     "SELECT cd.id_problema, cd.solved, cd.tiempo_submision, count(cs.campaign_submission_id) 'attempts'
@@ -31,8 +31,8 @@ function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
 }
 
 function DAOCampaign_isSubmissionPending($contestId, $campaignId, $problemId){
-  include_once 'data_objects/DAOConcurso.php';
-  $elapsedSeconds = DAOConcurso_getContestElapsedTime($contestId);
+  include_once 'data_objects/DAOContest.php';
+  $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
 
   $query = "SELECT campaign_submission_id, 4*60 - (".$elapsedSeconds." - TIME_TO_SEC(download_time)) 'submission_left_time' 
     FROM campaign_submission 
@@ -51,8 +51,8 @@ function DAOCampaign_isProblemSolved($contestId, $campaignId, $problemId){
 }
 
 function DAOCampaign_startSubmission($contestId, $campaignId, $problemId){
-  include_once 'data_objects/DAOConcurso.php';
-  $elapsedSeconds = DAOConcurso_getContestElapsedTime($contestId);
+  include_once 'data_objects/DAOContest.php';
+  $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
   
   $query = "INSERT INTO campaign_submission (campaign_id, problem_id, download_time)
    VALUES ('".$campaignId."','".$problemId."',SEC_TO_TIME(".$elapsedSeconds."))";
@@ -66,8 +66,8 @@ function DAOCampaign_registerSubmission($contestId, $campaignId, $problemId, $ti
   // $query = sprintf("SELECT * FROM users WHERE user='%s' AND password='%s'",
   //           mysql_real_escape_string($user),
   //           mysql_real_escape_string($password));
-  include_once 'data_objects/DAOConcurso.php';
-  $elapsedSeconds = DAOConcurso_getContestElapsedTime($contestId);
+  include_once 'data_objects/DAOContest.php';
+  $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
   $query = sprintf("CALL SP__UD_CAMPAIGNDETALLE_V2(%s,'%s',SEC_TO_TIME(".$elapsedSeconds."),'%s','%s')"
     ,$campaignId
     ,$problemId
@@ -82,8 +82,8 @@ function DAOCampaign_registerSubmission_old($contestId,$campaignId, $problemId, 
   // $query = sprintf("SELECT * FROM users WHERE user='%s' AND password='%s'",
   //           mysql_real_escape_string($user),
   //           mysql_real_escape_string($password));
-  include_once 'data_objects/DAOConcurso.php';
-  $elapsedSeconds = DAOConcurso_getContestElapsedTime($contestId);
+  include_once 'data_objects/DAOContest.php';
+  $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
   $query = sprintf("CALL SP__UD_CAMPAIGNDETALLE(%s,'%s',SEC_TO_TIME(".$elapsedSeconds."),'%s','%s')"
     ,$campaignId
     ,$problemId
@@ -95,7 +95,7 @@ function DAOCampaign_registerSubmission_old($contestId,$campaignId, $problemId, 
 
 // END ARENA 
 function DAOCampaign_getCampaignData($campaignId){
-  $query = "SELECT id_concurso, id_usuario FROM campaign WHERE id_campaign='".$campaignId."'";
+  $query = "SELECT contest_id, id_usuario FROM campaign WHERE id_campaign='".$campaignId."'";
   return getWholeRow($query);
 }
 
@@ -104,7 +104,7 @@ function DAOCampaign_getUserCampaigns_V2($contestId){
             camp.new_ranking, user.id_usuario, user.username, camp.puntos, camp.penalizacion " .
                     "FROM usuario user, campaign camp " .
                     "WHERE user.id_usuario = camp.id_usuario " .
-                    "AND camp.id_concurso = '".$contestId."' " .
+                    "AND camp.contest_id = '".$contestId."' " .
                     "ORDER BY camp.puesto ASC, camp.id_campaign ASC";
 
   $campaignData = getRowsInArray($campaignQuery);
@@ -116,7 +116,7 @@ function DAOCampaign_getUserCampaigns($contestId){
             camp.new_ranking, user.id_usuario, user.username, camp.puntos, camp.penalizacion " .
                     "FROM usuario user, campaign camp " .
                     "WHERE user.id_usuario = camp.id_usuario " .
-                    "AND camp.id_concurso = '".$contestId."' " .
+                    "AND camp.contest_id = '".$contestId."' " .
                     "ORDER BY camp.puesto ASC, camp.id_campaign ASC";
 
   $campaignData = getRowsInArray($campaignQuery);
@@ -129,7 +129,7 @@ function DAOCampaign_getCampaignForUser($userId, $contestId){
                     "FROM usuario user, campaign camp " .
                     "WHERE user.id_usuario = camp.id_usuario " .
                     "AND user.id_usuario = '".$userId."'".
-                    "AND camp.Id_Concurso = '".$contestId."' " .
+                    "AND camp.contest_id = '".$contestId."' " .
                     "ORDER BY camp.puesto ASC, camp.id_campaign ASC";
 
   $campaignData = getWholeRow($campaignQuery);
@@ -141,7 +141,7 @@ function DAOCampaign_getCampaignsNotCreatedForUserInContest($userId, $contestId)
 	AND 
 	problem_id NOT IN 
 	(SELECT id_problema from campaigndetalle cmpd join campaign cmp using(id_campaign) WHERE 
-	cmp.id_concurso = ".$contestId." AND cmp.id_usuario = ".$userId.")";
+	cmp.contest_id = ".$contestId." AND cmp.id_usuario = ".$userId.")";
 	return getRowsInArray($query);
 }
 
@@ -155,7 +155,7 @@ function DAOCampaign_resetCampaignDetails($contestId){
   // delete old campaigns
   $deleteCampaignsForContest = "DELETE FROM 
     campaigndetalle WHERE id_campaign in 
-      (SELECT id_campaign FROM campaign WHERE id_concurso = '".$contestId."')";
+      (SELECT id_campaign FROM campaign WHERE contest_id = '".$contestId."')";
   runQuery($deleteCampaignsForContest);
   //add new campaigns
   
@@ -166,9 +166,9 @@ function DAOCampaign_createCampaingDetailsForContestans($contestId){
   $campaigns = DAOCampaign_getUserCampaigns($contestId);
   // echo 'x';
   // print_r($campaigns);
-  include_once 'data_objects/DAOConcurso.php';
+  include_once 'data_objects/DAOContest.php';
   foreach ($campaigns as $key => $campaignValue) {
-    $campaignDetailToInsert = DAOConcurso_getProblems($contestId);
+    $campaignDetailToInsert = DAOContest_getProblems($contestId);
     // print_r($campaignDetailToInsert);
     foreach ($campaignDetailToInsert as $key => $problemsToInsertValue) {
         DAOCampaign_createCampaignDetail(
@@ -181,9 +181,9 @@ function DAOCampaign_createCampaingDetailsForContestans($contestId){
 
 function DAOCampaign_deregegisterUser($contestId, $userId){
     $deleteQuery = "DELETE FROM campaigndetalle where id_campaign = 
-      (SELECT id_campaign FROM campaign WHERE id_usuario ='".$userId."' AND id_concurso='".$contestId."')";
+      (SELECT id_campaign FROM campaign WHERE id_usuario ='".$userId."' AND contest_id='".$contestId."')";
     runQuery($deleteQuery);
-    $deleteQuery2 = "DELETE FROM campaign where id_usuario ='".$userId."' AND id_concurso='".$contestId."'";
+    $deleteQuery2 = "DELETE FROM campaign where id_usuario ='".$userId."' AND contest_id='".$contestId."'";
     runQuery($deleteQuery2);
 }
 

@@ -5,7 +5,7 @@ include_once ('conexion.php');
 
 $tablesPC="concurso co join usuario us on(co.creator_id = us.id_usuario)";
 $columnsPC = array(
-    array("co.id_concurso",  "",     -1, ""),
+    array("co.contest_id",  "",     -1, ""),
     array("co.id_usuario",  "",     -1, ""),
     array("co.url_forum",  "",     -1, ""),
     array("co.nombre",  "Concurso",     200, "",""),

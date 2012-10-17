@@ -7,14 +7,14 @@ function headerFunction($statusBar){
     ob_start();
     $path;
 
-    include_once ("data_objects/DAOConcurso.php");
-   	$arr=DAOConcurso_getActiveContests();
+    include_once ("data_objects/DAOContest.php");
+   	$arr=DAOContest_getActiveContests();
    	// print_r($arr);
 	$contestMenuItems='';
 	$count = 0;
     foreach($arr as $key => $val){
         $contestName = $val['nombre'];
-        $contestId = $val['id_concurso'];
+        $contestId = $val['contest_id'];
         if($count>0){
 			$contestMenuItems.=",";
 		}

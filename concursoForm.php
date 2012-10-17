@@ -10,7 +10,7 @@ function getConcursoDetalleHTML($contestId) {
         url_forum,        
         creator_id,
         is_invitational
-        FROM concurso where id_concurso = '".$contestId."'";
+        FROM concurso where contest_id = '".$contestId."'";
     $rsConcurso = mysql_query($q,conecDb());
     $data = mysql_fetch_row($rsConcurso);
 
@@ -111,8 +111,8 @@ function getConcursoDetalleHTML($contestId) {
     
     <?php 
 
-    include_once 'data_objects/DAOConcurso.php';
-    $contestPhase = DAOConcurso_getContestPhase($contestId);
+    include_once 'data_objects/DAOContest.php';
+    $contestPhase = DAOContest_getContestPhase($contestId);
 
     if($contestPhase=='NOT_STARTED'){?>
         <tr>

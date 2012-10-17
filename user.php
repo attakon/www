@@ -101,7 +101,7 @@ function getCompetitionProfile($idUser){
     $lastCompetition = firstRow("SELECT con.nombre, DATE(con.fecha) ".
         "FROM campaign cmp, concurso con, usuario us ".
         "WHERE cmp.id_usuario = us.id_usuario AND ".
-        "cmp.id_concurso = con.id_concurso AND ".
+        "cmp.contest_id = con.contest_id AND ".
         "us.id_usuario = '$idUser'".
         "ORDER BY con.fecha DESC");
     if($position<0){

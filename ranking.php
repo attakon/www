@@ -12,7 +12,7 @@ $seasonId = isset ($_GET['seasonid'])?$_GET['seasonid']:$GLOBAL_CURRENT_SEASON;
 $tables = "competidor c, usuario us";
 $title = "HuaHCoding";
 $rankField="position";
-$schoolCondition = "AND c.id_temporada = $seasonId ";
+$schoolCondition = "AND c.league_id = $seasonId ";
 
 if(isset($_GET['ids'])) {
     $idSchool = $_GET['ids'];

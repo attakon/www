@@ -6,8 +6,8 @@ include_once 'utils/ValidateAuthor.php';
 
 if(isset($_GET['delcontestid'])){
     $contestId =$_GET['delcontestid'];
-    include_once 'data_objects/DAOConcurso.php';
-    $contestData = DAOConcurso_getContestData($contestId);
+    include_once 'data_objects/DAOContest.php';
+    $contestData = DAOContest_getContestData($contestId);
     $creatorId = $contestData['creator_id'];
     if($creatorId == $_SESSION['userId']){
         $contestName = $contestData['nombre'];
@@ -25,18 +25,18 @@ $isUpd=false;
 if(isset($_GET['updcontestid'])){
     $isUpd=true;
     $contestIdToUpdate = $_GET['updcontestid'];
-    include_once 'data_objects/DAOConcurso.php';
-    $contestData = DAOConcurso_getContestData($contestIdToUpdate);
+    include_once 'data_objects/DAOContest.php';
+    $contestData = DAOContest_getContestData($contestIdToUpdate);
 }
 
 
 $fields = array(
-    'id_temporada' => 
+    'league_id' => 
         array('type'=>'list',
             'label'=>'League',
             'list'=>array(
-                'table'=>'temporada',
-                'idField'=>'id_temporada',
+                'table'=>'co_league',
+                'idField'=>'league_id',
                 'labelField'=>'nombre',
                 'condition'=>"WHERE creator_id ='".$_SESSION['userId']."'")),
     'nombre'=> 
@@ -83,7 +83,7 @@ $insertContestForm->setOnSuccessRedirectPage('admin_mycontests.php');
 $insertContestForm->setSuccessMessage('Contest created');
 if(isset($_GET['updcontestid'])){
     $contestIdToUpdate = $_GET['updcontestid'];
-    $insertContestForm->setUpdIdField('id_concurso');
+    $insertContestForm->setUpdIdField('contest_id');
     $insertContestForm->setUpdIdValue($contestIdToUpdate);
     $insertContestForm->setButtonName('Update Contest');
     $insertContestForm->setSuccessMessage('Contest updated');
@@ -94,7 +94,7 @@ if(isset($_GET['updcontestid'])){
 
 $tablesPC="concurso co";
 $columnsPC = array(
-    array("co.id_concurso",  "",     10, "",
+    array("co.contest_id",  "",     10, "",
         "type"=>"",
         'td_atr'=>'style="font-size:10px; color:lightgray"'),
     array("co.creator_id",  "", -1, "",

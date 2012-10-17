@@ -9,13 +9,13 @@ include_once ("CustomTags.php");
 //./concurso_enrollUser.php?cId=7
 $userId = $_SESSION['userId'];
 $contestId=$_GET['cId'];
-include_once 'data_objects/DAOConcurso.php';
-$contestData = DAOConcurso_getContestData($contestId);
+include_once 'data_objects/DAOContest.php';
+$contestData = DAOContest_getContestData($contestId);
 if(!$contestData['is_published']){
     include_once 'container.php';
     showPage($contestData['nombre'],false,parrafoError('Contest is not published yet. Come back later.'), "");
 }
-$contestPhase = DAOConcurso_getContestPhase($contestId);
+$contestPhase = DAOContest_getContestPhase($contestId);
 if($contestPhase=='FINISHED'){
     include_once 'container.php';
     showPage($contestData['nombre'],false,parrafoError('You cannot register because the contest has already finished'), "");
@@ -37,8 +37,8 @@ if($contestData['is_invitational']){
         //Begin [10-Jun-2012] Raul - moving the registration from store procedure to php code.
         include_once 'data_objects/DAOUser.php';
         if(!DAOUser_isUserRegisteredInContest($userId,$contestId)){
-            // include_once 'data_objects/DAOConcurso.php';
-            $leagueId = DAOConcurso_getLeagueId($contestId);
+            // include_once 'data_objects/DAOContest.php';
+            $leagueId = DAOContest_getLeagueId($contestId);
             if(!DAOUser_isUserRegisteredInLeague($userId, $leagueId)){
                 DAOUser_registerInLeague($userId, $leagueId);
             }

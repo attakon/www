@@ -7,9 +7,9 @@ include_once 'data_objects/DAOGlobalDefaults.php';
 if(isset($_GET['id'])){
     $contestId = $_GET['id'];
 
-    include_once 'data_objects/DAOConcurso.php';
-    $contestPhase = DAOConcurso_getContestPhase($contestId);
-    $contestData = DAOConcurso_getContestData($contestId);
+    include_once 'data_objects/DAOContest.php';
+    $contestPhase = DAOContest_getContestPhase($contestId);
+    $contestData = DAOContest_getContestData($contestId);
 
     if($contestPhase=='NOT_STARTED'){
         include_once 'container.php';
@@ -17,7 +17,7 @@ if(isset($_GET['id'])){
     }
     $body='';
     if($contestPhase=='IN_PROGRESS'){
-        $leftSeconds = DAOConcurso_getContestLeftSeconds($contestId);
+        $leftSeconds = DAOContest_getContestLeftSeconds($contestId);
         $countDown = '<div id="left_time_div_'.$contestId.'" ></div>
                     <script type="text/javascript">
                         timers[timerCount++]={
@@ -42,8 +42,8 @@ function getScoreboardHTML($contestId){
     $campaignData = DAOCampaign_getUserCampaigns($contestId);
     // print_r($campaignData);
 
-    include_once 'data_objects/DAOConcurso.php';
-    $problemData = DAOConcurso_getProblems($contestId);
+    include_once 'data_objects/DAOContest.php';
+    $problemData = DAOContest_getProblems($contestId);
     
     
     
@@ -69,7 +69,7 @@ function getScoreboardHTML($contestId){
                 <?php echo "<label>".$key."</label>"; ?> <br>
                 <?php 
                     if(DAOGlobalDefaults_getGlobalValue('SHOW_PROBLEM_NAMES_IN_RESULTS_PAGE')=='Y'){
-                        echo "<label class='scoreboard_problemName'><a href='".$problemFileURL."'> ".$problemValue['name']."</a></label><br/>";
+                        echo "<label class='scoreboard_problemName'>".$problemValue['name']."</label><br/>";
                     }
                 ?>
                 <?php echo $problemValue['points']."pt"?>

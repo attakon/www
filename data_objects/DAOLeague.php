@@ -10,12 +10,12 @@ function DAOPLeague_registerLeague($leagueName){
 }
 
 function DAOLeague_delLeague($leagueId){
-    $query = "DELETE FROM temporada WHERE id_temporada='".$leagueId."'";
+    $query = "DELETE FROM co_league WHERE league_id='".$leagueId."'";
     runQuery($query);
 }
 
 function DAOLeague_getLeague($leagueId){
-    $query = "SELECT id_temporada, nombre FROM temporada WHERE id_temporada='".$leagueId."'";
+    $query = "SELECT league_id, nombre FROM co_league WHERE league_id='".$leagueId."'";
     return getWholeRow($query);
 }
 ?>

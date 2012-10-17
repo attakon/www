@@ -5,7 +5,7 @@ include_once ('conexion.php');
 
 $tablesPC="concurso co, usuario us";
 $columnsPC = array(
-    array("co.id_concurso",  "",     -1, ""),
+    array("co.contest_id",  "",     -1, ""),
     array("co.creator_id",  "",     -1, ""),
     array("co.nombre",  "Concurso",     160, "",""),    
     // array("'enunciados'",  "Enunciados",     60, "", "replacement", 

@@ -11,10 +11,10 @@ $problemId = $_GET['p'];
 
 include_once 'data_objects/DAOCampaign.php';
 $campaignData = DAOCampaign_getCampaignData($idCampaign);
-$contestId = $campaignData['id_concurso'];
-include_once 'data_objects/DAOConcurso.php';
-$contestPhase = DAOConcurso_getContestPhase($contestId);
-$contestData = DAOConcurso_getContestData($contestId);
+$contestId = $campaignData['contest_id'];
+include_once 'data_objects/DAOContest.php';
+$contestPhase = DAOContest_getContestPhase($contestId);
+$contestData = DAOContest_getContestData($contestId);
 if($contestData['creator_id']!=$_SESSION['userId'] && $contestPhase!='FINISHED'){
     include_once 'container.php';
     include_once 'CustomTags.php';
@@ -52,7 +52,7 @@ include_once 'conexion.php';
 $queryData = "SELECT us.username, prob.name, con.nombre, cd.successful_source_code FROM
      usuario us, concurso con, co_problem prob, campaigndetalle cd, campaign ca
      WHERE us.id_usuario = ca.id_usuario AND
-        ca.id_concurso = con.id_concurso AND
+        ca.contest_id = con.contest_id AND
         ca.id_campaign = cd.id_campaign AND
         prob.problem_id = cd.id_problema AND
         ca.id_campaign = '".$idCampaign."' AND

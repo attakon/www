@@ -1,18 +1,18 @@
 <?php
-include_once ("data_objects/DAOConcurso.php");
+include_once ("data_objects/DAOContest.php");
 
 function headerFunction($statusBar){
     //print_r($_SESSION);
 
     ob_start();
 
-   	$arr=DAOConcurso_getActiveContests();
+   	$arr=DAOContest_getActiveContests();
 	$contestMenuItems='';
 	$count = 0;
     foreach($arr as $key => $val){
     	$count++;
         $contestName = $val['nombre'];
-        $contestId = $val['id_concurso'];
+        $contestId = $val['contest_id'];
         $contestMenuItems .= '
 				{                                    
 					text: "'.$contestName.'",

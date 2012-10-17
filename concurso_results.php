@@ -10,12 +10,12 @@ include_once 'practice_page.php';
 // error_reporting(E_ALL ^ E_NOTICE);
 conecDb();
 $idConcurso = mysql_real_escape_string($_GET['i']);
-$estadoContest = firstRow("SELECT estado from concurso where id_concurso= '$idConcurso' ");
+$estadoContest = firstRow("SELECT estado from concurso where contest_id= '$idConcurso' ");
 if($estadoContest[0]== null || $estadoContest[0]!="FINALIZED"){
     showPage("Resultados", false, parrafoOK("Resultados no disponible para este Concurso"), "");
 }
 else{
-    $dataConcurso = firstRow("SELECT nombre, fecha, url_forum  From concurso WHERE id_concurso= '$idConcurso'");
+    $dataConcurso = firstRow("SELECT nombre, fecha, url_forum  From concurso WHERE contest_id= '$idConcurso'");
     $tab = mysql_real_escape_string($_GET['tab']);
     $classPractice = "header";
     $classResult = "header";

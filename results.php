@@ -9,14 +9,14 @@ function results($idConcurso){
             camp.new_ranking, user.id_usuario, user.username, camp.puntos, camp.penalizacion " .
                     "FROM usuario user, campaign camp " .
                     "WHERE user.id_usuario = camp.id_usuario " .
-                    "AND camp.Id_Concurso = '$idConcurso' " .
+                    "AND camp.contest_id = '$idConcurso' " .
                     "ORDER BY camp.puesto ASC, camp.id_campaign ASC";
 
 
     $rs = mysql_query($qDetalle,conecDb()) or die ($qDetalle);
 
     $queryProblem = "SELECT id_problema, nombre, abrev, valor From problema " .
-                    "WHERE id_concurso = '$idConcurso' " .
+                    "WHERE contest_id = '$idConcurso' " .
                     "ORDER BY Id_Problema";
     //    mysql_real_escape_string($idConcurso);
 

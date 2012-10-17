@@ -10,7 +10,7 @@ if($userId==null){// no ha iniciado session
     $msg = "<p class='mensaje'> Debe Iniciar sesi&oacute;n para inscribirse</p>";
     showPage("Inscribirse...",false,$msg, "");
 }else{// session iniciada    
-    $dat = firstRow("SELECT estado from concurso where id_concurso = '".$concursoId."'");
+    $dat = firstRow("SELECT estado from concurso where contest_id = '".$concursoId."'");
     if($dat[0]=="REGISTRATION_OPEN"){
         $queryEnroll = "SELECT FC__enrollConcursante('".$concursoId."', '".$userId."');";
         $rs = mysql_query($queryEnroll,conecDb()) or die($queryEnroll." ".mysql_error());

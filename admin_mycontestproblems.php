@@ -6,8 +6,8 @@ include_once 'utils/ValidateAuthor.php';
 //BEGIN validate ownership
 if(isset($_GET['id'])){
     $contestId = $_GET['id'];
-    include_once 'data_objects/DAOConcurso.php';
-    $contestData = DAOConcurso_getContestData($contestId);
+    include_once 'data_objects/DAOContest.php';
+    $contestData = DAOContest_getContestData($contestId);
     if(!isOwner($contestData['creator_id'])){
         include_once 'container.php';
         include_once 'CustomTags.php';
@@ -27,7 +27,7 @@ if(isset($_GET['id']) &&  isset($_GET['delproblemid'])){
     include_once 'data_objects/DAOProblem.php';
     $problemData = DAOProblem_getProblemData($problemId);
 
-    DAOConcurso_removeProblemFromContest($contestId,$problemId);
+    DAOContest_removeProblemFromContest($contestId,$problemId);
     $_SESSION['message']='problem '.$problemData['name'].'was successfully removed';
 
     include_once 'container.php';
@@ -36,8 +36,8 @@ if(isset($_GET['id']) &&  isset($_GET['delproblemid'])){
 // else if(isset($_GET['id']) &&  isset($_GET['action'])){
 //     if($_GET['action']=="setproblems"){
 //         $contestId = $_GET['id'];
-//         // include_once 'data_objects/DAOConcurso.php';
-//         // $contestData = DAOConcurso_getContestData($contestId);
+//         // include_once 'data_objects/DAOContest.php';
+//         // $contestData = DAOContest_getContestData($contestId);
 //         include_once 'data_objects/DAOCampaign.php';
 //         DAOCampaign_createCampaingsForContestans($contestId);
 
@@ -54,9 +54,9 @@ if(isset($_GET['id']) &&  isset($_GET['delproblemid'])){
 //         $_SESSION['message']=$message;
 //         redirectToLastVisitedPage();
 //     }if($_GET['action']=="publish"){
-//         include_once 'data_objects/DAOConcurso.php';
+//         include_once 'data_objects/DAOContest.php';
 //         DAOContest_publishContest($contestId);
-//         $contestData = DAOConcurso_getContestData($contestId);
+//         $contestData = DAOContest_getContestData($contestId);
 //         $_SESSION['message']=$contestData['nombre'].' was successfully published. It should appear in the main page';
 //     }
 //     include_once 'container.php';
@@ -81,7 +81,7 @@ else if(isset($_GET['id']) &&  isset($_GET['uninviteid'])){
     $userData = DAOUser_getUserById($uninviteId);
 
     $contestId = $_GET['id'];
-    include_once 'data_objects/DAOConcurso.php';
+    include_once 'data_objects/DAOContest.php';
     DAOContest_uninviteUser($contestId, $uninviteId);
     $_SESSION['message']=$userData['username'].' was successfully blacklisted';
 
@@ -94,8 +94,8 @@ else if(isset($_GET['id']) &&  isset($_GET['uninviteid'])){
 else if(isset($_GET['id'])){
 	$contestId = $_GET['id'];
 
-	include_once 'data_objects/DAOConcurso.php';
-	$contestData = DAOConcurso_getContestData($contestId);
+	include_once 'data_objects/DAOContest.php';
+	$contestData = DAOContest_getContestData($contestId);
 	$contestName = $contestData['nombre'];
 	//Contest's Problem List 
 
@@ -148,10 +148,10 @@ else if(isset($_GET['id'])){
 
 
     //Registered Users
-    include_once 'data_objects/DAOConcurso.php';
-    $contestProblems = DAOConcurso_getProblems($contestId);
+    include_once 'data_objects/DAOContest.php';
+    $contestProblems = DAOContest_getProblems($contestId);
 
-    $leagueId = $contestData['id_temporada'];
+    $leagueId = $contestData['league_id'];
     $columns = array(
         // array("@rownum:=@rownum+1 'rank'",  "N",     15, ""),
         array("us.id_usuario",  "username",     -1, ""),
@@ -169,17 +169,16 @@ else if(isset($_GET['id'])){
     );
 
     $tables = "campaign cmp LEFT JOIN campaigndetalle cmpd ON cmp.id_campaign = cmpd.id_campaign 
-    JOIN concurso con ON cmp.id_concurso = con.id_concurso 
+    JOIN concurso con ON cmp.contest_id = con.contest_id 
     JOIN usuario us ON us.id_usuario = cmp.id_usuario";
-// AND c.id_temporada='".$leagueId."'
-        // AND cmp.id_campaign = cmpd.id_campaign
+    
     $condition = "WHERE 
-        con.id_concurso = '".$contestId."'
+        con.contest_id = '".$contestId."'
         GROUP BY us.id_usuario";
         // ORDER BY cmp.id_campaign";
         // AND c.id_usuario = us.id_usuario
 
-    //END Changing from temporada to league
+    //BEGIN Changing from temporada to league
     include_once 'table2.php';
     $registeredUserTable = new RCTable(conecDb(),$tables,$columns,$condition);
 
@@ -227,7 +226,7 @@ else if(isset($_GET['id'])){
         );
 
         $tables = "co_contest_invites ci join usuario us on(us.id_usuario = ci.user_id)";
-    // AND c.id_temporada='".$leagueId."'
+    // AND c.league_id='".$leagueId."'
             // AND cmp.id_campaign = cmpd.id_campaign
         $condition = "WHERE 
             ci.contest_id = '".$contestId."'";

@@ -68,7 +68,7 @@ function DAOProblem_getProblemIO($problemId){
   First Group
 */
 function DAOProblem_getProblemConcursoId($problemId){
-    $query="SELECT id_concurso 
+    $query="SELECT contest_id 
         FROM problema where id_problema = '".$problemId."'";
     $concursoId = getRow($query);
     return $concursoId;

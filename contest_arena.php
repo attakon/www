@@ -11,8 +11,8 @@ if(isset($_GET['id'])){
     include_once 'data_objects/DAOCampaign.php';
     $userCampaignData = DAOCampaign_getCampaignForUser($userId,$contestId);
 
-    include_once 'data_objects/DAOConcurso.php';
-    $contestData = DAOConcurso_getContestData($contestId);
+    include_once 'data_objects/DAOContest.php';
+    $contestData = DAOContest_getContestData($contestId);
 
     if($userCampaignData==null){
         include_once 'container.php';
@@ -20,8 +20,8 @@ if(isset($_GET['id'])){
         die;
     }
 
-    include_once 'data_objects/DAOConcurso.php';
-    $contestPhase = DAOConcurso_getContestPhase($contestId);
+    include_once 'data_objects/DAOContest.php';
+    $contestPhase = DAOContest_getContestPhase($contestId);
     $head ='';
     switch ($contestPhase) {
         case 'NOT_STARTED':
@@ -30,7 +30,7 @@ if(isset($_GET['id'])){
             die;
             break;
         case 'IN_PROGRESS':
-            $leftSeconds = DAOConcurso_getContestLeftSeconds($contestId);
+            $leftSeconds = DAOContest_getContestLeftSeconds($contestId);
             $head = '<div id="left_time_div_'.$contestId.'" ></div>
                     <script type="text/javascript">
                         timers[timerCount++]={
@@ -47,7 +47,7 @@ if(isset($_GET['id'])){
 
     
 
-    if(!DAOConcurso_isContestOpen($contestId)){
+    if(!DAOContest_isContestOpen($contestId)){
         
     }
     
@@ -69,8 +69,8 @@ function getArenaHTML($contestId, $selectedProblemId=null, $userCampaignData, $i
 
 $campaignId = $userCampaignData['id_campaign'];
 $contestId = $contestId?$contestId:1;
-include_once 'data_objects/DAOConcurso.php';
-$problemsData = DAOConcurso_getProblems($contestId);
+include_once 'data_objects/DAOContest.php';
+$problemsData = DAOContest_getProblems($contestId);
 
 include_once 'data_objects/DAOCompetitor.php';
 $userProblemData = DAOCompetitor_getContestProblemsForUser($userId,$contestId);

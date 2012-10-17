@@ -2,7 +2,7 @@
     include_once './container.php';
     include_once './concursoForm.php';
     include_once 'table2.php';
-    include_once 'data_objects/DAOConcurso.php';
+    include_once 'data_objects/DAOContest.php';
     // ./concurso.php?idt=8&show=det
     $show = $_GET['show'];
     $contestId = $_GET['idt'];
@@ -10,8 +10,8 @@
     if($show=='det'){
         $details = getConcursoDetalleHTML($contestId);
 
-        $contestData = DAOConcurso_getContestData($contestId);
-        $leagueId = DAOConcurso_getLeagueId($contestId);
+        $contestData = DAOContest_getContestData($contestId);
+        $leagueId = DAOContest_getLeagueId($contestId);
         $columns = array(
             // array("@rownum:=@rownum+1 'rank'",  "N",     15, ""),
             array("us.id_usuario",  "username",     -1, ""),
@@ -26,19 +26,19 @@
         $tables = "campaign cmp, concurso con, usuario us , competidor c ";
 
         $userTableCondition = "WHERE us.id_usuario = cmp.id_usuario AND
-            cmp.id_concurso = con.id_concurso 
+            cmp.contest_id = con.contest_id 
             AND c.id_usuario = us.id_usuario
-            AND c.id_temporada='".$leagueId."'
-            AND con.id_concurso = '".$contestId."' 
+            AND c.league_id='".$leagueId."'
+            AND con.contest_id = '".$contestId."' 
             ORDER BY cmp.id_campaign";
             // AND c.id_usuario = us.id_usuario
 
-        //END Changing from temporada to league
+        
         $userTable = new RCTable(conecDb(),$tables,$columns,$userTableCondition);
         
         // print_r($contestData);
-        include_once 'data_objects/DAOConcurso.php';
-        $contestPhase = DAOConcurso_getContestPhase($contestId);
+        include_once 'data_objects/DAOContest.php';
+        $contestPhase = DAOContest_getContestPhase($contestId);
         // $body = $contestPhase;
             
         // if($contestData['estado']=="REGISTRATION_OPEN"){

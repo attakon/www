@@ -18,7 +18,7 @@ $rankField="position";
 // );
 
 // $lastSeasonCondition = "WHERE c.id_usuario = us.id_usuario ".
-//         " AND c.id_temporada = $GLOBAL_CURRENT_SEASON ".
+//         " AND c.league_id = $GLOBAL_CURRENT_SEASON ".
 //         " AND c.$rankField >=1 ".
 //         "ORDER BY 2 ASC,1 ASC LIMIT 5";
         
@@ -41,13 +41,13 @@ $columns = array(
 );
 
 $condition = "WHERE c.id_usuario = us.id_usuario ".
-        " AND c.id_temporada = 1".
+        " AND c.league_id = 1".
         " AND c.$rankField >=1 ".
         "ORDER BY 2 ASC,1 ASC LIMIT 5";
 $tables = "competidor c, usuario us";
 include_once 'table2.php';
 $table = new RCTable(conecDb(),$tables,$columns,$condition);
-$table->setTitle("Top 5 de la 1ra Temporada");
+$table->setTitle("Top 5 de la 1ra League");
 $table->setFooter("<a href=\"./ranking.php?seasonid=1\"> Ver todo el ranking </a>");
 //showPage("Ranking de $title", false, $table->getTable(), "");
 $tableTopFive = $table->getTable();
@@ -56,7 +56,7 @@ $tableTopFive = $table->getTable();
 $tablesNextEvent="concurso co join usuario us on(co.creator_id = us.id_usuario)";
 
 $columnsNE = array(
-        array("co.id_concurso",  "contest",     -1, ""),
+        array("co.contest_id",  "contest",     -1, ""),
         array("TIMESTAMPDIFF(SECOND,now(),fecha)",   "",            -1, "",""),
         // array("now()",   "",            -2, "",""),
         array("co.nombre",  "Upcoming Contests",    -2, "",
@@ -72,18 +72,19 @@ $columnsNE = array(
                     ,"end_message":\'contest is now open\'
                 };
                 </script>'),
+        array("TIME_FORMAT(co.total_time,'%H:%m')",  "duration",     -2, "",""),
         array("'scoreboard'","register",
             "type"=>'replacement',
             "value"=>'<a href="./concurso_enrollUser.php?cId=#{0}">register</a>'),
         array("co.creator_id",  "username",     -1, "",""),
         array("us.username",  "creator",     -2, "",
             "type"=>"replacement",
-            "value"=>"<a class='userLink' href='./user.php?u=#{5}'>#{6}</a>")
+            "value"=>"<a class='userLink' href='./user.php?u=#{6}'>#{7}</a>")
 );
 
 $conditionNE = "WHERE co.is_published = 1 
         AND TIMESTAMPDIFF(SECOND,now(),fecha) >= 0 ".
-        "ORDER BY co.id_concurso ASC";
+        "ORDER BY co.contest_id ASC";
 
 include_once 'table2.php';
 $upcomingContestsTable = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);
@@ -100,7 +101,7 @@ $tablesNextEvent="concurso co join usuario us on(co.creator_id = us.id_usuario)"
 // <script type="text/javascript">window.onload = CreateTimer("timer1", 30);</script>
 
 $columnsNE = array(
-        array("co.id_concurso",  "contest",     -1, ""),
+        array("co.contest_id",  "contest",     -1, ""),
         array("TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time))",  "total_time",     -1, ""),
         // array("now()",   "",            -2, "",""),
         array("nombre",  "Siguente",     -2, "",
@@ -139,7 +140,7 @@ $tableNextEvent = $runningContestsTable->getTable();
 //PAST CONTESTS TABLE
 
 $columnsNE = array(
-        array("co.id_concurso",  "contest",     -1, ""),
+        array("co.contest_id",  "contest",     -1, ""),
         array("TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time))",  "total_time",     -1, ""),
         // array("now()",   "",            -2, "",""),
         array("nombre",  "Siguente",     70, "",
@@ -172,7 +173,7 @@ $pastContestsTable->setTableAtr("width='250'");
 //COMPLETED CONTESTS
 // $tablesPC="concurso co";
 // $columnsPC = array(
-//         array("co.id_concurso",  "",     -1, ""),
+//         array("co.contest_id",  "",     -1, ""),
 //         array("co.nombre_corto",  "",     60, "",
 //             "type"=>"linked 0 con_res"),
 //         array("'practicar'",  "",     60,"", 
@@ -251,7 +252,9 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
             <table width="100%">
                 <tr>
                     <td align="left">
-                        <?php include "home/welcome.htm" ?>
+                        <?php 
+                        // include "home/welcome.htm" 
+                        ?> 
 
                     </td>
                 </tr>

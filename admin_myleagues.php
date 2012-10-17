@@ -18,6 +18,8 @@ if(isset($_GET['delleagueid'])){
     $fields = array(
         'nombre'=> 
             array('label'=>'League Name','type'=>'text'),
+        'description'=> 
+            array('label'=>'Description','type'=>'text'),
         'creator_id'=>array(
             'type'=>'hidden',
             'value'=>$_SESSION['userId']
@@ -25,13 +27,13 @@ if(isset($_GET['delleagueid'])){
     );
 
     include_once 'maintenanceForm.php';
-    $tablePC = new RCMaintenanceForm('temporada',$fields,NULL,'Create League', 'nombre','style="width:400px"');
+    $tablePC = new RCMaintenanceForm('co_league',$fields,NULL,'Create League', 'League Created','style="width:400px"');
     $tablePC->setOnSuccessRedirectPage('admin_myleagues.php');
     // See problem list 
-    $tablesPC="temporada temporada";
+    $tablesPC="co_league co_league";
     $columnsPC = array(
-    array("temporada.id_temporada",  "",     -1, ""),
-    array("temporada.nombre",  "League Name",     160, "",""),
+    array("co_league.league_id",  "",     -1, ""),
+    array("co_league.nombre",  "League Name",     160, "",""),
     array("'delete'",  "Delete", 80, "", 
         "type"=>"replacement", 
         'value' => "<a href='/admin_myleagues.php?delleagueid=#{0}'>Delete</a>"),
@@ -39,7 +41,7 @@ if(isset($_GET['delleagueid'])){
         "type"=>"replacement", 
         'value' => "<a href='/admin_myleagues.php?i=#{0}'>See Contests</a>"),
     );
-    $conditionPC = "WHERE temporada.creator_id = '".$_SESSION['userId']."'".
+    $conditionPC = "WHERE co_league.creator_id = '".$_SESSION['userId']."'".
     " ORDER BY 1 DESC";
 
     include_once 'table2.php';

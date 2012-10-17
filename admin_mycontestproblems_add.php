@@ -59,8 +59,8 @@ function addProblemMethod($_POST){
     $pts = $_POST['points'];
     $languageId = $_POST['problem_language_id'];
 
-    include_once 'data_objects/DAOConcurso.php';
-    DAOConcurso_addProblemToContest($contestId,$problemId, $pts, $languageId);
+    include_once 'data_objects/DAOContest.php';
+    DAOContest_addProblemToContest($contestId,$problemId, $pts, $languageId);
     
     include_once 'data_objects/DAOProblem.php';
     $problemData = DAOProblem_getProblemData($problemId);

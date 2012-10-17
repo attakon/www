@@ -79,16 +79,6 @@ function getForm($user, $first_name, $last_name, $email, $school, $message){
         </tr>
         <tr>
             <td class="LeftFill"></td>
-            <td class="regLabel">Escuela/Instituto:</td>
-            <td class="regField">                
-                <select name = "school">
-                    '.$options.'
-                </select>
-            </td >
-            <td class="RightFill"></td>
-        </tr>
-        <tr>
-            <td class="LeftFill"></td>
             <td align="center" colspan="2" height="30">
                 Ingrese esto:<br/>
                 <img id="captcha" src="securimage/securimage_show.php" alt="CAPTCHA Image" />

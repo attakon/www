@@ -7,10 +7,10 @@ $username_rC= $_GET['user'];
 $firstName_rC= $_GET['first_name'];
 $lastName_rC= $_GET['last_name'];
 $email_rC= $_GET['email'];
-$school_rC= $_GET['school'];
+// $school_rC= $_GET['school'];
 $password_rC= $_GET['pass'];
 $repass= $_GET['repass'];
-$params = "user=".$username_rC."&first_name=".$firstName_rC."&last_name=".$lastName_rC."&email=".$email_rC."&school=".$school_rC;
+$params = "user=".$username_rC."&first_name=".$firstName_rC."&last_name=".$lastName_rC."&email=".$email_rC;
 $toheader_rC="Location: ../register.php?".$params;
 if(strlen($password_rC)<5 || strlen($password_rC)>15 || $password_rC!=$repass){
     header($toheader_rC."&message=error en password");
@@ -22,8 +22,6 @@ if(strlen($password_rC)<5 || strlen($password_rC)>15 || $password_rC!=$repass){
     header($toheader_rC."&message=Nombre de Usuario No Disponible");
 }else if(!isAvailableEmail($email_rC)){
     header($toheader_rC."&message=Email No Disponible");
-}else if($school_rC==0){
-    header($toheader_rC."&message=Eliga escuela");
 }else if($securimage->check($_GET['captcha_code']) == false) {
     header($toheader_rC."&message=El texto ingresado no corresponde a la imagen");
 }else{  // really register
@@ -36,7 +34,9 @@ if(strlen($password_rC)<5 || strlen($password_rC)>15 || $password_rC!=$repass){
 
     //Begin raul 21-Oct-2011 stop calling procedure
     include_once ('data_objects/DAOUser.php');
-    DAOUser_registerUser($firstName_rC, $lastName_rC,$school_rC, $email_rC, $username_rC, $password_rC);
+    DAOUser_registerUser($firstName_rC, $lastName_rC, $email_rC, $username_rC, $password_rC);
+    include_once ('emailing.php');
+    sendWelcomeEmail($email_rC,$username_rC);
     // $q3_rC = "INSERT INTO usuario (Nombres, Apellidos, id_escuela, Ciclo, email, username, pass)
              // values ('".$firstName_rC."','".$lastName_rC."','".$school_rC."',-1,'".$email_rC."','".$username_rC."',MD5('".$password_rC."'));";
     //End raul 21-Oct-2011

@@ -15,7 +15,7 @@ $columns = array(
 $table = "ranking";
 $table = new RCTable(conecDb(),$table,"",$columns,"");
 
-$parrafo = parrafoOK("- Cada Temporada ofrece 10 Concursos Individuales.<br>
+$parrafo = parrafoOK("- Cada League ofrece 10 Concursos Individuales.<br>
         - Y cada Concurso Individual ofrece 100 pts.<br>");
 $parrafo =$table->getTable()."<br>".$parrafo;
 showPage("Sistema de Ranking ", false, $parrafo, "");

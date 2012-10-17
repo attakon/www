@@ -6,7 +6,7 @@ include_once 'table.php';
 // ./concurso_registeredUsers.php?id=8
 $concursoId = $_GET['id'];
 //$concursoId = 1;
-$concursoName = firstRow("SELECT nombre, estado FROM concurso WHERE id_concurso='".$concursoId."'");
+$concursoName = firstRow("SELECT nombre, estado FROM concurso WHERE contest_id='".$concursoId."'");
 
 $columns = array(
     array("@rownum:=@rownum+1 'rank'",  "N",     15, ""),
@@ -18,9 +18,9 @@ $columns = array(
 
 $tables = "campaign cmp, usuario us, concurso con, competidor c, (SELECT @rownum:=0) r";
 $condition = "WHERE us.id_usuario = cmp.id_usuario AND
-    cmp.id_concurso = con.id_concurso AND
-    c.id_temporada=con.id_temporada AND
-    con.id_concurso='".$concursoId."' AND
+    cmp.contest_id = con.contest_id AND
+    c.league_id=con.league_id AND
+    con.contest_id='".$concursoId."' AND
     c.id_usuario = us.id_usuario
     ORDER BY cmp.id_campaign";
 $table = new RCTable(conecDb(),$tables,10,$columns,$condition);
@@ -42,8 +42,8 @@ function userRegistrados($concursoId){
     $registeredUsersQry = "SELECT con.id_usuario, con.username, cpg.checked_in
     FROM campaign cpg, usuario con, concurso cso
     WHERE con.id_usuario = cpg.id_usuario AND
-    cpg.id_concurso = cso.id_concurso AND
-    cso.id_concurso='".$concursoId."'
+    cpg.contest_id = cso.contest_id AND
+    cso.contest_id='".$concursoId."'
     ORDER BY cpg.id_campaign";
     $userRS = mysql_query($registeredUsersQry,conecDb()) or die ($registeredUsersQry);
 

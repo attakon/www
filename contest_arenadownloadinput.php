@@ -12,13 +12,13 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
     $campaignData = DAOCampaign_getCampaignData($campaignId);
     // print_r($campaignData);
 
-    include_once 'data_objects/DAOConcurso.php';
-    $contestData = DAOConcurso_getContestData($campaignData['id_concurso']);
-    $contestPhase = DAOConcurso_getContestPhase($campaignData['id_concurso']);
+    include_once 'data_objects/DAOContest.php';
+    $contestData = DAOContest_getContestData($campaignData['contest_id']);
+    $contestPhase = DAOContest_getContestPhase($campaignData['contest_id']);
 
     if($contestPhase=='IN_PROGRESS'){
         include_once 'data_objects/DAOUser.php';
-        $isUserRegistered = DAOUser_isUserRegisteredInContest($campaignData['id_usuario'],$campaignData['id_concurso']);
+        $isUserRegistered = DAOUser_isUserRegisteredInContest($campaignData['id_usuario'],$campaignData['contest_id']);
         if(!$isUserRegistered){
             include_once 'container.php';
             showPage("X.X", false, parrafoError('user not allowed'), "");
@@ -31,10 +31,10 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
             showPage("X.X", false, parrafoError('user not allowed'), "");
             die;
         }
-        $isSubmissionPending = DAOCampaign_isSubmissionPending($campaignData['id_concurso'], $campaignId, $problemId);
+        $isSubmissionPending = DAOCampaign_isSubmissionPending($campaignData['contest_id'], $campaignId, $problemId);
         if(!$isSubmissionPending){
             include_once 'data_objects/DAOCampaign.php';
-            $contestId=$campaignData['id_concurso'];
+            $contestId=$campaignData['contest_id'];
             $submissionId = DAOCampaign_startSubmission($contestId, $campaignId, $problemId);
             processDownload($problemId);    
         }else{

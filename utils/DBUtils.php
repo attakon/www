@@ -13,7 +13,7 @@ function logSQLError($text, $extraData){
   $escapedExtraData = str_replace("'", "\'", $extraData);
   $escapedExtraData .= " stackTrace :".$stackTrace;
   $insert = "INSERT INTO log (text, extra_text, log_type_id)
-  VALUES ('".$text."','".$escapedExtraData."',0)";
+  VALUES ('".$text."','".$escapedExtraData."',1)";
   mysql_query($insert, conecDb());
   // var_dump((debug_backtrace();
   

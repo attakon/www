@@ -10,15 +10,15 @@ session_start();
 function practice ($idConcurso, $idProblem){
 include_once 'utils/ValidateSignedIn.php';
 
-$firstProblem = firstRow("SELECT id_problema from problema WHERE id_concurso = '$idConcurso'");
+$firstProblem = firstRow("SELECT id_problema from problema WHERE contest_id = '$idConcurso'");
 
 $idProblem = $idProblem?$idProblem:$firstProblem[0];
 $idConcurso = $idConcurso?$idConcurso:1;
-$queryProblem = "SELECT id_problema, abrev, nombre, id_concurso
-    from problema where id_concurso ='".$idConcurso."'";
+$queryProblem = "SELECT id_problema, abrev, nombre, contest_id
+    from problema where contest_id ='".$idConcurso."'";
 $rsProb = mysql_query($queryProblem,conecDb()) or die($queryProblem);
 $nameProb = firstRow("select nombre from problema where id_problema = '".$idProblem."'");
-$concursoData = firstRow("select nombre, url_forum from concurso where id_concurso = '".$idConcurso."'");
+$concursoData = firstRow("select nombre, url_forum from concurso where contest_id = '".$idConcurso."'");
 
 //$body = get($nameProb, $rsProb, $idProblem);
 //echo $body;

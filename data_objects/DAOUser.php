@@ -21,7 +21,7 @@ function DAOUser_getUserById($userId){
 }
 
 
-function DAOUser_registerUser($firstName, $lastName, $school, $email, $userName, $password=null){
+function DAOUser_registerUser($firstName, $lastName, $email, $userName, $password=null){
 
   if($password){
     $passwordValue = "MD5('".$password."')";
@@ -29,12 +29,11 @@ function DAOUser_registerUser($firstName, $lastName, $school, $email, $userName,
     $passwordValue="null";
   }
   $insert = " INSERT INTO usuario 
-  (nombres, apellidos, id_escuela, ciclo, email, username, pass)
+  (nombres, apellidos, ciclo, email, username, pass)
     VALUES
   (
   '".$firstName."'
   ,'".$lastName."'
-  ,'".$school."'
   ,-1
   ,'".$email."'
   ,'".$userName."'
@@ -52,35 +51,35 @@ function DAOUser_getUserByName($userName){
 }
 
 function DAOUser_isUserRegisteredInContest($userId, $concursoId){  
-   $query = "SELECT COUNT(*) FROM campaign cpg WHERE cpg.id_concurso = '".$concursoId."' AND cpg.id_usuario = '".$userId."'";
+   $query = "SELECT COUNT(*) FROM campaign cpg WHERE cpg.contest_id = '".$concursoId."' AND cpg.id_usuario = '".$userId."'";
    $n = getRow($query);
    return $n>0;
 }
 
-function DAOUser_isUserRegisteredInLeague($userId, $temporadaId){ 
+function DAOUser_isUserRegisteredInLeague($userId, $leagueId){ 
    $query = "SELECT COUNT(*) FROM competidor c
                        WHERE c.id_usuario = '".$userId."'
-                       AND c.id_temporada = '".$temporadaId."'";
+                       AND c.league_id = '".$leagueId."'";
    $n = getRow($query);
    return $n>0;
 }
 
-function DAOUser_getUserLeaguePoints($userId,$temporadaId){ 
-   $query = "SELECT c.puntos FROM competidor c WHERE c.id_usuario = '".$userId."' AND c.id_temporada= '".$temporadaId."'";
+function DAOUser_getUserLeaguePoints($userId,$leagueId){ 
+   $query = "SELECT c.puntos FROM competidor c WHERE c.id_usuario = '".$userId."' AND c.league_id= '".$leagueId."'";
    $n = getRow($query);
    return $n;
 }
 
 
-function DAOUser_registerInLeague($userId,$temporadaId){
-   $insertQ = "INSERT INTO competidor(id_usuario, id_temporada, puntos, penalty_time, `position`,
+function DAOUser_registerInLeague($userId,$leagueId){
+   $insertQ = "INSERT INTO competidor(id_usuario, league_id, puntos, penalty_time, `position`,
       position_school, competitions_count) VALUES
-    ('".$userId."', '".$temporadaId."', 0, '0:0:0', -1, -1, 0)";
+    ('".$userId."', '".$leagueId."', 0, '0:0:0', -1, -1, 0)";
     runQuery($insertQ);
 }
 
 function DAOUser_registerInContest($contestId, $userId, $oldPts){
-  $insertQ = "INSERT INTO campaign (id_concurso, id_usuario, old_puntaje)
+  $insertQ = "INSERT INTO campaign (contest_id, id_usuario, old_puntaje)
     VALUES ('".$contestId."', '".$userId."', '".$oldPts."');";
 
   runQuery($insertQ);
@@ -88,7 +87,7 @@ function DAOUser_registerInContest($contestId, $userId, $oldPts){
   include_once 'data_objects/DAOCampaign.php';
   $campaignData = DAOCampaign_getCampaignForUser($userId, $contestId);
 
-  $campaignDetailToInsert = DAOConcurso_getProblems($contestId);
+  $campaignDetailToInsert = DAOContest_getProblems($contestId);
   // print_r($campaignDetailToInsert);
   foreach ($campaignDetailToInsert as $key => $problemsToInsertValue) {
       DAOCampaign_createCampaignDetail(
@@ -110,17 +109,17 @@ function DAOUser_login($incomingUserName, $incomingPassword){
 function DAOUser_getUserCampaignHistory($userId){
     $q = "(
         SELECT 
-        p.id_problema, p.nombre, p.abrev, con.nombre_corto as 'contest_name', con.id_concurso as 'contest_id', 4 as 'status', cd.id_campaign as 'cpg_id', con.fecha
+        p.id_problema, p.nombre, p.abrev, con.nombre_corto as 'contest_name', con.contest_id as 'contest_id', 4 as 'status', cd.id_campaign as 'cpg_id', con.fecha
         FROM campaigndetalle cd join problema p using(id_problema)
-        join concurso con on (con.id_concurso = p.id_concurso) 
+        join concurso con on (con.contest_id = p.contest_id) 
         join campaign camp using(id_campaign) 
         join usuario u on(camp.id_usuario = u.id_usuario)
         WHERE u.id_usuario = '".$userId."'
             AND cd.solved = 1)
             UNION
-        (SELECT p.id_problema, p.nombre, p.abrev, con.nombre_corto as 'contest_name', con.id_concurso as 'contest_id', pc.status, '-1' as 'cpg_id', con.fecha
+        (SELECT p.id_problema, p.nombre, p.abrev, con.nombre_corto as 'contest_name', con.contest_id as 'contest_id', pc.status, '-1' as 'cpg_id', con.fecha
         FROM practice_campaigns pc join problema p using(id_problema)
-        join concurso con on (con.id_concurso = p.id_concurso) 
+        join concurso con on (con.contest_id = p.contest_id) 
         join usuario u on(pc.id_usuario = u.id_usuario)
         WHERE u.id_usuario = '".$userId."' and pc.status<>1)";
 //            ORDER BY concurso.fecha";
@@ -134,22 +133,22 @@ function DAOUser_getUserCampaignHistory2($userId){
           p.problem_id, 
           p.name, 
           con.nombre as 'contest_name', 
-          con.id_concurso as 'contest_id', 4 as 'status', 
+          con.contest_id as 'contest_id', 4 as 'status', 
           cd.id_campaign as 'cpg_id', 
           con.fecha
         FROM campaigndetalle cd join co_problem p on(cd.id_problema = p.problem_id) 
           join campaign camp on(cd.id_campaign=camp.id_campaign)
           join co_contest_problems cp using(problem_id)
-          join concurso con on (con.id_concurso = cp.contest_id and con.id_concurso=camp.id_concurso) 
+          join concurso con on (con.contest_id = cp.contest_id and con.contest_id=camp.contest_id) 
         WHERE camp.id_usuario = '".$userId."'
             AND cd.solved = 1)";
             
         
     $q = "(SELECT p.problem_id, p.name, 
-        con.nombre as 'contest_name', con.id_concurso as 'contest_id', pc.status, '-1' as 'cpg_id', con.fecha
+        con.nombre as 'contest_name', con.contest_id as 'contest_id', pc.status, '-1' as 'cpg_id', con.fecha
         FROM practice_campaigns pc join co_problem p on(pc.id_problema = p.problem_id) 
         join co_contest_problems cp using(problem_id)
-        join concurso con on (con.id_concurso = cp.contest_id)
+        join concurso con on (con.contest_id = cp.contest_id)
         WHERE pc.id_usuario = '".$userId."' and pc.status<>1)"; 
     $query = $p ." UNION ".$q;
 //            ORDER BY concurso.fecha";
@@ -160,7 +159,7 @@ function DAOUser_getUserCampaignHistory2($userId){
 function DAOUser_getUserPracticeCampaignHistory($userId){
     $q = "SELECT p.id_problema, p.nombre, con.nombre_corto as 'contest_name', pc.status
         FROM practice_campaigns pc join problema p using(id_problema)
-        join concurso con on (con.id_concurso = p.id_concurso) 
+        join concurso con on (con.contest_id = p.contest_id) 
         join usuario u on(pc.id_usuario = u.id_usuario)
         WHERE u.id_usuario = '".$userId."'";
     return getRowsInArray($q);
