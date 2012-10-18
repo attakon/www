@@ -1,7 +1,6 @@
 <label>
     <br>
-    When you are ready, download the input file.
-    <br>&nbsp;
+    <br>
 </label>
 <!--BEGIN SUBMIT FORM -->
 <script type="text/javascript">
@@ -40,7 +39,7 @@
                                     // print_r($isSubmissionPending);
                 $downloadLink = "<a id='download-link' href='contest_arenadownloadinput.php?pid=".$problemId."&cmpid=".$campaignId."'>Download New Input File</a>";
                 if($isContest){
-                    $downloadLink = "<a id='download-link' onclick='downloadFile(".$campaignId.",".$problemId.")'>Download New Input File</a>";    
+                    $downloadLink = "<div id='download-link'><a  onclick='downloadFile(".$campaignId.",".$problemId.")'>Download New Input File</a><label> when you are ready</label></div>";
                 }
                 
                 if($isSubmissionPending){

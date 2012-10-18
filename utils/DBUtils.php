@@ -33,6 +33,7 @@ function checkForError($query=null){
 */
 function getRow($query){
     $rs = mysql_query($query, conecDb());
+    // echo $query;
     $data = mysql_fetch_row($rs);
     checkForError($query);
     return $data[0];

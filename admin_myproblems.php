@@ -191,7 +191,7 @@ function previewProblem($_PAR){
 }
 
 // function sonIguales($tmpName, $idProblem) {
-//     $correctOut = firstRow("select output_file from problema where id_problema ='".$idProblem."'");
+//     $correctOut = firstRow("select output_file from problema where problem_id ='".$idProblem."'");
 //     $correct = explode("\n", $correctOut[0]);
 //     $file_handle = fopen($tmpName, "r");
 //     $i = 0;

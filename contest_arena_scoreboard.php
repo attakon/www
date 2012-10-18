@@ -95,9 +95,9 @@ function getScoreboardHTML($contestId){
             <td align="center"> <?php echo $campaignValue['penalizacion']?> </td>
             <?php
             $campaignDetailData = DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignValue['id_campaign']);
-            // $queryCampaignDetalle ="SELECT Id_Problema, solved, tiempo_submision, intentos_fallidos, successful_source_code
+            // $queryCampaignDetalle ="SELECT problem_id, solved, tiempo_submision, intentos_fallidos, successful_source_code
             //             FROM campaigndetalle WHERE id_campaign = " .$campaignValue['id_campaign']. " " .
-            //             "ORDER BY Id_Problema";
+            //             "ORDER BY problem_id";
 
 
             include_once 'data_objects/DAOCampaign.php';
@@ -112,7 +112,7 @@ function getScoreboardHTML($contestId){
             <td class="det" align="center" height="40"> <?php
                 if($campaignDetailValue['solved']){
                     if(DAOGlobalDefaults_getGlobalValue('SHOW_USER_CODE_IN_RESULTS')=='Y'){
-                        echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['id_problema'].'">
+                        echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['problem_id'].'">
                         '.$campaignDetailValue['tiempo_submision']
                         ."</a>";
                     }else{

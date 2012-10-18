@@ -3,7 +3,6 @@ session_start();
 include_once 'utils/ValidateSignedIn.php';
 $signedInUserId = $_SESSION['userId'];
 
-include_once 'container.php';
 include_once 'CustomTags.php';
 
 $idCampaign = $_GET['cpg'];
@@ -25,19 +24,20 @@ include_once 'data_objects/DAOProblem.php';
 
 $isSeenByUser = DAOProblem_isAlrearySeenByUserInPractite($problemId,$signedInUserId);
 
-if(!$isSeenByUser){
+if(!$isSeenByUser && $contestData['creator_id']!=$_SESSION['userId']){
     if(isset($_GET['do'])){
         DAOProblem_markProblemAsSeenInPractice($problemId, $signedInUserId);
     }else if(!DAOProblem_isSolvedByUserInContest($problemId, $signedInUserId)){
         $seeItPath = $_SERVER['PHP_SELF'].'?cpg='.$idCampaign.'&p='.$problemId.'&do';
         $seeItLink = rCLink($seeItPath, null, 'See code anyways');
-        $concursoId = DAOProblem_getProblemConcursoId($problemId);
-        $solveItPath = 'concurso_results.php?i='.$concursoId.'&idp='.$problemId.'&tab=1';
+        // $concursoId = DAOProblem_getProblemConcursoId($problemId);
+        $solveItPath = 'contest_arena.php?id='.$contestId.'&pid='.$problemId;
         $solveItLink = rCLink($solveItPath, null, 'Solve the problem');
 
         $content = parrafoOK("Si resuelves el problema antes de ver una solucion, lo tendras registrado en tu perfil como un problema azul");
         $content.=parrafoOK($seeItLink.' '.$solveItLink);
-        showPage('X.X', false, $content, '');
+        include_once 'container.php';
+        showPage('X.X', false, $content, 'onload="prettyPrint()"');
         die;
     }
 }
@@ -54,7 +54,7 @@ $queryData = "SELECT us.username, prob.name, con.nombre, cd.successful_source_co
      WHERE us.id_usuario = ca.id_usuario AND
         ca.contest_id = con.contest_id AND
         ca.id_campaign = cd.id_campaign AND
-        prob.problem_id = cd.id_problema AND
+        prob.problem_id = cd.problem_id AND
         ca.id_campaign = '".$idCampaign."' AND
         prob.problem_id = '".$problemId."'";
 //echo $queryData;
@@ -70,7 +70,12 @@ foreach ($dataLines as $line) {
 }
 $body = formatCode($title, $data[3],$maxRow,$maxCol);
 
-showPage($title, false, $body , "");
+?>
+    
+<?php 
+
+include_once 'container.php';
+showPage($title, false, $body , 'onload="prettyPrint()"');
 
 function formatCode($title, $body, $row, $col) {
     ob_start();
@@ -83,9 +88,15 @@ function formatCode($title, $body, $row, $col) {
     </tr>
     <tr bgcolor="#43434" class="trbody">
         <td></td>
-        <td bgcolor="#43434" >
-            <textarea  class="code" readonly id="textarea1" rows="<?php echo $row ?>" cols="<?php echo $col ?>" ><?php echo $body?> </textarea>
-        </td>
+        <code class="prettyprint">
+            <!-- <td bgcolor="#43434" > -->
+                <div>
+                <?php echo $body?> 
+                </div>
+                    <!-- <textarea  class="code" readonly id="textarea1" rows="<?php echo $row ?>" cols="<?php echo $col ?>" ><?php echo $body?> </textarea> -->
+                
+            <!-- </td> -->
+        </code>
         <td></td>
     </tr>
 </table>

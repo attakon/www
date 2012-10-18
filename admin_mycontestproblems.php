@@ -161,8 +161,8 @@ else if(isset($_GET['id'])){
             "type"=>"replacement",
             'value'=>'<a class="userLink" href="./user.php?u=#{1}" >#{2}</a>'),
         // array("count(us.id_usuario)",   "campaign_detalle", 2,  ""),
-        array("count(cmpd.id_problema)",  "problems assigned",     100, ""),
-        array("if(count(cmpd.id_problema)=".sizeof($contestProblems).",'OK','NOT READY')",  "READY ",100, ""),
+        array("count(cmpd.problem_id)",  "problems assigned",     100, ""),
+        array("if(count(cmpd.problem_id)=".sizeof($contestProblems).",'OK','NOT READY')",  "READY ",100, ""),
         array("'xxx'",  "problems assigned",     100, "",
             "type"=>"replacement",
             'value'=>'<a href="./admin_mycontestproblems.php?id='.$contestId.'&deregisterid=#{0}">de-register</a>')

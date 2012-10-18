@@ -5,23 +5,25 @@ error_reporting(E_ALL);
 session_start();
 
 include("conexion.php");
-
-include("data_objects/DAOUser.php");
 include("data_objects/DAOUserEvents.php");
 
 $conexion = conecDb();
-$username = $_POST['vb_login_username'];
-$password = $_POST['vb_login_password'];
+$incomingUserName = $_POST['vb_login_username'];
+$incomingPassword = $_POST['vb_login_password'];
 
 //echo $username." ".$password;
-$q = "SELECT id_usuario, username FROM usuario WHERE username ='".$username."' and
-    pass = MD5('".$password."')";
-$rs = mysql_query($q,$conexion) or die ($q);
+// $q = "SELECT id_usuario, username FROM usuario WHERE username ='".$username."' and
+    // pass = MD5('".$password."')";
 
-if(mysql_num_rows($rs)==1){
-    $userData = DAOUser_getUserByName($username);
-    $_SESSION['user'] = $username;
-    $_SESSION['userDisplayName']= $username;
+// $rs = mysql_query($q,$conexion) or die ($q);
+
+include("data_objects/DAOUser.php");
+$prettyUserName = DAOUser_login($incomingUserName,$incomingPassword);
+
+if($prettyUserName){
+    $userData = DAOUser_getUserByName($incomingUserName);
+    $_SESSION['user'] = $userData['username'];
+    $_SESSION['userDisplayName']= $userData['username'];
     $_SESSION['userId'] = $userData['id_usuario'];
 
     //Begin Adding Raul July 28, 2012

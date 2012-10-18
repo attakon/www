@@ -18,6 +18,7 @@
 
     unset($_SESSION['io']);
     unset($_SESSION['problemName']);
+    unset($_SESSION['exampleCasesCount']);
 
     include_once 'container.php';
     include_once 'CustomTags.php';

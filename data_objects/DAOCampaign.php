@@ -7,20 +7,20 @@ function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
   $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
 
   $queryCampaignDetalle =
-    "SELECT cd.id_problema, cd.solved, cd.tiempo_submision, count(cs.campaign_submission_id) 'attempts'
+    "SELECT cd.problem_id, cd.solved, cd.tiempo_submision, count(cs.campaign_submission_id) 'attempts'
     FROM campaigndetalle cd LEFT JOIN campaign_submission cs 
-       on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.id_problema 
+       on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id 
         AND (
           (cs.status=0 AND ".$elapsedSeconds."-TIME_TO_SEC(cs.download_time)>180) 
           OR (cs.status=0 AND cs.submission_time IS NOT NULL)
           )
         ) 
     WHERE id_campaign = ".$campaignId." 
-    GROUP BY id_problema
-    ORDER BY id_problema";
+    GROUP BY problem_id
+    ORDER BY problem_id";
 
-//     SELECT cd.Id_Problema, cd.solved, cd.tiempo_submision,count(cs.campaign_submission_id), cd.successful_source_code FROM campaigndetalle cd join campaign_submission cs 
-//     on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.id_problema) 
+//     SELECT cd.problem_id, cd.solved, cd.tiempo_submision,count(cs.campaign_submission_id), cd.successful_source_code FROM campaigndetalle cd join campaign_submission cs 
+//     on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id) 
 // WHERE cd.id_campaign = 221 
 // AND cs.status=0
 
@@ -45,7 +45,7 @@ function DAOCampaign_isSubmissionPending($contestId, $campaignId, $problemId){
 
 function DAOCampaign_isProblemSolved($contestId, $campaignId, $problemId){
   $query = "SELECT solved FROM campaigndetalle WHERE id_campaign = '".$campaignId."' 
-    AND id_problema ='".$problemId."'";
+    AND problem_id ='".$problemId."'";
   $res = getRow($query);
   return $res=='1';
 }
@@ -140,14 +140,14 @@ function DAOCampaign_getCampaignsNotCreatedForUserInContest($userId, $contestId)
 	$query = "SELECT problem_id from co_contest_problems where contest_id = ".$contestId."
 	AND 
 	problem_id NOT IN 
-	(SELECT id_problema from campaigndetalle cmpd join campaign cmp using(id_campaign) WHERE 
+	(SELECT problem_id from campaigndetalle cmpd join campaign cmp using(id_campaign) WHERE 
 	cmp.contest_id = ".$contestId." AND cmp.id_usuario = ".$userId.")";
 	return getRowsInArray($query);
 }
 
 function DAOCampaign_createCampaignDetail($campaignId, $problemId){
     $queryC = "INSERT INTO campaigndetalle".
-    "(id_campaign, id_problema) VALUES (".$campaignId.",".$problemId.")";
+    "(id_campaign, problem_id) VALUES (".$campaignId.",".$problemId.")";
     runQuery($queryC);
 }
 

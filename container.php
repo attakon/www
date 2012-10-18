@@ -20,7 +20,7 @@ include_once("header_div.php");
         include_once("head_includes.php");//mandatory 
         include_once "GLOBALS.php";
     ?>
-    <body style="margin-right:13; margin-left:13; margin-top:0;padding-top:0;" >
+    <body style="margin-right:13; margin-left:13; margin-top:0;padding-top:0;" <?php echo $bodyOptionalAtr?> >
            <!-- JS SDK -->
 
         <?php echo headerFunction($statusBar)?>

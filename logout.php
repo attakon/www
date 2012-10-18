@@ -38,6 +38,8 @@ session_start();
 	unset($_SESSION['fbUserName']);
 	unset($_SESSION['fbImgURL']);
 	unset($_SESSION['userDisplayName']);
+	unset($_SESSION);
+	session_unset();
 	if(isset($_SESSION['lastvisitedurl'])){
 		header('Location: '.$_SESSION['lastvisitedurl']);
 	}else{

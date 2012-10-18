@@ -69,14 +69,14 @@ function DAOProblem_getProblemIO($problemId){
 */
 function DAOProblem_getProblemConcursoId($problemId){
     $query="SELECT contest_id 
-        FROM problema where id_problema = '".$problemId."'";
+        FROM problema where problem_id = '".$problemId."'";
     $concursoId = getRow($query);
     return $concursoId;
 }
 function DAOProblem_isSolvedByUserInContest($problemId,$userId){ 
    $query = "SELECT cd.solved 
        FROM campaigndetalle cd join campaign c using (id_campaign) 
-       WHERE cd.id_problema = '".$problemId."' 
+       WHERE cd.problem_id = '".$problemId."' 
        AND c.id_usuario = '".$userId."' 
            AND cd.solved = 1";
    $res = getRow($query);
@@ -86,7 +86,7 @@ function DAOProblem_isSolvedByUserInContest($problemId,$userId){
 function DAOProblem_isAlrearySeenByUserInPractite($problemId,$userId){ 
    $query = "SELECT pc.status 
        FROM practice_campaigns pc 
-       WHERE pc.id_problema = '".$problemId."' 
+       WHERE pc.problem_id = '".$problemId."' 
        AND pc.id_usuario = '".$userId."'";
    $res = getRow($query);
    if(is_null($res)){
@@ -96,7 +96,7 @@ function DAOProblem_isAlrearySeenByUserInPractite($problemId,$userId){
    }
 }
 function DAOProblem_markProblemAsSeenInPractice($problemId,$userId){
-    $query = "INSERT INTO practice_campaigns (id_problema, id_usuario, status)
+    $query = "INSERT INTO practice_campaigns (problem_id, id_usuario, status)
          VALUES ('".$problemId."','".$userId."',1)";
     runQuery($query);
 }
@@ -108,7 +108,7 @@ function DAOProblem_markAsSolved($problemId, $userId, $sourceCode=null){
     
      if(!$status){
         $query = "INSERT INTO practice_campaigns 
-          (id_problema, id_usuario, status, solving_date, source_code)
+          (problem_id, id_usuario, status, solving_date, source_code)
          VALUES ('".$problemId."','".$userId."',3, CURRENT_TIMESTAMP(),'".$sourceCode."')";
         runQuery($query);
     }else { //$status =1,2,3
@@ -125,13 +125,13 @@ function DAOProblem_markAsSolved($problemId, $userId, $sourceCode=null){
             SET status = '".$newStatus."',
               solving_date = CURRENT_TIMESTAMP(),
               source_code = '".$sourceCode."'
-            WHERE id_problema= '".$problemId."'
+            WHERE problem_id= '".$problemId."'
             AND id_usuario = '".$userId."'";  
         }else{
           $query = "UPDATE practice_campaigns
             SET status = '".$newStatus."',
               solving_date = CURRENT_TIMESTAMP()
-            WHERE id_problema= '".$problemId."'
+            WHERE problem_id= '".$problemId."'
             AND id_usuario = '".$userId."'";  
         }
         

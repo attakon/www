@@ -56,9 +56,26 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
         showPage("X.X", false, parrafoError('not allowed to be here'), "");
     }
 }
+function SEOshuffle(&$items, $seed=false) {
+  $original = md5(serialize($items));
+  mt_srand(crc32(($seed) ? $seed : $items[0]));
+  for ($i = count($items) - 1; $i > 0; $i--){
+    $j = @mt_rand(0, $i);
+    list($items[$i], $items[$j]) = array($items[$j], $items[$i]);
+  }
+  if ($original == md5(serialize($items))) {
+    list($items[count($items) - 1], $items[0]) = array($items[0], $items[count($items) - 1]);
+  }
+}
 function processDownload($problemId){
         include_once 'data_objects/DAOProblem.php';
         $problemData = DAOProblem_getProblemData($problemId);
+        
+
+        // uasort($problemData,'scmp');
+        // print_r($shuff);
+
+        
         $problemName = $problemData['name'];
         // print_r($problemData);
         
@@ -72,26 +89,33 @@ function processDownload($problemId){
         //     $inputContent .= $value['case_input'];
         //     $outputContent .= $value['case_output'];
         // }
-        if(!isset($_SESSION['inputContent_'.$problemId]) || !isset($_SESSION['outputContent_'.$problemId])){
+        // if(!isset($_SESSION['inputContent_'.$problemId]) || !isset($_SESSION['outputContent_'.$problemId])){
 
             // print_r($problemIO);
 
-            include_once 'data_objects/DAOProblem.php';
-            $problemIO = DAOProblem_getProblemIO($problemId);
-            
-            $outputContent = '';
-            $inputSize = sizeof($problemIO);
-            $inputContent = $inputSize.chr(13);
-            foreach ($problemIO as $key => $value) {
-                $inputContent .= $value['case_input'];
-                $outputContent .= $value['case_output'];
-            }
-            $_SESSION['inputContent_'.$problemId]=$inputContent;
-            $_SESSION['outputContent_'.$problemId]=$outputContent;
-        }else{
-            $inputContent = $_SESSION['inputContent_'.$problemId];
-            $outputContent = $_SESSION['outputContent_'.$problemId];
+        include_once 'data_objects/DAOProblem.php';
+        //[TODO] Chance of improvement. Bring only Input
+        $problemIO = DAOProblem_getProblemIO($problemId);
+        // print_r($problemIO);
+        // print_r(problemIO)
+        $seed = rand(0, 10);
+        SEOshuffle($problemIO,$seed);
+
+        // $outputContent = '';
+        $inputSize = sizeof($problemIO);
+        $inputContent = $inputSize.chr(13);
+        foreach ($problemIO as $key => $value) {
+            $inputContent .= $value['case_input'];
+            // $outputContent .= $value['case_output'];
         }
+        
+        $_SESSION['io_seed_'.$problemId]=$seed;
+            // $_SESSION['inputContent_'.$problemId]=$inputContent;
+            // $_SESSION['outputContent_'.$problemId]=$outputContent;
+        // }else{
+        //     $inputContent = $_SESSION['inputContent_'.$problemId];
+        //     $outputContent = $_SESSION['outputContent_'.$problemId];
+        // }
 
         // $result = @mysql_query($sql, conecDb());
         // $data = @mysql_result($result, 0, "input_file");

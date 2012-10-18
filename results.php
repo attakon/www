@@ -15,9 +15,9 @@ function results($idConcurso){
 
     $rs = mysql_query($qDetalle,conecDb()) or die ($qDetalle);
 
-    $queryProblem = "SELECT id_problema, nombre, abrev, valor From problema " .
+    $queryProblem = "SELECT problem_id, nombre, abrev, valor From problema " .
                     "WHERE contest_id = '$idConcurso' " .
-                    "ORDER BY Id_Problema";
+                    "ORDER BY problem_id";
     //    mysql_real_escape_string($idConcurso);
 
     $rsProblems =  mysql_query($queryProblem,conecDb()) or die ($queryProblem);
@@ -37,7 +37,7 @@ function results($idConcurso){
             <th width="100"> Penalizaci&oacute;n </th>
             <?php
             while($problems = mysql_fetch_array($rsProblems)){
-                $problemFileURL = 'files/problems/'.$problems['id_problema'].'_'.$problems['nombre'].'.pdf';
+                $problemFileURL = 'files/problems/'.$problems['problem_id'].'_'.$problems['nombre'].'.pdf';
                 ?>
             <th class="det" width="110" title="<?php echo $problems[1]?>">
                 <?php echo "<label>".$problems[2]."</label>"; ?> <br>
@@ -63,9 +63,9 @@ function results($idConcurso){
             <td style="font-weight:bold"align="center"> <?php echo $data[5]?> </td>
             <td align="center"> <?php echo $data[6]?> </td>
             <?php
-            $queryCampaignDetalle ="SELECT Id_Problema, solved, tiempo_submision, intentos_fallidos, successful_source_code
+            $queryCampaignDetalle ="SELECT problem_id, solved, tiempo_submision, intentos_fallidos, successful_source_code
                         FROM campaigndetalle WHERE id_campaign = " .$data[0]. " " .
-                        "ORDER BY Id_Problema";
+                        "ORDER BY problem_id";
 
             $rsCampaingDetalle = mysql_query($queryCampaignDetalle,conecDb()) or die ($queryCampaignDetalle);
             while($campaingDetalle = mysql_fetch_row($rsCampaingDetalle)){

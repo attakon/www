@@ -19,7 +19,7 @@ if(empty($tmpName)){
 }
 $respuesta = sonIguales($tmpName,$idp);
 
-$problemName = firstRow("SELECT nombre FROM problema where id_problema = '$idp' ");
+$problemName = firstRow("SELECT nombre FROM problema where problem_id = '$idp' ");
 $problemName  = $problemName[0];
 include_once 'data_objects/DAOUserEvents.php';
 if($respuesta[0]) {
@@ -47,7 +47,7 @@ if($respuesta[0]) {
 }
 
 function sonIguales($tmpName, $idProblem) {
-    $correctOut = firstRow("select output_file from problema where id_problema ='".$idProblem."'");
+    $correctOut = firstRow("select output_file from problema where problem_id ='".$idProblem."'");
     $correct = explode("\n", $correctOut[0]);
     $file_handle = fopen($tmpName, "r");
     $i = 0;
