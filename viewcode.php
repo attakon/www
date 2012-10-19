@@ -68,7 +68,12 @@ $maxRow=sizeof($dataLines);
 foreach ($dataLines as $line) {
     $maxCol = max($maxCol,strlen($line));
 }
-$body = formatCode($title, $data[3],$maxRow,$maxCol);
+// $data[3]= str_replace("\t", "&nbsp;&nbsp;&nbsp;", $data[3]);
+$data[3]="\n".$data[3];
+$data[3]= str_replace("<", "&lt;", $data[3]);
+$data[3]= str_replace(">", "&gt;", $data[3]);
+// $data[3]= str_replace("\n", "<br/>", $data[3]);
+$body = formatCode($title, $data[3],$maxRow,$maxCol*9);
 
 ?>
     
@@ -78,28 +83,22 @@ include_once 'container.php';
 showPage($title, false, $body , 'onload="prettyPrint()"');
 
 function formatCode($title, $body, $row, $col) {
+    // echo $body;
     ob_start();
+
     ?>
-<table align="center" style="border-collapse: collapse">
-    <tr>
-        <th class="left"></th>
-        <th class="middle"><?php echo $title?></th>
-        <th class="right"></th>
-    </tr>
-    <tr bgcolor="#43434" class="trbody">
-        <td></td>
-        <code class="prettyprint">
-            <!-- <td bgcolor="#43434" > -->
-                <div>
-                <?php echo $body?> 
-                </div>
-                    <!-- <textarea  class="code" readonly id="textarea1" rows="<?php echo $row ?>" cols="<?php echo $col ?>" ><?php echo $body?> </textarea> -->
-                
-            <!-- </td> -->
-        </code>
-        <td></td>
-    </tr>
-</table>
+
+<link href="styles/prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/prettify.js"></script>
+<link href="styles/sunburst.css" type="text/css" rel="stylesheet" />
+<!-- <link href="styles/son-of-obsidian.css" type="text/css" rel="stylesheet" /> -->
+
+<div style="text-align:center">
+    <pre class="prettyprint" style="width:<?php echo $col?>px; text-align:left">
+        <?php echo $body;?>
+    </pre>
+</div>
+
     <?php
     $r = ob_get_contents();
     ob_end_clean();
