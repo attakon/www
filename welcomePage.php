@@ -34,7 +34,7 @@ $rankField="position";
 $columns = array(
         array("us.id_usuario",  "username",     -1, ""),
         array("c.$rankField",   "El",            20, ""),
-        array("c.id_ranking",   "Top",             0,  "",
+        array("c.id_ranking",   "Top",          -2,  "",
             "type"=>"img images/ranking gif"),
         array("us.username",    "5",   120,"","type"=>"linked 0 user"),
         array("c.puntos",       "",          30, "class='pts'"),
@@ -46,14 +46,15 @@ $condition = "WHERE c.id_usuario = us.id_usuario ".
         "ORDER BY 2 ASC,1 ASC LIMIT 5";
 $tables = "competidor c, usuario us";
 include_once 'table2.php';
-$table = new RCTable(conecDb(),$tables,$columns,$condition);
-$table->setTitle("Top 5 de la 1ra League");
-$table->setFooter("<a href=\"./ranking.php?seasonid=1\"> Ver todo el ranking </a>");
-//showPage("Ranking de $title", false, $table->getTable(), "");
-$tableTopFive = $table->getTable();
+// $table = new RCTable(conecDb(),$tables,$columns,$condition);
 
-//UPCOMING CONTESTS TABLE
-$tablesNextEvent="concurso co join usuario us on(co.creator_id = us.id_usuario)";
+// $table->setTitle("Top 5 de la 1ra League");
+// $table->setFooter("<a href=\"./ranking.php?seasonid=1\"> Ver todo el ranking </a>");
+// //showPage("Ranking de $title", false, $table->getTable(), "");
+// $tableTopFive = $table->getTable();
+
+//########################### UPCOMING CONTESTS TABLE
+$upcomingTableList="concurso co join usuario us on(co.creator_id = us.id_usuario)";
 
 $columnsNE = array(
         array("co.contest_id",  "contest",     -1, ""),
@@ -73,7 +74,7 @@ $columnsNE = array(
                 };
                 </script>'),
         array("TIME_FORMAT(co.total_time,'%H:%m')",  "duration",     -2, "",""),
-        array("'scoreboard'","register",
+        array("'scoreboard'","", -2,
             "type"=>'replacement',
             "value"=>'<a href="./concurso_enrollUser.php?cId=#{0}">register</a>'),
         array("co.creator_id",  "username",     -1, "",""),
@@ -87,7 +88,7 @@ $conditionNE = "WHERE co.is_published = 1
         "ORDER BY co.contest_id ASC";
 
 include_once 'table2.php';
-$upcomingContestsTable = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);
+$upcomingContestsTable = new RCTable(conecDb(),$upcomingTableList,$columnsNE,$conditionNE);
 // $upcomingContestsTable->setTitle("Upcoming Contests");
 $upcomingContestsTable->setTableAtr("width='400'");
 $tableNextEvent = $upcomingContestsTable->getTable();
@@ -95,7 +96,7 @@ $tableNextEvent = $upcomingContestsTable->getTable();
 
 // RUNNING CONTESTS TABLE
 
-$tablesNextEvent="concurso co join usuario us on(co.creator_id = us.id_usuario)";
+$contestTables="concurso co join usuario us on(co.creator_id = us.id_usuario)";
 // TIME
 // <div id="timer_"/>
 // <script type="text/javascript">window.onload = CreateTimer("timer1", 30);</script>
@@ -117,7 +118,7 @@ $columnsNE = array(
                     ,"end_message":\'Contest has finished.\'
                 };
                 </script>'),
-        array("'scoreboard'","",
+        array("'scoreboard'","",-2,
             "type"=>'replacement',
             "value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>'),
         array("co.creator_id",  "username",     -1, "",""),
@@ -132,13 +133,14 @@ $conditionNE = "WHERE co.is_published = 1
         "ORDER BY 1 ASC"; 
 
 include_once 'table2.php';
-$runningContestsTable = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);
+$runningContestsTable = new RCTable(conecDb(),$contestTables,$columnsNE,$conditionNE);
 $runningContestsTable->setTitle("Running Contests");
 $runningContestsTable->setTableAtr("width='400'");
 $tableNextEvent = $runningContestsTable->getTable();
 
 //PAST CONTESTS TABLE
 
+$contestTables="concurso co join usuario us on(co.creator_id = us.id_usuario)";
 $columnsNE = array(
         array("co.contest_id",  "contest",     -1, ""),
         array("TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time))",  "total_time",     -1, ""),
@@ -147,9 +149,12 @@ $columnsNE = array(
             "type"=>"linked 0 concurso"),
         // array("date(fecha)",   "Evento",            90, "","date"),
         // array("time(fecha)",   "",            30, "","time"),
-        array("'space'","","type"=>"replacement","value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>'),
-        array("'space'","","type"=>"replacement","value"=>"|"),
-        array("'practice'","practice","type"=>"replacement",
+        array("'space'","",-2,
+            "type"=>"replacement","value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>'),
+        array("'space'","",-2,
+            "type"=>"replacement","value"=>"|"),
+        array("'practice'","practice",-2,
+            "type"=>"replacement",
             "value"=>"<a href='./contest_arena.php?id=#{0}'>practice</a>"),
         array("DATE(fecha)","",-1),
         array("co.creator_id",  "username",     -1, "",""),
@@ -164,7 +169,7 @@ $conditionNE = "WHERE co.is_published = 1
         "ORDER BY 1 DESC"; 
 
 include_once 'table2.php';
-$pastContestsTable = new RCTable(conecDb(),$tablesNextEvent,$columnsNE,$conditionNE);
+$pastContestsTable = new RCTable(conecDb(),$contestTables,$columnsNE,$conditionNE);
 $pastContestsTable->setTitle("Completed Contests");
 $pastContestsTable->setTableAtr("width='250'");
 // $tableNextEvent = $pastContestsTable->getTable();

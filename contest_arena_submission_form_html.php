@@ -18,7 +18,8 @@
         var url = "contest_arenadownloadinput.php?pid="+problemId+"&cmpid="+campaignId;
         var divId = "submission_left_time_"+campaignId+'_'+problemId;
         document.getElementById('download-link').style.display='none';
-        CreateTimer(divId,4*60,timerCount++);
+        <?php include_once 'GLOBALS.php'; ?>
+        CreateTimer(divId,<?php echo $GLOBAL_submission_allowed_seconds; ?>,timerCount++);
         document.location.href=url;
         console.log('x');
         // xmlhttp.open("GET",,true);
@@ -32,14 +33,14 @@
                 <div id="myDiv"/>
                 <?php
                 include_once 'data_objects/DAOCampaign.php';
-                $isSubmissionPending = DAOCampaign_isSubmissionPending($contestId, $campaignId, $problemId);
+                $isSubmissionPending = DAOCampaign_getPendingSubmission($contestId, $campaignId, $problemId);
 
                 $divId = "submission_left_time_".$campaignId.'_'.$problemId;
                 $result ='<div id="'.$divId.'"></div>';
                                     // print_r($isSubmissionPending);
-                $downloadLink = "<a id='download-link' href='contest_arenadownloadinput.php?pid=".$problemId."&cmpid=".$campaignId."'>Download New Input File</a>";
+                $downloadLink = "<a style='cursor: pointer' id='download-link' href='contest_arenadownloadinput.php?pid=".$problemId."&cmpid=".$campaignId."'>Download New Input File</a>";
                 if($isContest){
-                    $downloadLink = "<div id='download-link'><a  onclick='downloadFile(".$campaignId.",".$problemId.")'>Download New Input File</a><label> when you are ready</label></div>";
+                    $downloadLink = "<div id='download-link'><a style='cursor: pointer' onclick='downloadFile(".$campaignId.",".$problemId.")'>Download New Input File</a><label> when you are ready</label></div>";
                 }
                 
                 if($isSubmissionPending){

@@ -6,12 +6,14 @@ function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
   include_once 'data_objects/DAOContest.php';
   $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
 
+  include 'GLOBALS.php';
+
   $queryCampaignDetalle =
     "SELECT cd.problem_id, cd.solved, cd.tiempo_submision, count(cs.campaign_submission_id) 'attempts'
     FROM campaigndetalle cd LEFT JOIN campaign_submission cs 
        on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id 
         AND (
-          (cs.status=0 AND ".$elapsedSeconds."-TIME_TO_SEC(cs.download_time)>180) 
+          (cs.status=0 AND ".$elapsedSeconds."-TIME_TO_SEC(cs.download_time)>".$GLOBAL_submission_allowed_seconds.") 
           OR (cs.status=0 AND cs.submission_time IS NOT NULL)
           )
         ) 
@@ -30,14 +32,17 @@ function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
   return $res;
 }
 
-function DAOCampaign_isSubmissionPending($contestId, $campaignId, $problemId){
+function DAOCampaign_getPendingSubmission($contestId, $campaignId, $problemId){
   include_once 'data_objects/DAOContest.php';
   $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
 
-  $query = "SELECT campaign_submission_id, 4*60 - (".$elapsedSeconds." - TIME_TO_SEC(download_time)) 'submission_left_time' 
+  include 'GLOBALS.php';
+
+  $query = "SELECT campaign_submission_id, 
+    ".$GLOBAL_submission_allowed_seconds." - (".$elapsedSeconds." - TIME_TO_SEC(download_time)) 'submission_left_time' , io_seed
     FROM campaign_submission 
     WHERE campaign_id = '".$campaignId."' AND problem_id = '".$problemId."'
-      AND ".$elapsedSeconds." - TIME_TO_SEC(download_time) <=3*60 AND submission_time IS NULL";
+      AND ".$elapsedSeconds." - TIME_TO_SEC(download_time) <= ".$GLOBAL_submission_allowed_seconds." AND submission_time IS NULL";
    // echo $query;
 
   return getWholeRow($query);
@@ -50,30 +55,32 @@ function DAOCampaign_isProblemSolved($contestId, $campaignId, $problemId){
   return $res=='1';
 }
 
-function DAOCampaign_startSubmission($contestId, $campaignId, $problemId){
+function DAOCampaign_startSubmission($contestId, $campaignId, $problemId, $seed){
   include_once 'data_objects/DAOContest.php';
   $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
   
-  $query = "INSERT INTO campaign_submission (campaign_id, problem_id, download_time)
-   VALUES ('".$campaignId."','".$problemId."',SEC_TO_TIME(".$elapsedSeconds."))";
+  $query = "INSERT INTO campaign_submission (campaign_id, problem_id, download_time, io_seed)
+   VALUES ('".$campaignId."','".$problemId."',SEC_TO_TIME(".$elapsedSeconds."),".$seed.")";
   runQuery($query);
   
   $idQuery = "SELECT LAST_INSERT_ID()";
   return getRow($idQuery);
 }
-function DAOCampaign_registerSubmission($contestId, $campaignId, $problemId, $time, $wasSolved, $sourceCode){
+function DAOCampaign_registerSubmission($contestId, 
+  $campaignId, $problemId, $time, $accepted, $sourceCode, $killer_case_id=null, $killed_answer=null){
 
   // $query = sprintf("SELECT * FROM users WHERE user='%s' AND password='%s'",
   //           mysql_real_escape_string($user),
   //           mysql_real_escape_string($password));
   include_once 'data_objects/DAOContest.php';
   $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
-  $query = sprintf("CALL SP__UD_CAMPAIGNDETALLE_V2(%s,'%s',SEC_TO_TIME(".$elapsedSeconds."),'%s','%s')"
+  $query = sprintf("CALL SP__UD_CAMPAIGNDETALLE_V2(%s,'%s',SEC_TO_TIME(".$elapsedSeconds."),'%s','%s','%s','%s')"
     ,$campaignId
     ,$problemId
-    ,$wasSolved
+    ,$accepted
+    ,$killer_case_id
+    ,$killed_answer
     ,$sourceCode);
-  // print_r($query);
   runQuery($query);
 }
 

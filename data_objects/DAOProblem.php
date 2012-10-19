@@ -61,7 +61,7 @@ function DAOProblem_deleteProblem($problemId){
 }
 
 function DAOProblem_getProblemIO($problemId){
-    $query = "SELECT case_input, case_output FROM co_problem_testcase WHERE problem_id='".$problemId."'";
+    $query = "SELECT testcase_id, case_input, case_output FROM co_problem_testcase WHERE problem_id='".$problemId."'";
     return getRowsInArray($query);
 }
 /*

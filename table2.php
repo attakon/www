@@ -51,19 +51,21 @@ class RCTable{
 
         // error_reporting(E_ALL ^ E_NOTICE);  // DON'T SHOW NOTICES
 
-        $query = "SELECT ";
+        $sqlQuery = "SELECT ";
         // print_r($this->arrayColumns);
         // print_r($this->condition);
         foreach ($this->arrayColumns as $col => $keys) {
-            $query .= $this->arrayColumns[$col][0].", ";
+            $sqlQuery .= $this->arrayColumns[$col][0].", ";
         }
-        $query = substr($query, 0, strlen($query)-2);
+        $sqlQuery = substr($sqlQuery, 0, strlen($sqlQuery)-2);
 
-        $query.=" FROM ".$this->tableName." ".$this->condition;
+        $sqlQuery.=" FROM ".$this->tableName." ".$this->condition;
 
 
-        // echo "<![CDATA[".$query."]]>";
-        $rsTop = fetchResultSet($this->connexion,$query);
+        // echo "<![CDATA[".$sqlQuery."]]>";
+        // echo $sqlQuery;
+        
+        $rsTop = fetchResultSet($this->connexion,$sqlQuery);
         echo mysql_error($this->connexion); //DEBUG
 
         $cl = 'class= "tr_Par"';
@@ -82,7 +84,11 @@ class RCTable{
         $header = "<tr $clHeaderTN>";
         $nroColumnsToShow=0;
         $totalWidth=0;
-        foreach ($this->arrayColumns as $key=>$keys) {
+        foreach ($this->arrayColumns as $key=>$val) {
+            if(!$this->arrayColumns[$key][2]){
+                echo '2 not present on '.print_r($val,true);
+            }
+
             switch ($this->arrayColumns[$key][2]) {
                 case -2://valid auto adjustable
                      $header .= "
@@ -137,7 +143,7 @@ class RCTable{
                     // <td $clLeft></td>";
 
             foreach ($data as $i=>$keys) {
-                $atr = $this->arrayColumns[$i][3];
+                // $atr = $this->arrayColumns[$i][3];
                 $atr = "";
                 if(isset($this->arrayColumns[$i]['td_atr'])){
                     $atr = $this->arrayColumns[$i]['td_atr'];

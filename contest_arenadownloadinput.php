@@ -31,12 +31,18 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
             showPage("X.X", false, parrafoError('user not allowed'), "");
             die;
         }
-        $isSubmissionPending = DAOCampaign_isSubmissionPending($campaignData['contest_id'], $campaignId, $problemId);
-        if(!$isSubmissionPending){
+        $pendingSubmission = DAOCampaign_getPendingSubmission($campaignData['contest_id'], $campaignId, $problemId);
+        if(!$pendingSubmission){
             include_once 'data_objects/DAOCampaign.php';
             $contestId=$campaignData['contest_id'];
-            $submissionId = DAOCampaign_startSubmission($contestId, $campaignId, $problemId);
-            processDownload($problemId);    
+            
+            // Randomly generate a seed to shuffle
+            $seed = rand(1, 10);
+
+            $submissionId = DAOCampaign_startSubmission($contestId, $campaignId, $problemId, $seed);
+            
+
+            processDownload($problemId,$seed);    
         }else{
             include_once 'container.php';
             include_once 'CustomTags.php';
@@ -67,14 +73,9 @@ function SEOshuffle(&$items, $seed=false) {
     list($items[count($items) - 1], $items[0]) = array($items[0], $items[count($items) - 1]);
   }
 }
-function processDownload($problemId){
+function processDownload($problemId, $seed=null){
         include_once 'data_objects/DAOProblem.php';
         $problemData = DAOProblem_getProblemData($problemId);
-        
-
-        // uasort($problemData,'scmp');
-        // print_r($shuff);
-
         
         $problemName = $problemData['name'];
         // print_r($problemData);
@@ -96,11 +97,11 @@ function processDownload($problemId){
         include_once 'data_objects/DAOProblem.php';
         //[TODO] Chance of improvement. Bring only Input
         $problemIO = DAOProblem_getProblemIO($problemId);
-        // print_r($problemIO);
-        // print_r(problemIO)
-        $seed = rand(0, 10);
-        SEOshuffle($problemIO,$seed);
 
+        // print_r($problemIO);
+        if($seed)
+            SEOshuffle($problemIO, $seed);
+        // print_r($problemIO);
         // $outputContent = '';
         $inputSize = sizeof($problemIO);
         $inputContent = $inputSize.chr(13);
@@ -109,7 +110,7 @@ function processDownload($problemId){
             // $outputContent .= $value['case_output'];
         }
         
-        $_SESSION['io_seed_'.$problemId]=$seed;
+        // $_SESSION['io_seed_'.$problemId]=$seed;
             // $_SESSION['inputContent_'.$problemId]=$inputContent;
             // $_SESSION['outputContent_'.$problemId]=$outputContent;
         // }else{

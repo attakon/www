@@ -56,14 +56,18 @@ function headerFunction($statusBar){
 			$("#menu").kendoMenu({
 				dataSource:
 				[	{
+						text: "Home",                              
+						url: "./index.php"                                 
+					},
+					{
 						text: "Concursos Activos",
 						items: [
 						<?php echo $contestMenuItems;?>
 						]
 					},
 					{
-						text: "Concursos Pasados",                              
-						url: "./concurso_list.php"                                 
+						text: "All Contests",                              
+						url: "./allcontests.php"                                 
 					},
 					{
 						text: "Ranking",
@@ -102,10 +106,6 @@ function headerFunction($statusBar){
 								 text: "Sistema de Ranking",
 								 url: "./reglas_ranking.php"
 							}]
-					},
-					{
-						text: "Home",                              
-						url: "./index.php"                                 
 					}
 				]
 		 })

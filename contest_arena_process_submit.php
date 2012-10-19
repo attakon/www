@@ -66,12 +66,27 @@ if($contestPhase=='IN_PROGRESS'){
         die;
     }
     $isProblemSolved = DAOCampaign_isProblemSolved($campaignData['contest_id'], $campaignId, $problemId);
+
     if($isProblemSolved){
         include_once 'container.php';
         showPage("X.X", false, parrafoError('Problem has already been solved. Go pick another one ;)'), "");
         die;
     }
-    $answer = compareOutputs($userOutputTempName,$problemId);
+
+    // There has to be a pending submission for this problem
+    $pendingSubmission = DAOCampaign_getPendingSubmission($campaignData['contest_id'], 
+        $campaignId, $problemId);
+
+    if(!$pendingSubmission){
+        $lastVisitedPage = $_SESSION['lastvisitedurl'];
+        $_SESSION['message']="You have to download the input file first.";
+        $_SESSION['message_type']="error";
+        header("Location: ".$lastVisitedPage);
+        die;
+    }
+
+    $answer = compareOutputs($userOutputTempName, $problemId, $pendingSubmission['io_seed']);
+    
 
     $sourceContent = file_get_contents($userSourceTempName);
     $escapedSourceContent = mysql_real_escape_string($sourceContent);
@@ -81,12 +96,12 @@ if($contestPhase=='IN_PROGRESS'){
 
     include_once 'data_objects/DAOCampaign.php';
 
-    DAOCampaign_registerSubmission($campaignData['contest_id'], $campaignId, $problemId,'NOW()',$answer[0],$escapedSourceContent);
+    if($answer['accepted']) {
+        
+        DAOCampaign_registerSubmission($campaignData['contest_id'], 
+        $campaignId, $problemId, 'NOW()', 
+        $answer['accepted'], $escapedSourceContent);
 
-
-    
-
-    if($answer[0]) {
         include_once 'data_objects/DAOUserEvents.php';
         DAOUserEvents_logEvent($_SESSION['userId'],'submit_a_solution','successful for '.$problemName);
 
@@ -103,6 +118,15 @@ if($contestPhase=='IN_PROGRESS'){
         redirectToLastVisitedPage();
         // showPage("Fuck Yeah!", false, parrafoOK(), "");
     }else {
+
+        $escapedAnswer = mysql_escape_string($answer['killed_answer']);
+
+        DAOCampaign_registerSubmission($campaignData['contest_id'], 
+        $campaignId, $problemId, 'NOW()', 
+        $answer['accepted'], $escapedSourceContent,
+        $answer['killer_case_id'], $escapedAnswer);
+
+
         include_once 'data_objects/DAOUserEvents.php';
         DAOUserEvents_logEvent($_SESSION['userId'],'submit_a_solution','failed for $problemName: message:$answer[1]');
 
@@ -110,10 +134,10 @@ if($contestPhase=='IN_PROGRESS'){
         
         include_once('data_objects/DAOLog.php');
         $msgLog = $_SESSION['user']." failed solving ".$problemName;
-        DAOLog_log($msgLog,$answer[1],'');
+        DAOLog_log($msgLog,$answer['message'],'');
 
         include_once 'container.php';
-        showPage("X.X", false, parrafoError($answer[1]), "");
+        showPage("X.X", false, parrafoError($answer['message']), "");
     }
 }else if ($contestPhase=='FINISHED'){//practice mode
     $isSourceFileEmpty = empty($userSourceTempName);
@@ -127,11 +151,10 @@ if($contestPhase=='IN_PROGRESS'){
         // die;
     }
     include_once 'data_objects/DAOProblem.php';
-    
 
-    $answer = compareOutputs($userOutputTempName,$problemId);
+    $answer = compareOutputs($userOutputTempName, $problemId);
 
-    if($answer[0]){
+    if($answer['message']){
         include_once 'data_objects/DAOUserEvents.php';
         DAOUserEvents_logEvent($_SESSION['userId'],'submit_a_solution','successful for '.$problemName);
 
@@ -149,16 +172,16 @@ if($contestPhase=='IN_PROGRESS'){
         $_SESSION['message']="(Practice Mode) Accepted Solution for ".$problemName;
         $_SESSION['message_type']='ok';
     }else{
-        $failedMessage = 'failed for '.$problemName.': message:'.$answer[1];
+        $failedMessage = 'failed for '.$problemName.': message:'.$answer['message'];
         include_once 'data_objects/DAOUserEvents.php';
         DAOUserEvents_logEvent($_SESSION['userId'],'submit_a_solution',$failedMessage);
 
         // deprecating soon
         include_once('data_objects/DAOLog.php');
         $msgLog = $_SESSION['user']." failed solving ".$problemName;
-        DAOLog_log($msgLog,$answer[1],'');
+        DAOLog_log($msgLog,$answer['message'],'');
 
-        $_SESSION['message']="(Practice Mode) Denied Solution for ".$problemName.". ".$answer[1];
+        $_SESSION['message']="(Practice Mode) Denied Solution for ".$problemName.". ".$answer['message'];
         $_SESSION['message_type']='error';
 
         // include_once 'container.php';
@@ -183,44 +206,30 @@ function SEOshuffle(&$items, $seed=false) {
     list($items[count($items) - 1], $items[0]) = array($items[0], $items[count($items) - 1]);
   }
 }
-function scmp( $a, $b ) {
-    return rand(-1,1);
-}
-function compareOutputs($tmpName, $problemId) {
 
-    // print_r($tmpName);
-    if(isset($_SESSION['io_seed_'.$problemId])){
-        //[TODO] Chance of improvement. Bring only Output
-        $problemIO = DAOProblem_getProblemIO($problemId);
-        $seed = $_SESSION['io_seed_'.$problemId];
-        SEOshuffle($problemIO,$seed);
+function compareOutputs($tmpName, $problemId, $seed=null) {
 
-        $correctOutputContent = "";
-        foreach ($problemIO as $key => $value) {
-            // $inputContent .= $value['case_input'];
-            $correctOutputContent .= $value['case_output'];
-        }
+    //[TODO] Chance of improvement. Bring only Output
+    $problemIO = DAOProblem_getProblemIO($problemId);
 
-        // $correctOutputContent = $_SESSION['outputContent_'.$problemId];
+    if($seed)
+        SEOshuffle($problemIO, $seed);
 
-        unset($_SESSION['io_seed_'.$problemId]);
-        // unset($_SESSION['outputContent_'.$problemId]);
-        // unset($_SESSION['inputContent_'.$problemId]);
-    }else{
-        $lastVisitedPage = $_SESSION['lastvisitedurl'];
-        $_SESSION['message']="You have to download the input file first.";
-        $_SESSION['message_type']="error";
-        header("Location: ".$lastVisitedPage);
-        die;
-    }
-    $correct = explode("\n", $correctOutputContent);
+    // $correctOutputContent = "";
+    // foreach ($problemIO as $key => $value) {
+    //     // $inputContent .= $value['case_input'];
+    //     $correctOutputContent .= $value['case_output'];
+    // }
+
+    // $correct = explode("\n", $correctOutputContent);
     $file_handle = fopen($tmpName, "r");
     $i = 0;
     $res;
 
-    foreach($correct as $correctLine) {
+    foreach($problemIO as $key=>$val) {
         // print_r($correctLine);
-        $correctLine = trim($correctLine);
+        $correctLine = trim($val['case_output']);
+        // $correctLine = trim($correctLine);
         if(strcmp($correctLine,"")!=0) {
             $i++;
             if(!feof($file_handle)) {
@@ -228,18 +237,24 @@ function compareOutputs($tmpName, $problemId) {
                 // print_r($userLine);
                 if(strcmp($correctLine, $userLine)!=0) {
                     fclose($file_handle);
-                    return array(false,"Wrong Answer: line ".$i." tu salida[".$userLine."] esperado[".$correctLine."]");
+                    return array('accepted'=>false,
+                    'killer_case_id'=>$val['testcase_id'],
+                    'killed_answer'=>$userLine,
+                    'message'=>"Wrong Answer: line ".$i." tu salida[".$userLine."] esperado[".$correctLine."]");
                     // break;
                 }
             }else {
                 fclose($file_handle);
-                return array(false,"Respuesta incorrecta tu salida[] esperado[".$userLine."]");
+                return array('accepted'=>false,
+                    'killer_case_id'=>$val['testcase_id'],
+                    'killed_answer'=>'',
+                    'message'=>"Wrong Answer: Your output[] <br/>Expected:[".$correctLine."]");
                 // break;
             }
         }
     }
     fclose($file_handle);
-    $res = array(true,true);
+    $res = array('accepted'=>true);
     return $res;
 }
 ?>
