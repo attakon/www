@@ -25,7 +25,8 @@
 
 
     <div>
-        <a class="fblogin" onclick="fblogin()"/></a> &oacute;
+        <!-- Disabling FB Login -->
+        <!-- <a class="fblogin" onclick="fblogin()"/></a> &oacute; -->
         <input class="loginfield"
           placeholder="Username" 
           type="text" 
