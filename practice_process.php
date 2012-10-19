@@ -6,7 +6,7 @@ include_once 'container.php';
 include_once 'utils/ValidateSignedIn.php';
 include_once 'data_objects/DAOProblem.php';
 
-include_once 'z_misc/checkLoggedIn.php';
+// include_once 'z_misc/checkLoggedIn.php';
 
 if(!isset($_POST['p'])) die;
 $idp = $_POST['p'];
