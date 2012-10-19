@@ -91,11 +91,10 @@ $upcomingContestsTable->setTableAtr("width='400'");
 $tablesPC="concurso co join usuario us on(co.creator_id = us.id_usuario)";
 $columnsPC = array(
     array("co.contest_id",  "",     -1, ""),
-    array("co.id_usuario",  "",     -1, ""),
     array("co.url_forum",  "",     -1, ""),
     array("co.nombre",  "Finished Contests",     200, "",""),
     array("co.total_time",  "Duration",     80, "",""),
-    array("'space'","name",-2,"",
+    array("'space'","scoreboard",-2,"",
         "type"=>"replacement",
         "value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>'),
     array("'space'","",-2,"",
@@ -104,7 +103,10 @@ $columnsPC = array(
         "type"=>"replacement",
         "value"=>"<a href='./contest_arena.php?id=#{0}'>practice</a>"),
     array("date(fecha)",   "Date",            80, "class='penalty'","date"),
-    array("us.username",   "Creator",            -2, "", "linked 1 user"),
+    array("co.creator_id",  "username",     -1, "",""),
+    array("us.username",  "Creator",     100, "",
+            "type"=>"replacement",
+            "value"=>"<a class='userLink' href='./user.php?u=#{8}'>#{9}</a>")
 );
 // $conditionPC = "WHERE co.estado = 'FINALIZED'".
 //     " AND co.id_usuario = us.id_usuario ".
