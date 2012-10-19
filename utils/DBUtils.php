@@ -10,11 +10,13 @@ function logSQLError($text, $extraData){
   $stackTrace = ob_get_contents();
   ob_end_clean();
 
-  $escapedExtraData = str_replace("'", "\'", $extraData);
-  $escapedExtraData .= " stackTrace :".$stackTrace;
+  $escapedText = mysql_escape_string($text);
+  $escapedExtraData = mysql_escape_string(" stackTrace :".$stackTrace." ".$extraData);
+
   $insert = "INSERT INTO log (text, extra_text, log_type_id)
-  VALUES ('".$text."','".$escapedExtraData."',1)";
+  VALUES ('".$escapedText."','".$escapedExtraData."',1)";
   mysql_query($insert, conecDb());
+  // echo $insert;
   // var_dump((debug_backtrace();
   
   echo "Shame on us, we crashed X_X. Por favor comuniquese con el Administrador (huahcoding@gmail.com). Te lo agradeceremos enormemente!";
@@ -22,9 +24,11 @@ function logSQLError($text, $extraData){
 
 function checkForError($query=null){
   if(mysql_error()){
-    echo mysql_error();
-    logSQLError('xxx'.$query , mysql_error());
-    echo mysql_error();
+    // echo mysql_error();
+    // error_reporting(0);
+    // warning_reporting(0);
+    logSQLError($query , mysql_error());
+    // echo mysql_error();
     die;
   }
 }
@@ -33,7 +37,7 @@ function checkForError($query=null){
 */
 function getRow($query){
     $rs = mysql_query($query, conecDb());
-    // echo $query;
+    
     $data = mysql_fetch_row($rs);
     checkForError($query);
     return $data[0];

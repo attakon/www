@@ -12,10 +12,10 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
   //  session_end();
     include_once("session_routines.php");
     // include_once("header.php");
-include_once("header_div.php");
+    include_once("header_div.php");
     ?>
-<!DOCTYPE html>
-<html xmlns:fb="http://ogp.me/ns/fb#">
+    <!DOCTYPE html>
+    <html xmlns:fb="http://ogp.me/ns/fb#">
     <?php 
         include_once("head_includes.php");//mandatory 
         include_once "GLOBALS.php";

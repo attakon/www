@@ -6,10 +6,13 @@ include_once 'data_objects/DAOGlobalDefaults.php';
 
 if(isset($_GET['id'])){
     $contestId = $_GET['id'];
-
+    
     include_once 'data_objects/DAOContest.php';
-    $contestPhase = DAOContest_getContestPhase($contestId);
     $contestData = DAOContest_getContestData($contestId);
+    if(!$contestData){
+        die;
+    }
+    $contestPhase = DAOContest_getContestPhase($contestId);
 
     if($contestPhase=='NOT_STARTED'){
         include_once 'container.php';

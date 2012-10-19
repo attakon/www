@@ -31,10 +31,6 @@
    
     <link rel="shortcut icon" href="./images/hc_favicon.ico" type="image/x-icon">
 
-    <link href="styles/prettify.css" type="text/css" rel="stylesheet" />
-    <script type="text/javascript" src="js/prettify.js"></script>
- 
-
     <!-- <link rel="stylesheet" type="text/css" href="templates/template_style.css"> -->
     <!-- styles-->
 

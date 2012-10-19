@@ -61,7 +61,7 @@ $queryData = "SELECT us.username, prob.name, con.nombre, cd.successful_source_co
 $rsData = mysql_query($queryData, conecDb()) or die ($queryData);
 $data = mysql_fetch_row($rsData);
 
-$title = $data[2]." > Problema ".$data[2]."(".$data[1].") > c&oacute;digo de ".$data[0];
+$title = "[".$data[2]."] ".$data[0]."'s code for ".$data[1];
 $dataLines = explode("\n", $data[3]);
 $maxCol=0;
 $maxRow=sizeof($dataLines);
