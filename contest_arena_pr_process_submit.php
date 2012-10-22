@@ -23,7 +23,7 @@ if(!isset($_POST['pid'])) die;
 if(!isset($_POST['cid'])) die;
 
 $problemId = $_POST['pid'];
-$contestId = $_POST['pid'];
+$contestId = $_POST['cid'];
 
 include_once 'data_objects/DAOProblem.php';
 $problemData = DAOProblem_getProblemData($problemId);

@@ -40,7 +40,7 @@ $codeData = DAOCampaign_getPracticeCampaignCode($userId, $problemId);
 $code = $codeData['code'];
 if(!$codeData['code']){
     include_once 'container.php';
-    showPage("no code", false, $codeData['username']."has not submitted for this problem");
+    showPage("no code", false, $codeData['username']." has not submitted for this problem");
     die;
 }
 

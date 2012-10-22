@@ -60,7 +60,7 @@ function headerFunction($statusBar){
 						url: "./index.php"                                 
 					},
 					{
-						text: "Concursos Activos",
+						text: "Running Contests",
 						items: [
 						<?php echo $contestMenuItems;?>
 						]
