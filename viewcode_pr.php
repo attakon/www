@@ -5,23 +5,11 @@ $signedInUserId = $_SESSION['userId'];
 
 include_once 'CustomTags.php';
 
-if(!isset($_GET['p']) || !isset($_GET['cpg'])){
+if(!isset($_GET['pId']) || !isset($_GET['uId'])){
     die;
 }
-$campaignId = $_GET['cpg'];
-$problemId = $_GET['p'];
-
-include_once 'data_objects/DAOCampaign.php';
-$campaignData = DAOCampaign_getCampaignData($campaignId);
-$contestId = $campaignData['contest_id'];
-include_once 'data_objects/DAOContest.php';
-$contestPhase = DAOContest_getContestPhase($contestId);
-$contestData = DAOContest_getContestData($contestId);
-if($contestData['creator_id']!=$_SESSION['userId'] && $contestPhase!='FINISHED'){
-    include_once 'container.php';
-    include_once 'CustomTags.php';
-    showPage('X.X', false, parrafoError('Code is not available yet'), '');
-}
+$userId = $_GET['uId'];
+$problemId = $_GET['pId'];
 
 include_once 'data_objects/DAOProblem.php';
 
@@ -45,18 +33,18 @@ if(!$isSeenByUser && $contestData['creator_id']!=$_SESSION['userId']){
     }
 }
 
-
-
-
 include_once 'conexion.php';
 
-//$campaignId ="1";
-//$idProblem ="1";
 include_once 'data_objects/DAOCampaign.php';
-$codeData = DAOCampaign_getCampaignCode($campaignId, $problemId);
+$codeData = DAOCampaign_getPracticeCampaignCode($userId, $problemId);
 $code = $codeData['code'];
+if(!$codeData['code']){
+    include_once 'container.php';
+    showPage("no code", false, $codeData['username']."has not submitted for this problem");
+    die;
+}
 
-$title = "[".$codeData['contest_name']."] ".$codeData['username']."'s code for ".$codeData['problem_name'];
+$title = $codeData['username']."'s code for ".$codeData['problem_name'];
 $dataLines = explode("\n", $code);
 $maxCol=0;
 $maxRow=sizeof($dataLines);

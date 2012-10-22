@@ -51,17 +51,15 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
         }
         
 
-    }else if ($contestPhase=='FINISHED'){//practice mode
-        processDownload($problemId);    
-        // include_once 'container.php';
-        // // redirectToLastVisitedPage();
-        // include_once 'CustomTags.php';
-        // showPage("X.X", false, parrafoError('go to practice mode'), "");
     }else if ($contestPhase=='NOT_STARTED'){//invalid
         include_once 'container.php';
         showPage("X.X", false, parrafoError('not allowed to be here'), "");
     }
+}else if(isset($_GET['pid'])){
+    $problemId =  $_GET['pid'];
+    processDownload($problemId);
 }
+
 function SEOshuffle(&$items, $seed=false) {
   $original = md5(serialize($items));
   mt_srand(crc32(($seed) ? $seed : $items[0]));

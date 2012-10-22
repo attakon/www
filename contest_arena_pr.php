@@ -11,46 +11,29 @@ if(isset($_GET['id'])){
 
     include_once 'data_objects/DAOContest.php';
     $contestData = DAOContest_getContestData($contestId);
-    // if(!$contestData)
-    //     die;
+    if(!$contestData)
+        die;
 
     include_once 'data_objects/DAOContest.php';
     $contestPhase = DAOContest_getContestPhase($contestId);
 
 
-    $head ='';
-    switch ($contestPhase) {
-        case 'NOT_STARTED':
-            include_once 'container.php';
-            showPage($contestData['nombre'],false,parrafoError("Contest has not started yet."));
-            die;
-            break;
-        case 'IN_PROGRESS':
-            $leftSeconds = DAOContest_getContestLeftSeconds($contestId);
-            $head = '<div id="left_time_div_'.$contestId.'" ></div>
-                    <script type="text/javascript">
-                        timers[timerCount++]={
-                            div_name:"left_time_div_'.$contestId.'"
-                            ,left_time:'.$leftSeconds.'
-                            ,end_message:"contest has finished"
-                            };
-                    </script>';
-            break;
-        case 'FINISHED':
-            header("Location: contest_arena_pr.php?id=".$contestId);
-            die;
-            break;
+    if($contestPhase!='FINISHED'){
+        include_once 'container.php';
+        showPage($contestData['nombre'],false,parrafoError("Contest is not available for practice yet"));
+        die;
     }
 
     include_once 'data_objects/DAOCampaign.php';
     $userCampaignData = DAOCampaign_getCampaignForUser($userId,$contestId);
-    
-    if($userCampaignData==null){
-        include_once 'container.php';
-        showPage($contestData['nombre'],false,parrafoError("You are not registered in this contest"));
-        die;
-    }
 
+
+    $head ='<label>Practice Mode</label>';
+
+    if(!DAOContest_isContestOpen($contestId)){
+        
+    }
+    
     $contestName = $contestData['nombre'];
     
     $selectedProblemId=null;
@@ -58,28 +41,27 @@ if(isset($_GET['id'])){
         $selectedProblemId = $_GET['pid'];    
     }
     // echo practice($contestId);
-    $arenaHTML = getArenaHTML($contestId,$selectedProblemId,$userCampaignData,$userId);
+    $arenaHTML = getArenaHTML($contestId,$selectedProblemId,$userId);
     $content = $head.$arenaHTML;
     include_once 'container.php';
-    showPage($contestName.'\'s Arena',false,$content);
+    showPage($contestName.'\'s Practice Arena',false,$content);
 }
 
 
-function getArenaHTML($contestId, $selectedProblemId=null, $userCampaignData, $userId){
+function getArenaHTML($contestId, $selectedProblemId=null, $userId){
 
-$campaignId = $userCampaignData['id_campaign'];
 $contestId = $contestId?$contestId:1;
 include_once 'data_objects/DAOContest.php';
 $problemsData = DAOContest_getProblems($contestId);
-// print_r($problemsData);
+
 include_once 'data_objects/DAOCompetitor.php';
-$userProblemData = DAOCompetitor_getContestProblemsForUser($userId,$contestId);
-$problemsData=$userProblemData;
+// $userProblemData = DAOCompetitor_getContestProblemsForUser($userId,$contestId);
+// $problemsData=$userProblemData;
 // print_r($problemsData);
 
 $firstProblemData = $problemsData[0];
 $problemId = $selectedProblemId?$selectedProblemId:$firstProblemData['problem_id'];
-// $selectedProblemData = $firstProblemData;
+// $selectedProblemData;
 foreach ($problemsData as $key => $value) {
     if($value['problem_id']==$problemId){
         $selectedProblemData = $value;
@@ -89,7 +71,7 @@ $body="";
 // print_r($problemsData);
 
 // example cases
-$exampleCases = $selectedProblemData['example_cases'];
+$exampleCasesCount = $selectedProblemData['example_cases'];
 
         $tablesPC="co_problem_testcase ptc, co_problem pr , (SELECT @rownum:=0) r";
         $columnsPC = array(
@@ -103,7 +85,7 @@ $exampleCases = $selectedProblemData['example_cases'];
         );
         $conditionPC = "WHERE ptc.problem_id = pr.problem_id ".
             " AND pr.problem_id = '".$problemId."' ".
-            " ORDER BY 1 ASC LIMIT ".$exampleCases;
+            " ORDER BY 1 ASC LIMIT ".$exampleCasesCount;
 
         include_once 'table2.php';
         $manageContestTable = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
@@ -129,15 +111,15 @@ ob_start();
                     foreach ($problemsData as $key => $problemValue) {
                         $classSelected = "";
 
-                        $style = $problemValue['solved']?"style='color:#390'":"";
+                        // $style = $problemValue['solved']?"style='color:#390'":"";
 
                         if($problemValue['problem_id']==$problemId){
-                            $classSelected="class='contest_selectedProblem'";
+                            $classSelected="class='selectedProblem'";
                         }
                         ?>
                     <tr>
                         <td <?php echo $classSelected?> width="190" height="25">
-                            <a <?php echo $style;?> href="./contest_arena.php?id=<?php echo$contestId?>&pid=<?php echo $problemValue['problem_id']?>">
+                            <a href="./contest_arena_pr.php?id=<?php echo$contestId?>&pid=<?php echo $problemValue['problem_id']?>">
                                 <?php echo $problemValue['name']." (".$problemValue['points']."pts)"?>
                             </a>
                         </td>
@@ -147,16 +129,9 @@ ob_start();
                 ?>
                 </table>
             </td>
-            <td class = "contest_bordeable" height="30">
+            <td class="bordeable" height="30">
                 <?php
-                if($selectedProblemData['solved']=='0'){
-                    include_once 'contest_arena_submission_form_html.php';
-                }else{
-                    ?>
-                    <h4 style="color:green; text-align:center; background-color:lightgreen">Solved</h4>
-                    <br/><br/><br/>
-                    <?php
-                }
+                    include_once 'contest_arena_pr_submission_form_html.php';
                 ?>
             </td>
         </tr>

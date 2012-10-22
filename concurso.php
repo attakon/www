@@ -7,6 +7,10 @@
     $show = $_GET['show'];
     $contestId = $_GET['idt'];
 
+    $contestData = DAOContest_getContestData($contestId);
+    if(!$contestData){
+        die;
+    }
     if($show=='det'){
         $details = getConcursoDetalleHTML($contestId);
 

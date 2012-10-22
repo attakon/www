@@ -61,7 +61,9 @@ function DAOProblem_deleteProblem($problemId){
 }
 
 function DAOProblem_getProblemIO($problemId){
-    $query = "SELECT testcase_id, case_input, case_output FROM co_problem_testcase WHERE problem_id='".$problemId."'";
+    $query = "SELECT testcase_id, case_input, case_output 
+      FROM co_problem_testcase WHERE problem_id='".$problemId."'
+      ORDER BY 1";
     return getRowsInArray($query);
 }
 /*
@@ -107,10 +109,17 @@ function DAOProblem_markAsSolved($problemId, $userId, $sourceCode=null){
     $status = DAOProblem_isAlrearySeenByUserInPractite($problemId, $userId);
     
      if(!$status){
+      if($sourceCode){
         $query = "INSERT INTO practice_campaigns 
           (problem_id, id_usuario, status, solving_date, source_code)
          VALUES ('".$problemId."','".$userId."',3, CURRENT_TIMESTAMP(),'".$sourceCode."')";
         runQuery($query);
+      }else{
+        $query = "INSERT INTO practice_campaigns 
+          (problem_id, id_usuario, status, solving_date)
+         VALUES ('".$problemId."','".$userId."',3, CURRENT_TIMESTAMP())";
+        runQuery($query);
+      } 
     }else { //$status =1,2,3
         $newStatus = 0;
         if($status==1){

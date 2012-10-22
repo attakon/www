@@ -9,7 +9,7 @@ if(isset($_GET['u'])){
     $searchedUserId = $_GET['u'];
 }else if(isset($_GET['uname'])){
     $userName = $_GET['uname'];
-    echo $userName;
+    // echo $userName;
     $row = DAOUser_getUserByName($userName);
     $searchedUserId = $row['id_usuario'];
 }
@@ -185,7 +185,11 @@ function getUserContestsHistory($userId){
                          '.$problemName.'</a>
                          </td>';
             }else{
-                $defaultOutput = '<td class="'.$cssClass.'">'.$problemName.'</td>';
+                $defaultOutput = '<td class="'.$cssClass.'">
+                <a href="./viewcode_pr.php?uId='.$userId.'&pId='.$val['problem_id'].'">
+                '.$problemName.'</a>
+                </td>';
+                // $defaultOutput = '<td class="'.$cssClass.'">'.$problemName.'</td>';
             }
             $returnedValue.=$defaultOutput;
                     

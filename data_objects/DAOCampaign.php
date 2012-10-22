@@ -1,6 +1,28 @@
 <?php
 include_once ("utils/DBUtils.php");
 
+function DAOCampaign_getPracticeCampaignCode($userId, $problemId){
+  $dataQuery = "SELECT 
+    us.username, prob.name 'problem_name', pc.source_code 'code' 
+    FROM practice_campaigns pc JOIN co_problem prob using(problem_id)
+    JOIN usuario us using (id_usuario)
+     WHERE pc.id_usuario = ".$userId."
+      AND pc.problem_id = '".$problemId."'";
+  return getWholeRow($dataQuery);
+}
+
+function DAOCampaign_getCampaignCode($campaignId, $problemId){
+  $dataQuery = "SELECT 
+    us.username, prob.name 'problem_name', con.nombre 'contest_name', cd.successful_source_code 'code' 
+    FROM usuario us, concurso con, co_problem prob, campaigndetalle cd, campaign ca
+     WHERE us.id_usuario = ca.id_usuario AND
+        ca.contest_id = con.contest_id AND
+        ca.id_campaign = cd.id_campaign AND
+        prob.problem_id = cd.problem_id AND
+        ca.id_campaign = '".$campaignId."' AND
+        prob.problem_id = '".$problemId."'";
+  return getWholeRow($dataQuery);
+}
 // BEGIN ARENA
 function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
   include_once 'data_objects/DAOContest.php';

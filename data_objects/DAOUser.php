@@ -138,7 +138,7 @@ function DAOUser_getUserCampaignHistory2($userId){
           con.fecha
         FROM campaigndetalle cd join co_problem p on(cd.problem_id = p.problem_id) 
           join campaign camp on(cd.id_campaign=camp.id_campaign)
-          join co_contest_problems cp using(problem_id)
+          join co_contest_problems cp on(cd.problem_id=cp.problem_id)
           join concurso con on (con.contest_id = cp.contest_id and con.contest_id=camp.contest_id) 
         WHERE camp.id_usuario = '".$userId."'
             AND cd.solved = 1)";
@@ -147,7 +147,7 @@ function DAOUser_getUserCampaignHistory2($userId){
     $q = "(SELECT p.problem_id, p.name, 
         con.nombre as 'contest_name', con.contest_id as 'contest_id', pc.status, '-1' as 'cpg_id', con.fecha
         FROM practice_campaigns pc join co_problem p on(pc.problem_id = p.problem_id) 
-        join co_contest_problems cp using(problem_id)
+        join co_contest_problems cp on(p.problem_id=cp.problem_id)
         join concurso con on (con.contest_id = cp.contest_id)
         WHERE pc.id_usuario = '".$userId."' and pc.status<>1)"; 
     $query = $p ." UNION ".$q;

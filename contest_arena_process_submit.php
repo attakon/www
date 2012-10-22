@@ -8,6 +8,11 @@ session_start();
 include_once 'utils/ValidateSignedIn.php';
 
 
+if(!isset($_FILES['userout']['tmp_name'])){
+    include_once 'container.php';
+    redirectToLastVisitedPage();
+}
+
 $userOutputTempName = $_FILES['userout']['tmp_name'];
 $userSourceTempName = $_FILES['usersource']['tmp_name'];
 
@@ -28,18 +33,19 @@ $campaignId = $_POST['cmpid'];
 
 include_once 'data_objects/DAOProblem.php';
 $problemData = DAOProblem_getProblemData($problemId);
-$problemName = $problemData['name'];
-
-// print_r($_SERVER);
-
 
 include_once 'data_objects/DAOCampaign.php';
 $campaignData = DAOCampaign_getCampaignData($campaignId);
-// print_r($campaignData);
+
+if(!$campaignData || !$problemData)
+    die;
+
+$problemName = $problemData['name'];
 
 include_once 'data_objects/DAOContest.php';
-$contestData = DAOContest_getContestData($campaignData['contest_id']);
-$contestPhase = DAOContest_getContestPhase($campaignData['contest_id']);
+$contestId = $campaignData['contest_id'];
+$contestData = DAOContest_getContestData($contestId);
+$contestPhase = DAOContest_getContestPhase($contestId);
 // print_r($contestPhase);
 
 if($contestPhase=='IN_PROGRESS'){
@@ -85,6 +91,7 @@ if($contestPhase=='IN_PROGRESS'){
         die;
     }
 
+    include_once 'utils/IOUtils.php';
     $answer = compareOutputs($userOutputTempName, $problemId, $pendingSubmission['io_seed']);
     
 
@@ -139,122 +146,10 @@ if($contestPhase=='IN_PROGRESS'){
         include_once 'container.php';
         showPage("X.X", false, parrafoError($answer['message']), "");
     }
-}else if ($contestPhase=='FINISHED'){//practice mode
-    $isSourceFileEmpty = empty($userSourceTempName);
-
-    if(!$isSourceFileEmpty){
-        $sourceContent = file_get_contents($userSourceTempName);
-        $escapedSourceContent = mysql_real_escape_string($sourceContent);
-        // $_SESSION['message']="source code cannot be empty";
-        // $_SESSION['message_type']="error";
-        // header("Location: ".$_SERVER["HTTP_REFERER"]);
-        // die;
-    }
-    include_once 'data_objects/DAOProblem.php';
-
-    $answer = compareOutputs($userOutputTempName, $problemId);
-
-    if($answer['message']){
-        include_once 'data_objects/DAOUserEvents.php';
-        DAOUserEvents_logEvent($_SESSION['userId'],'submit_a_solution','successful for '.$problemName);
-
-        //deprecating soon
-        include_once('data_objects/DAOLog.php');
-        $msgLog = $_SESSION['user']." solved ".$problemName;
-        DAOLog_log($msgLog,'','');
-
-
-        if(!$isSourceFileEmpty){
-            DAOProblem_markAsSolved($problemId,$_SESSION['userId'],$escapedSourceContent);
-        }else{
-            DAOProblem_markAsSolved($problemId,$_SESSION['userId']);
-        }
-        $_SESSION['message']="(Practice Mode) Accepted Solution for ".$problemName;
-        $_SESSION['message_type']='ok';
-    }else{
-        $failedMessage = 'failed for '.$problemName.': message:'.$answer['message'];
-        include_once 'data_objects/DAOUserEvents.php';
-        DAOUserEvents_logEvent($_SESSION['userId'],'submit_a_solution',$failedMessage);
-
-        // deprecating soon
-        include_once('data_objects/DAOLog.php');
-        $msgLog = $_SESSION['user']." failed solving ".$problemName;
-        DAOLog_log($msgLog,$answer['message'],'');
-
-        $_SESSION['message']="(Practice Mode) Denied Solution for ".$problemName.". ".$answer['message'];
-        $_SESSION['message_type']='error';
-
-        // include_once 'container.php';
-        // showPage("X.X", false, parrafoError($failedMessage), "");
-    }
-    include_once 'container.php';
-    redirectToLastVisitedPage();
-
+}else if ($contestPhase=='FINISHED'){//invalid
+    header("Location: contest_arena_pr.php?id=".$contestId);
 }else if ($contestPhase=='NOT_STARTED'){//invalid
     include_once 'container.php';
     showPage("X.X", false, parrafoError('Not allowed to be here'), "");
-}
-
-function SEOshuffle(&$items, $seed=false) {
-  $original = md5(serialize($items));
-  mt_srand(crc32(($seed) ? $seed : $items[0]));
-  for ($i = count($items) - 1; $i > 0; $i--){
-    $j = @mt_rand(0, $i);
-    list($items[$i], $items[$j]) = array($items[$j], $items[$i]);
-  }
-  if ($original == md5(serialize($items))) {
-    list($items[count($items) - 1], $items[0]) = array($items[0], $items[count($items) - 1]);
-  }
-}
-
-function compareOutputs($tmpName, $problemId, $seed=null) {
-
-    //[TODO] Chance of improvement. Bring only Output
-    $problemIO = DAOProblem_getProblemIO($problemId);
-
-    if($seed)
-        SEOshuffle($problemIO, $seed);
-
-    // $correctOutputContent = "";
-    // foreach ($problemIO as $key => $value) {
-    //     // $inputContent .= $value['case_input'];
-    //     $correctOutputContent .= $value['case_output'];
-    // }
-
-    // $correct = explode("\n", $correctOutputContent);
-    $file_handle = fopen($tmpName, "r");
-    $i = 0;
-    $res;
-
-    foreach($problemIO as $key=>$val) {
-        // print_r($correctLine);
-        $correctLine = trim($val['case_output']);
-        // $correctLine = trim($correctLine);
-        if(strcmp($correctLine,"")!=0) {
-            $i++;
-            if(!feof($file_handle)) {
-                $userLine = trim(str_replace("\n", "",fgets($file_handle)));
-                // print_r($userLine);
-                if(strcmp($correctLine, $userLine)!=0) {
-                    fclose($file_handle);
-                    return array('accepted'=>false,
-                    'killer_case_id'=>$val['testcase_id'],
-                    'killed_answer'=>$userLine,
-                    'message'=>"Wrong Answer: line ".$i." tu salida[".$userLine."] esperado[".$correctLine."]");
-                    // break;
-                }
-            }else {
-                fclose($file_handle);
-                return array('accepted'=>false,
-                    'killer_case_id'=>$val['testcase_id'],
-                    'killed_answer'=>'',
-                    'message'=>"Wrong Answer: Your output[] <br/>Expected:[".$correctLine."]");
-                // break;
-            }
-        }
-    }
-    fclose($file_handle);
-    $res = array('accepted'=>true);
-    return $res;
 }
 ?>

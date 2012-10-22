@@ -11,10 +11,16 @@ $userId = $_SESSION['userId'];
 $contestId=$_GET['cId'];
 include_once 'data_objects/DAOContest.php';
 $contestData = DAOContest_getContestData($contestId);
+
+if(!$contestData){
+    die;
+}
+
 if(!$contestData['is_published']){
     include_once 'container.php';
     showPage($contestData['nombre'],false,parrafoError('Contest is not published yet. Come back later.'), "");
 }
+
 $contestPhase = DAOContest_getContestPhase($contestId);
 if($contestPhase=='FINISHED'){
     include_once 'container.php';
