@@ -21,4 +21,16 @@ function DAOUserEvents_logEvent($userId, $eventName, $extraText){
   	runQuery($query);
 }
 
+function DAOUserEvents_logEventById($userId, $eventId, $extraText){ 
+	$query = 
+	  "INSERT INTO user_events (user_id, user_event_type_id, extra_text) VALUES 
+	  (
+	  '".$userId."', 
+	  '".$eventId."', 
+	  '".$extraText."'
+	)";
+	// echo $query;
+  	runQuery($query);
+}
+
 ?>

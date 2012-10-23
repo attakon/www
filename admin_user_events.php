@@ -14,6 +14,7 @@ $columnsNE = array(
         array("ue.user_event_id",  "user_event_id",     -2, ""),
         array("u.username",  "user_id",     -2, ""),
         array("uet.event_name",  "Event",     -2, ""),
+        array("ue.extra_text",  "Event",     -2, ""),
         array("ue.event_date",  "date",     -2, ""),
 );
 
