@@ -10,14 +10,15 @@ include_once ("utils/DBUtils.php");
 // 6	failed_log_in	User fails getting logged in
 
 function DAOUserEvents_logEvent($userId, $eventName, $extraText){ 
-  $query = 
-  "INSERT INTO user_events (user_id, user_event_type_id, extra_text) VALUES 
-  (
-  ".$userId.", 
-  (SELECT user_event_type_id FROM user_event_types WHERE event_name ='".$eventName."'), 
-  '".$extraText."'
-  )";
-  return runQuery($query);
+	$query = 
+	  "INSERT INTO user_events (user_id, user_event_type_id, extra_text) VALUES 
+	  (
+	  ".$userId.", 
+	  (SELECT user_event_type_id FROM user_event_types WHERE event_name ='".$eventName."'), 
+	  '".$extraText."'
+	)";
+	// echo $query;
+  	runQuery($query);
 }
 
 ?>

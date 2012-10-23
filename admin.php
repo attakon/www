@@ -6,7 +6,8 @@ include_once 'container.php';
 include_once 'CustomTags.php';
 
 $links = array (
-		rCLink('admin_resetpassword.php','','Reset User Password',null)
+		rCLink('admin_resetpassword.php','','Reset User Password',null),
+		rCLink('admin_user_events.php','','See All User Events',null),
 	);
 // $resetLink = rCLink('admin_resetpassword.php','','Reset User Password',null);
 // $createContestLink = rCLink('admin_createcontest.php',null,'Create New Contest','');

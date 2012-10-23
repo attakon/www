@@ -15,7 +15,6 @@ $columnsNE = array(
         // array("now()",   "",            -2, "",""),
         array("nombre",  "Siguente",     -2, "",
             "type"=>"linked 0 concurso"),
-        // array("date(fecha)",   "Evento",            90, "","date"),
         // array("time(fecha)",   "",            30, "","time"),
         array("'countdown'",   "",            100, "",
             "type"=>"replacement",
@@ -44,7 +43,6 @@ include_once 'table2.php';
 $runningContestsTable = new RCTable(conecDb(),$runningContestsTable,$columnsNE,$conditionNE);
 $runningContestsTable->setTitle("Running Contests");
 $runningContestsTable->setTableAtr("width='400'");
-$tableNextEvent = $runningContestsTable->getTable();
 
 
 // UPCOMING CONTESTS
@@ -56,8 +54,6 @@ $columnsNE = array(
         // array("now()",   "",            -2, "",""),
         array("co.nombre",  "Upcoming Contests",    200, "",
             "type"=>"linked 0 concurso"),
-        // array("date(fecha)",   "Evento",            90, "","date"),
-        // array("time(fecha)",   "",            30, "","time"),
         array("'countdown'",   "",            200, "",
             "type"=>"replacement",
             'value'=>'<div id="timer_div_#{0}"/>

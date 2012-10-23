@@ -1,13 +1,9 @@
 <?php
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
+// ini_set('display_errors', 'On');
+// error_reporting(E_ALL);
 
-session_start();
 
-include("conexion.php");
-include("data_objects/DAOUserEvents.php");
 
-$conexion = conecDb();
 $incomingUserName = $_POST['vb_login_username'];
 $incomingPassword = $_POST['vb_login_password'];
 
@@ -22,13 +18,13 @@ $prettyUserName = DAOUser_login($incomingUserName,$incomingPassword);
 
 if($prettyUserName){
     $userData = DAOUser_getUserByName($incomingUserName);
+    session_start();
     $_SESSION['user'] = $userData['username'];
     $_SESSION['userDisplayName']= $userData['username'];
     $_SESSION['userId'] = $userData['id_usuario'];
 
-    //Begin Adding Raul July 28, 2012
+    include("data_objects/DAOUserEvents.php");
     DAOUserEvents_logEvent($userData['id_usuario'],'log_in','');
-    //End Adding Raul July 28, 2012
 
     include_once 'container.php';
     redirectToLastVisitedPage();

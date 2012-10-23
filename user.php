@@ -23,15 +23,20 @@ if($hasCompetitorProfile){
 }
 
 session_start();
-if(isset($_SESSION['userId']) && $searchedUserId==$_SESSION['userId']
-    && isset($_SESSION['fbUserName'])){
-    $bodyContent .="<p align=center>Si tienes una cuenta existente en HuaHCoding, <a href='link_account.php'>conectala ahora</a></p>";    
+if(isset($_SESSION['userId']) && $searchedUserId==$_SESSION['userId']){
+    if(isset($_SESSION['fbUserName'])){
+        $bodyContent .="<p align=center>Si tienes una cuenta existente en HuaHCoding, <a href='link_account.php'>conectala ahora</a></p>";    
+    }
+    $bodyContent .="<a href='user_password_reset.php'>[Change Password]</a>";
+    $bodyContent .=" <a href='reset_password.php'>[Change Email]</a>";
 }
+
+
 
 // begin raul add - enabling contest history for users that haven't competed
 $bodyContent.=getUserContestsHistory($searchedUserId);
 // end raul add
-showPage("Perfil de Miembro", false, $bodyContent, "");
+showPage("Member Profile", false, $bodyContent, "");
 
 function getUserProfile($idUser, $puntos, $id_ranking){
 

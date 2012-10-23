@@ -105,6 +105,19 @@ function DAOUser_login($incomingUserName, $incomingPassword){
     $n = getRow($query);
     return $n;
 }
+function DAOUser_loginWithId($userId, $incomingPassword){
+    $query = "SELECT username FROM usuario 
+      WHERE id_usuario ='".$userId."'
+      AND pass = MD5('".$incomingPassword."')";
+    $n = getRow($query);
+    return $n;
+}
+function DAOUser_updateUserPaswword($userId, $incomingPassword){
+  $updateQuery = "UPDATE usuario SET 
+      pass = MD5('".$incomingPassword."')
+      WHERE id_usuario = '".$userId."'";
+  runQuery($updateQuery);
+}
 
 function DAOUser_getUserCampaignHistory($userId){
     $q = "(
