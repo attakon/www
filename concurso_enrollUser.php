@@ -51,6 +51,9 @@ if($contestData['is_invitational']){
             
             $leaguePoints = DAOUser_getUserLeaguePoints($userId, $leagueId);
             DAOUser_registerInContest($contestId, $userId, $leaguePoints);
+            include_once 'data_objects/DAOUserEvents.php';
+            include_once 'GLOBALS.php';
+            DAOUserEvents_logEventById($userId, USER_EVENT_REGISTER_IN_CONTEST, 'registered in contest '.$contestId);
             $msg = parrafoOK("&iexcl;Inscrito Correctamente!");
             include_once 'container.php';
             showPage($contestData['nombre'],false,$msg, "");

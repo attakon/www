@@ -9,17 +9,17 @@ include_once ("utils/DBUtils.php");
 // 5	download_problem_set_pdf	User donwloads a pdf for a contest
 // 6	failed_log_in	User fails getting logged in
 
-function DAOUserEvents_logEvent($userId, $eventName, $extraText){ 
-	$query = 
-	  "INSERT INTO user_events (user_id, user_event_type_id, extra_text) VALUES 
-	  (
-	  ".$userId.", 
-	  (SELECT user_event_type_id FROM user_event_types WHERE event_name ='".$eventName."'), 
-	  '".$extraText."'
-	)";
-	// echo $query;
-  	runQuery($query);
-}
+// function DAOUserEvents_logEvent($userId, $eventName, $extraText){ 
+// 	$query = 
+// 	  "INSERT INTO user_events (user_id, user_event_type_id, extra_text) VALUES 
+// 	  (
+// 	  ".$userId.", 
+// 	  (SELECT user_event_type_id FROM user_event_types WHERE event_name ='".$eventName."'), 
+// 	  '".$extraText."'
+// 	)";
+// 	// echo $query;
+//   	runQuery($query);
+// }
 
 function DAOUserEvents_logEventById($userId, $eventId, $extraText){ 
 	$query = 

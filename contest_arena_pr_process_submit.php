@@ -57,7 +57,7 @@ $answer = compareOutputs($userOutputTempName, $problemId);
 if($answer['accepted']){
     include_once 'data_objects/DAOUserEvents.php';
     include_once 'GLOBALS.php';
-    DAOUserEvents_logEventById($_SESSION['userId'], LOG_SUBMIT_PRACTICE_SOLUTION, 'successful for '.$problemName);
+    DAOUserEvents_logEventById($_SESSION['userId'], USER_EVENT_SUBMIT_PRACTICE_SOLUTION, 'successful for '.$problemName);
 
     //deprecating soon
     include_once('data_objects/DAOLog.php');
@@ -75,7 +75,8 @@ if($answer['accepted']){
 }else{
     $failedMessage = 'failed for '.$problemName.': message:'.$answer['message'];
     include_once 'data_objects/DAOUserEvents.php';
-    DAOUserEvents_logEventById($_SESSION['userId'], LOG_SUBMIT_PRACTICE_SOLUTION, $failedMessage);
+    include_once 'GLOBALS.php';
+    DAOUserEvents_logEventById($_SESSION['userId'], USER_EVENT_SUBMIT_PRACTICE_SOLUTION, $failedMessage);
 
     // deprecating soon
     include_once('data_objects/DAOLog.php');

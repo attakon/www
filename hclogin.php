@@ -24,12 +24,15 @@ if($prettyUserName){
     $_SESSION['userId'] = $userData['id_usuario'];
 
     include("data_objects/DAOUserEvents.php");
-    DAOUserEvents_logEvent($userData['id_usuario'],'log_in','');
+    include("GLOBALS.php");
+    DAOUserEvents_logEventById($userData['id_usuario'], USER_EVENT_LOG_IN,'');
 
     include_once 'container.php';
     redirectToLastVisitedPage();
 }else{
     $_SESSION['wpass'] ='1';
+    include_once 'data_objects/DAOLog.php';
+    DAOLog_log('Attempt to log in by incomingUserName:'.$incomingUserName,'');
     include_once 'container.php';
     redirectToLastVisitedPage();
 }

@@ -21,7 +21,8 @@ session_start();
 
 //close session
 	if(isset($_SESSION['userId'])){
-	   	DAOUserEvents_logEvent($_SESSION['userId'],'log_out','');
+		include_once 'GLOBALS.php';
+	   	DAOUserEvents_logEventById($_SESSION['userId'],USER_EVENT_LOG_OUT,'');
 	}
 	
 	// foreach ($_SESSION as $key => $value) {

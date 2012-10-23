@@ -1,16 +1,19 @@
 <?php
 	$GLOBAL_CURRENT_SEASON=7;
+	define('SUBMISSION_ALLOWED_SECONDS', 4*60);
 	$GLOBAL_submission_allowed_seconds=4*60;
 	//localhost test
 	$FB_APP_ID = "462894637088601";
 	$FB_APP_SECRET="d016291db63345bc3355f3567e213d23";
 
-	// LOG CONSTANTS
-	define('LOG_LOG_IN', 1);
-	define('LOG_LOG_OUT' , 2);
-	define('LOG_UNLOCK_CODE' , 3);
-	define('LOG_SUBMIT_SOLUTION' , 4);
-	define('LOG_FAILED_LOG_IN' , 6);
-	define('LOG_CHANGE_PASSWORD' , 7);
-	define('LOG_SUBMIT_PRACTICE_SOLUTION' , 8);
+	// USER_EVENT CONSTANTS
+	define('USER_EVENT_LOG_IN', 1);
+	define('USER_EVENT_LOG_OUT' , 2);
+	define('USER_EVENT_UNLOCK_CODE' , 3);
+	define('USER_EVENT_SUBMIT_CONTEST_SOLUTION' , 4);
+	define('USER_EVENT_FAILED_USER_LOG_IN' , 6);
+	define('USER_EVENT_CHANGE_PASSWORD' , 7);
+	define('USER_EVENT_SUBMIT_PRACTICE_SOLUTION' , 8);
+	define('USER_EVENT_REGISTER_IN_CONTEST' , 9);
+	
 ?>

@@ -19,7 +19,7 @@
         var divId = "submission_left_time_"+campaignId+'_'+problemId;
         document.getElementById('download-link').style.display='none';
         <?php include_once 'GLOBALS.php'; ?>
-        CreateTimer(divId,<?php echo $GLOBAL_submission_allowed_seconds; ?>,timerCount++);
+        CreateTimer(divId,<?php echo SUBMISSION_ALLOWED_SECONDS; ?>,timerCount++);
         document.location.href=url;
         console.log('x');
         // xmlhttp.open("GET",,true);

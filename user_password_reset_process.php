@@ -26,7 +26,8 @@
     	// DAOLog_log($userData['username'].' changed his password ');
 
     	include_once 'data_objects/DAOUserEvents.php';
-    	DAOUserEvents_logEvent($_SESSION['userId'],'change_password','');
+    	include_once 'GLOBALS.php';
+    	DAOUserEvents_logEventById($_SESSION['userId'],USER_EVENT_CHANGE_PASSWORD,'');
 
     	$_SESSION['message']="Your password has been succesfully updated.";
     	redirectToLastVisitedPage();

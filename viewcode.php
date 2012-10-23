@@ -29,6 +29,10 @@ $isSeenByUser = DAOProblem_isAlrearySeenByUserInPractite($problemId,$signedInUse
 
 if(!$isSeenByUser && $contestData['creator_id']!=$_SESSION['userId']){
     if(isset($_GET['do'])){
+        include_once 'data_objects/DAOUserEvents.php';
+        include_once 'GLOBALS.php';
+        DAOUserEvents_logEventById($_SESSION['userId'], USER_EVENT_UNLOCK_CODE, $problemId);
+
         DAOProblem_markProblemAsSeenInPractice($problemId, $signedInUserId);
     }else if(!DAOProblem_isSolvedByUserInContest($problemId, $signedInUserId)){
         $seeItPath = $_SERVER['PHP_SELF'].'?cpg='.$campaignId.'&p='.$problemId.'&do';

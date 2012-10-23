@@ -27,8 +27,6 @@ if(isset($_SESSION['userId']) && $searchedUserId==$_SESSION['userId']){
     if(isset($_SESSION['fbUserName'])){
         $bodyContent .="<p align=center>Si tienes una cuenta existente en HuaHCoding, <a href='link_account.php'>conectala ahora</a></p>";    
     }
-    $bodyContent .="<a href='user_password_reset.php'>[Change Password]</a>";
-    $bodyContent .=" <a href='reset_password.php'>[Change Email]</a>";
 }
 
 

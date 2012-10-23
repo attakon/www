@@ -110,7 +110,8 @@ if($contestPhase=='IN_PROGRESS'){
         $answer['accepted'], $escapedSourceContent);
 
         include_once 'data_objects/DAOUserEvents.php';
-        DAOUserEvents_logEvent($_SESSION['userId'],'submit_a_solution','successful for '.$problemName);
+        include_once 'GLOBALS.php';
+        DAOUserEvents_logEventById($_SESSION['userId'],USER_EVENT_SUBMIT_CONTEST_SOLUTION,'successful for '.$problemName.'(id='.$problemData['problem_id'].')');
 
         //deprecating soon
         include_once('data_objects/DAOLog.php');
@@ -133,9 +134,11 @@ if($contestPhase=='IN_PROGRESS'){
         $answer['accepted'], $escapedSourceContent,
         $answer['killer_case_id'], $escapedAnswer);
 
-
         include_once 'data_objects/DAOUserEvents.php';
-        DAOUserEvents_logEvent($_SESSION['userId'],'submit_a_solution','failed for $problemName: message:$answer[1]');
+        include_once 'GLOBALS.php';
+        DAOUserEvents_logEventById($_SESSION['userId'],
+            USER_EVENT_SUBMIT_CONTEST_SOLUTION,
+            'failed for'.$problemName.'(id='.$problemData['problem_id'].': message:'.$answer['message']);
 
         // deprecating soon
         

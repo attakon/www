@@ -12,9 +12,9 @@ $tables="user_events ue JOIN usuario u on (ue.user_id=u.id_usuario)
 
 $columnsNE = array(
         array("ue.user_event_id",  "user_event_id",     -2, ""),
-        array("u.username",  "user_id",     -2, ""),
+        array("u.username",  "Username",     -2, ""),
         array("uet.event_name",  "Event",     -2, ""),
-        array("ue.extra_text",  "Event",     -2, ""),
+        array("ue.extra_text",  " Extra text",     -2, ""),
         array("ue.event_date",  "date",     -2, ""),
 );
 
@@ -23,8 +23,8 @@ $conditionNE = "ORDER BY 1 DESC";
 include_once 'table2.php';
 include_once 'conexion.php';
 $userEventsTable = new RCTable(conecDb(),$tables,$columnsNE,$conditionNE);
-$userEventsTable->setTitle("User Events");
-$userEventsTable->setTableAtr("width='400'");
+// $userEventsTable->setTitle("User Events");
+$userEventsTable->setTableAtr("width='1000'");
 
 
 $content = '<div>All User Events</div>'.$userEventsTable->getTable().'<br/>';
