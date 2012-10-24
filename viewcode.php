@@ -38,7 +38,7 @@ if(!$isSeenByUser && $contestData['creator_id']!=$_SESSION['userId']){
         $seeItPath = $_SERVER['PHP_SELF'].'?cpg='.$campaignId.'&p='.$problemId.'&do';
         $seeItLink = rCLink($seeItPath, null, 'See code anyways');
         // $concursoId = DAOProblem_getProblemConcursoId($problemId);
-        $solveItPath = 'contest_arena.php?id='.$contestId.'&pid='.$problemId;
+        $solveItPath = 'contest_arena_pr.php?id='.$contestId.'&pid='.$problemId;
         $solveItLink = rCLink($solveItPath, null, 'Solve the problem');
 
         $content = parrafoOK("Si resuelves el problema antes de ver una solucion, lo tendras registrado en tu perfil como un problema azul");

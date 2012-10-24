@@ -189,7 +189,7 @@ function getUserContestsHistory($userId){
                          </td>';
             }else{
                 $defaultOutput = '<td class="'.$cssClass.'">
-                <a href="./viewcode_pr.php?uId='.$userId.'&pId='.$val['problem_id'].'">
+                <a href="./viewcode_pr.php?uid='.$userId.'&pid='.$val['problem_id'].'&cid='.$val['contest_id'].'">
                 '.$problemName.'</a>
                 </td>';
                 // $defaultOutput = '<td class="'.$cssClass.'">'.$problemName.'</td>';
