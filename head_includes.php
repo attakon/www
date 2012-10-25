@@ -6,7 +6,7 @@
     <!-- <script type="text/javascript" src="menu/resources/stmenu.js"></script>
     -->
 	<!-- add Jonathan 2012-06-10 - cambio de menu -->
-	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="js/kendo.web.min.js"></script>
     <script type="text/javascript" src="scripts/timer.js"></script>
     <script type="text/javascript" src="scripts/utils.js"></script>

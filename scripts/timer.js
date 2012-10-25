@@ -21,11 +21,15 @@ var timerCount=0;
 var Timer = new Array();
 var TotalSeconds=new Array();
 
-window.onload = function(){
-	for (var i = timers.length - 1; i >= 0; i--) {
-		CreateTimer(timers[i]['div_name'],timers[i]['left_time'],i)
-	};
-};
+jQuery(document).ready(function(){
+   loadTimers();
+ });
+
+function loadTimers(){
+    for (var i = timers.length - 1; i >= 0; i--) {
+        CreateTimer(timers[i]['div_name'],timers[i]['left_time'],i)
+    };
+}
 
 function CreateTimer(TimerID, Time, i) {
         Timer[i] = document.getElementById(TimerID);

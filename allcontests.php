@@ -52,9 +52,11 @@ $columnsNE = array(
         array("co.contest_id",  "contest",     -1, ""),
         array("TIMESTAMPDIFF(SECOND,now(),fecha)",   "",            -1, "",""),
         // array("now()",   "",            -2, "",""),
-        array("co.nombre",  "Upcoming Contests",    200, "",
+        array("co.nombre",  "Upcoming Contests",    -2, "",
             "type"=>"linked 0 concurso"),
-        array("'countdown'",   "",            200, "",
+        array("fecha",   "Date",            -2, "class='penalty'","date"),
+        array("co.total_time",  "Duration",     100, "",""),
+        array("'countdown'",   "Countdown",            100, "",
             "type"=>"replacement",
             'value'=>'<div id="timer_div_#{0}"/>
                 <script type="text/javascript">
@@ -63,14 +65,13 @@ $columnsNE = array(
                     ,"end_message":\'contest is now open\'
                 };
                 </script>'),
-        array("TIME_FORMAT(co.total_time,'%H:%m')",  "Duration",     100, "",""),
         array("'scoreboard'","Register", 100,
             "type"=>'replacement',
             "value"=>'<a href="./concurso_enrollUser.php?cId=#{0}">register</a>'),
         array("co.creator_id",  "username",     -1, "",""),
         array("us.username",  "Creator",     100, "",
             "type"=>"replacement",
-            "value"=>"<a class='userLink' href='./user.php?u=#{6}'>#{7}</a>")
+            "value"=>"<a class='userLink' href='./user.php?u=#{7}'>#{8}</a>")
 );
 
 $conditionNE = "WHERE co.is_published = 1 
@@ -80,7 +81,7 @@ $conditionNE = "WHERE co.is_published = 1
 include_once 'table2.php';
 $upcomingContestsTable = new RCTable(conecDb(),$upcomingTableList,$columnsNE,$conditionNE);
 // $upcomingContestsTable->setTitle("Upcoming Contests");
-$upcomingContestsTable->setTableAtr("width='400'");
+$upcomingContestsTable->setTableAtr("width='700'");
 
 
 // FINISHED CONTESTS
@@ -89,8 +90,9 @@ $columnsPC = array(
     array("co.contest_id",  "",     -1, ""),
     array("co.url_forum",  "",     -1, ""),
     array("co.nombre",  "Finished Contests",     200, "",""),
+    array("fecha",   "Date",            -2, "class='penalty'","date"),
     array("co.total_time",  "Duration",     80, "",""),
-    array("'space'","scoreboard",-2,"",
+    array("'space'","Scoreboard",-2,"",
         "type"=>"replacement",
         "value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>'),
     array("'space'","",-2,"",
@@ -98,7 +100,6 @@ $columnsPC = array(
     array("'practice'","practice",-2,"",
         "type"=>"replacement",
         "value"=>"<a href='./contest_arena.php?id=#{0}'>practice</a>"),
-    array("date(fecha)",   "Date",            80, "class='penalty'","date"),
     array("co.creator_id",  "username",     -1, "",""),
     array("us.username",  "Creator",     100, "",
             "type"=>"replacement",
@@ -118,8 +119,8 @@ $tablePC = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionNE);
 $tablePastContest = $tablePC->getTable();
 
 $content = '<div>Running Contests</div>'.$runningContestsTable->getTable().'<br/>'.
-            $upcomingContestsTable->getTable()."</br>".
-            $tablePC->getTable();
+            '<div>Upcoming Contests</div>'.$upcomingContestsTable->getTable()."</br>".
+            '<div>Finished Contests</div>'.$tablePC->getTable();
 
 showPage("Completed HuaHContests", false, $content, "");
 ?>

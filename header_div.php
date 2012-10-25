@@ -37,7 +37,7 @@ function headerFunction($statusBar){
 <div id="header" >
 	<div id="h_left">
 		<a href="./index.php">
-            <img  width="400" height="120" align="left" src="./images/hclogo_strike.png" border="0"/>
+            <!-- <img  width="400" height="120" align="left" src="./images/hclogo_strike.png" border="0"/> -->
         </a>
 	</div>
 	<div id="h_right">
