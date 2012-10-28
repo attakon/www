@@ -21,7 +21,7 @@ if(!$isSeenByUser){
         DAOProblem_markProblemAsSeenInPractice($problemId, $signedInUserId);
     }else if(!DAOProblem_isSolvedByUserInContest($problemId, $signedInUserId)){
         // $seeItPath = $_SERVER['PHP_SELF'].'?cpg='.$campaignId.'&p='.$problemId.'&do';
-        $seeItPath = 'viewcode_pr.php?uid='.$targetUserId.'&pid='.$problemId.'&do';
+        $seeItPath = 'viewcode_pr.php?uid='.$targetUserId.'&pid='.$problemId."&cid=".$contestId.'&do';
         $seeItLink = rCLink($seeItPath, null, 'See code anyways');
         // $concursoId = DAOProblem_getProblemConcursoId($problemId);
         $solveItPath = 'contest_arena_pr.php?id='.$contestId.'&pid='.$problemId;
@@ -31,7 +31,7 @@ if(!$isSeenByUser){
         $content.=parrafoOK($seeItLink.' '.$solveItLink);
         include_once 'container.php';
         showPage('X.X', false, $content, 'onload="prettyPrint()"');
-        die;
+        // die;
     }
 }
 

@@ -35,9 +35,10 @@ function DAOProblem_insertProblemStatement($problemId, $languageId, $statement){
     runQuery($query);
 }
 
-function DAOProblem_registerProblem($problemName, $problemDifficulty, $creatorId, $exampleCases){
+function DAOProblem_registerProblem($problemName, $problemDifficulty, $creatorId, $exampleCasesNumber){
+    $problemName = mysql_escape_string($problemName);
     $insert = "INSERT INTO co_problem (name, difficulty, creator_id, example_cases)
-    VALUES ('".$problemName."','".$problemDifficulty."','".$creatorId."', ".$exampleCases.")";
+    VALUES ('".$problemName."','".$problemDifficulty."','".$creatorId."', ".$exampleCasesNumber.")";
     runQuery($insert);
 }
 function DAOProblem_registerTestCase($problemId, $input, $output){
@@ -46,6 +47,7 @@ function DAOProblem_registerTestCase($problemId, $input, $output){
     runQuery($insert);
 }
 function DAOProblem_getProblemByName($problemName){
+    $problemName = mysql_escape_string($problemName);
     $query = "SELECT problem_id FROM co_problem WHERE name='".$problemName."'";
     return getRow($query);
 }

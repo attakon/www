@@ -111,6 +111,7 @@ if($contestPhase=='IN_PROGRESS'){
 
         include_once 'data_objects/DAOUserEvents.php';
         include_once 'GLOBALS.php';
+        $problemName = mysql_escape_string($problemName);
         DAOUserEvents_logEventById($_SESSION['userId'],USER_EVENT_SUBMIT_CONTEST_SOLUTION,'successful for '.$problemName.'(id='.$problemData['problem_id'].')');
 
         //deprecating soon

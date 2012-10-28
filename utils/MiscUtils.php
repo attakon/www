@@ -11,7 +11,8 @@
     <!-- <link href="styles/son-of-obsidian.css" type="text/css" rel="stylesheet" /> -->
 
     <div style="text-align:center">
-        <pre class="prettyprint" style="width:<?php echo $col?>px; text-align:left">
+        <!-- <pre class="prettyprint" style="width:<?php echo $col?>px; text-align:left"> -->
+        <pre class="prettyprint" style="text-align:left">
             <?php echo $body;?>
         </pre>
     </div>

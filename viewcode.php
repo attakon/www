@@ -73,7 +73,43 @@ $code= str_replace("<", "&lt;", $code);
 $code= str_replace(">", "&gt;", $code);
 // $data[3]= str_replace("\n", "<br/>", $data[3]);
 include_once 'utils/MiscUtils.php';
-$body = formatCode($title, $code,$maxRow,$maxCol*9);
+$codeArea = formatCode($title, $code,$maxRow,$maxCol*9);
 include_once 'container.php';
-showPage($title, false, $body , 'onload="prettyPrint()"');
+$jqscript = '
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <script >
+        jQuery(document).ready(function() {
+            prettyPrint();
+            jQuery("#buttons").buttonset();
+            // jQuery("#label1").css("height","20px").css("padding-top","5px");
+            jQuery(".ui-button-text-only .ui-button-text")
+                .css("height","10px")
+                .css("display","inline");
+            jQuery("#radio1").click(function() {
+                jQuery("#dislike").fadeIn("slow");
+                jQuery("#dislike").css("background", "no-repeat url(//s.ytimg.com/yts/imgbin/www-refresh-vfl5Dug1g.png) -44px -182px");
+            });
+            jQuery("#radio2").click(function() {
+                jQuery("#dislike").fadeIn("slow");
+                jQuery("#dislike").css("background", "no-repeat url(//s.ytimg.com/yts/imgbin/www-refresh-vfl5Dug1g.png) -114px 0");
+              // alert("Handler for .click() called.");
+            });
+        });
+    </script>';
+// $body = '<div>
+//         <img id="like" src="//s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" />
+//         <img id="dislike" src="//s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" />
+//         </div>'.$codeArea;
+$buttons = 
+    '<div id="buttons">
+    <input type="radio" name="radio" id="radio1" ><label id="label1" style="font-family: courier;" for="radio1">--</label>
+    <div <div style="display:inline; padding:2px;" >
+        <img id="dislike"  style="vertical-align: middle; display:none" src="//s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" />
+    </div>
+    <input type="radio" name="radio" id="radio2" ><label style="font-family: courier;" for="radio2">++</label>
+    </div>';
+
+$body = $jqscript.$buttons.$codeArea;
+showPage($title, false, $body ,'');
 ?>

@@ -73,7 +73,7 @@ $columnsNE = array(
                     ,"end_message":\'contest is now open\'
                 };
                 </script>'),
-        array("TIME_FORMAT(co.total_time,'%H:%m')",  "duration",     -2, "",""),
+        array("co.total_time",  "duration",     -2, "",""),
         array("'scoreboard'","", -2,
             "type"=>'replacement',
             "value"=>'<a href="./concurso_enrollUser.php?cId=#{0}">register</a>'),
@@ -317,7 +317,7 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
 </table>
 <br/>
 <!-- FB Like Button START-->
-<fb:like href="http://huahcoding.com" layout="standard" width="100px" show_faces="true" font="verdana"></fb:like>
+<fb:like href="http://huahcoding.com/viewcode.php?cpg=93" layout="standard" width="100px" show_faces="true" font="verdana"></fb:like>
 <!-- FB Like Button END-->
 <br/>
 <br/>

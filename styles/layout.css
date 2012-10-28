@@ -76,3 +76,22 @@ div#bar{
 	box-shadow: 0px 5px 5px #888888;
 	-webkit-box-shadow: 0px 5px 5px #888888; /* Safari */
 }
+
+/*LIKE-DISLIKE CODE*/
+img#like{
+	background: no-repeat url(//s.ytimg.com/yts/imgbin/www-refresh-vfl5Dug1g.png) -114px 0;
+	width: 13px;
+	height: 15px;
+}
+img#like:hover{
+	background: no-repeat url(//s.ytimg.com/yts/imgbin/www-refresh-vfl5Dug1g.png) -181px -105px;
+}
+
+img#dislike{
+	background: no-repeat url(//s.ytimg.com/yts/imgbin/www-refresh-vfl5Dug1g.png) -44px -182px;
+	width: 13px;
+	height: 15px;
+}
+img#dislike:hover{
+	background: no-repeat url(//s.ytimg.com/yts/imgbin/www-refresh-vfl5Dug1g.png) -48px -123px;
+}

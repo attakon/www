@@ -42,7 +42,11 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
             $submissionId = DAOCampaign_startSubmission($contestId, $campaignId, $problemId, $seed);
             
 
-            processDownload($problemId,$seed);    
+            include_once 'data_objects/DAOUserEvents.php';
+            include_once 'GLOBALS.php';
+            DAOUserEvents_logEventById($sessionUserId, DOWNLOAD_CONTEST_INPUT, 'downloaded problem '.$problemId);
+            
+            processDownload($problemId,$seed);
         }else{
             include_once 'container.php';
             include_once 'CustomTags.php';

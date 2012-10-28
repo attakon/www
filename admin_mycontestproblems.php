@@ -139,7 +139,8 @@ else if(isset($_GET['id'])){
     //     "type"=>"replacement", 
     //     'value' => "<a href='./admin_mycontestproblems.php?id=".$contestId."&addproblemid=#{0}'>Add Problem to ".$contestName."</a>")
     );
-    $conditionPC = "ORDER BY 1 DESC";
+    $conditionPC = "WHERE problem.creator_id = '".$_SESSION['userId']."'
+        ORDER BY 1 DESC";
 
     include_once 'table2.php';
     $problemList = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);

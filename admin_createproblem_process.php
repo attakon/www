@@ -10,6 +10,7 @@
 
     include_once('data_objects/DAOProblem.php');
     DAOProblem_registerProblem($problemName,'1', $_SESSION['userId'],$exampleCasesCount);
+    // TODO chance to improve
     $problemId = DAOProblem_getProblemByName($problemName);
 
     for ($i =0;$i<sizeof($inputList);$i++) {

@@ -5,7 +5,7 @@ include_once 'utils/ValidateAuthor.php';
 if(isset($_POST['language_id']) || isset($_POST['pid'])|| isset($_POST['content'])){
     $languageId=$_POST['language_id'];
     $problemId=$_POST['pid'];
-    $content=stripslashes($_POST['content']);
+    $content=mysql_escape_string($_POST['content']);
     include_once 'data_objects/DAOProblem.php';
     $problemStatement = DAOProblem_getProblemStatementForLanguage($problemId,$languageId);
     if(!$problemStatement){
