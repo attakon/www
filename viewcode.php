@@ -35,7 +35,7 @@ if(!$isSeenByUser && $contestData['creator_id']!=$_SESSION['userId']){
 
         DAOProblem_markProblemAsSeenInPractice($problemId, $signedInUserId);
     }else if(!DAOProblem_isSolvedByUserInContest($problemId, $signedInUserId)){
-        $seeItPath = $_SERVER['PHP_SELF'].'?cpg='.$campaignId.'&p='.$problemId.'&do';
+        $seeItPath = 'viewcode.php?cpg='.$campaignId.'&p='.$problemId.'&do';
         $seeItLink = rCLink($seeItPath, null, 'See code anyways');
         // $concursoId = DAOProblem_getProblemConcursoId($problemId);
         $solveItPath = 'contest_arena_pr.php?id='.$contestId.'&pid='.$problemId;
