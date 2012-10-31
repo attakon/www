@@ -124,7 +124,7 @@ function getConcursoDetalleHTML($contestId) {
     }else if($contestPhase=="IN_PROGRESS"){?>
         <tr>
             <td align="center" colspan='2'>
-                <a href="contest_arena.php?id=<?php echo $contestId?>">[Solve]</a>
+                <a href="contest_arena.php?id=<?php echo $contestId?>">[Enter]</a>
                 <a href="contest_arena_scoreboard.php?id=<?php echo $contestId?>">[Scoreboard]</a>
             </td>
         </tr>

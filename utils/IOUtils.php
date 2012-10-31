@@ -18,7 +18,6 @@ function compareOutputs($tmpName, $problemId, $seed=null) {
 
     $problemIO = DAOProblem_getProblemIO($problemId);
 
-    
 
     if($seed)
         SEOshuffle($problemIO, $seed);
@@ -31,6 +30,14 @@ function compareOutputs($tmpName, $problemId, $seed=null) {
     // }
 
     // $correct = explode("\n", $correctOutputContent);
+
+    //PHP 3 and higher
+    $finfo = finfo_open(FILEINFO_MIME);
+    $fin = finfo_file($finfo, $tmpName);
+    echo $fin;
+    die;
+
+    
     $file_handle = fopen($tmpName, "r");
     $i = 0;
     $res;

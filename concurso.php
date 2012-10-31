@@ -21,7 +21,7 @@
             array("us.id_usuario",  "username",     -1, ""),
             // array("us.username",  "username",     -1, ""),
             // array("c.id_ranking",   "",             0,  "","img images/ranking gif"),
-            array("us.username",    "Registered Users",  150,   "",
+            array("us.username",    "Registrants",  150,   "",
                 "type"=>"replacement",
                 'value'=>'<a class="userLink" href="./user.php?u=#{0}" >#{1}</a>'),
             // array("cmp.checked_in",  "Confirmado",  30, "class='checked_in'","img images png")

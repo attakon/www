@@ -61,7 +61,7 @@ if(isset($_GET['id'])){
     $arenaHTML = getArenaHTML($contestId,$selectedProblemId,$userCampaignData,$userId);
     $content = $head.$arenaHTML;
     include_once 'container.php';
-    showPage($contestName.'\'s Arena',false,$content);
+    showPage($contestName.'\'s Arena <a style="font-size:10px" target="_blank" href="./contest_arena_scoreboard.php?id='.$contestId.'">[Scoreboard]</a>',false,$content);
 }
 
 

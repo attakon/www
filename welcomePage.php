@@ -70,11 +70,11 @@ $columnsNE = array(
                 <script type="text/javascript">
                 timers[timerCount++]={ "div_name":"timer_div_#{0}"
                     ,"left_time":#{1}
-                    ,"end_message":\'contest is now open\'
+                    ,"end_message":\'<a href="contest_arena.php?id=#{0}">Enter</a>\'
                 };
                 </script>'),
         array("co.total_time",  "duration",     -2, "",""),
-        array("'scoreboard'","", -2,
+        array("'register'","", -2,
             "type"=>'replacement',
             "value"=>'<a href="./concurso_enrollUser.php?cId=#{0}">register</a>'),
         array("co.creator_id",  "username",     -1, "",""),
@@ -118,13 +118,16 @@ $columnsNE = array(
                     ,"end_message":\'Contest has finished.\'
                 };
                 </script>'),
+        array("'Enter'","",-2,
+            "type"=>'replacement',
+            "value"=>'<a href="./contest_arena.php?id=#{0}">[Enter]</a>'),
         array("'scoreboard'","",-2,
             "type"=>'replacement',
-            "value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>'),
+            "value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">[Scoreboard]</a>'),
         array("co.creator_id",  "username",     -1, "",""),
         array("us.username",  "creator",     -2, "",
             "type"=>"replacement",
-            "value"=>"<a class='userLink' href='./user.php?u=#{5}'>#{6}</a>")
+            "value"=>"<a class='userLink' href='./user.php?u=#{6}'>#{7}</a>")
 );
 
 $conditionNE = "WHERE co.is_published = 1 
@@ -150,12 +153,12 @@ $columnsNE = array(
         // array("date(fecha)",   "Evento",            90, "","date"),
         // array("time(fecha)",   "",            30, "","time"),
         array("'space'","",-2,
-            "type"=>"replacement","value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">scoreboard</a>'),
+            "type"=>"replacement","value"=>'<a href="./contest_arena_scoreboard.php?id=#{0}">[Scoreboard]</a>'),
         array("'space'","",-2,
             "type"=>"replacement","value"=>"|"),
         array("'practice'","practice",-2,
             "type"=>"replacement",
-            "value"=>"<a href='./contest_arena.php?id=#{0}'>practice</a>"),
+            "value"=>"<a href='./contest_arena.php?id=#{0}'>[Practice]</a>"),
         array("DATE(fecha)","",-1),
         array("co.creator_id",  "username",     -1, "",""),
         array("us.username",  "creator",     -2, "",

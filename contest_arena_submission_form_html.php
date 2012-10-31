@@ -17,11 +17,19 @@
         }
         var url = "contest_arenadownloadinput.php?pid="+problemId+"&cmpid="+campaignId;
         var divId = "submission_left_time_"+campaignId+'_'+problemId;
-        document.getElementById('download-link').style.display='none';
         <?php include_once 'GLOBALS.php'; ?>
-        CreateTimer(divId,<?php echo SUBMISSION_ALLOWED_SECONDS; ?>,timerCount++);
+        var leftTime = <?php echo SUBMISSION_ALLOWED_SECONDS.";";?>
+        document.getElementById('download-link').style.display='none';
+        
+        timers[timerCount]={
+                        div_name:divId
+                        ,left_time:leftTime
+                        ,end_message:"Time's over<a href="+url+">Download new Input file</a>"
+                    };
+        CreateTimer(timers[timerCount]['div_name'],timers[timerCount]['left_time'],timerCount);
+        timerCount++;
         document.location.href=url;
-        console.log('x');
+        // console.log('x');
         // xmlhttp.open("GET",,true);
         // xmlhttp.send();
     }
@@ -42,13 +50,14 @@
                 
                 
                 if($isSubmissionPending){
-                    
+
+                    $timedOverDownloadLink = "<div id='download-link'>Time\'s over<a style='cursor: pointer' onclick='downloadFile(".$campaignId.",".$problemId.")'>Download New Input File</a><label> when you are ready</label></div>";
                     $countDown = '
                     <script type="text/javascript">
                     timers[timerCount++]={
                         div_name:"'.$divId.'"
                         ,left_time:'.$isSubmissionPending['submission_left_time'].'
-                        ,end_message:"'.$downloadLink.'"
+                        ,end_message:"'.$timedOverDownloadLink.'"
                     };
                     </script>';
                     $result .= $countDown;
