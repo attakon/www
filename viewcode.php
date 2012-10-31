@@ -110,6 +110,7 @@ $buttons =
     <input type="radio" name="radio" id="radio2" ><label style="font-family: courier;" for="radio2">++</label>
     </div>';
 
-$body = $jqscript.$buttons.$codeArea;
+$body = $jqscript.$codeArea;
+// $body = $jqscript.$buttons.$codeArea;
 showPage($title, false, $body ,'');
 ?>
