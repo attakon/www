@@ -113,8 +113,8 @@ $exampleCases = $selectedProblemData['example_cases'];
 ob_start();
 ?>
 
-    <table cellpadding="0" cellspacing="0" style="border-collapse: collapse"
-           align="center" width="100%" height="181" >
+    <table cellpadding="0" cellspacing="0" style="border-collapse: collapse;"
+           align="center" width="100%" height="181"  >
         <tr>
             <td height="24" width="190">&nbsp;</td>
             <td height="24" >
@@ -122,7 +122,7 @@ ob_start();
             </td>
         </tr>
         <tr>
-            <td height="300" width="190" valign="top" rowspan="2">
+            <td width="190" valign="top" rowspan="2">
                 <ol style="padding:0px;margin:0px;">
                     <?php
                     // while($problems = mysql_fetch_row($rsProb)){
@@ -153,6 +153,23 @@ ob_start();
                 </ul>
             </td>
             <td class = "contest_bordeable">
+                <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+                <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+                <script type="text/javascript">
+                    
+                    jQuery(document).ready(function(){
+                        jQuery("#submit-button").button();
+                        jQuery("#submit-button").click(function() {
+                            if(jQuery("#submit-table").css('display')=='none'){
+                                jQuery("#submit-table").css('display','');    
+                            }else{
+                                jQuery("#submit-table").css('display','none');
+                            }
+                            
+                        });
+                    });
+                </script>
+                <button id="submit-button">Ready to submit?</button>
                 <?php
                 if($selectedProblemData['solved']=='0'){
                     include_once 'contest_arena_submission_form_html.php';
@@ -166,9 +183,9 @@ ob_start();
             </td>
         </tr>
         <tr>
-            <td height="300" style="padding-left: 10px;
+            <td style="padding-left: 10px;
                                 padding-right: 10px;
-                                width: 1000px;" >
+                                width: 1000px; vertical-align:top; height: 500px;" >
             <?php echo $selectedProblemData['statement'].'<br/><h4 style="text-align:center">Example Cases</h4>'.$manageContestTable->getTable(); ?></td>
         </tr>
     </table>

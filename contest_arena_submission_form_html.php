@@ -29,7 +29,7 @@
     }
 </script>
 <form method="POST" action="contest_arena_process_submit.php" enctype="multipart/form-data">
-    <table border="0" height="50" >
+    <table id="submit-table" border="0" height="50" style="display:none">
         <tr>
             <td colspan="2" width="100%">
                 <div id="myDiv"/>
