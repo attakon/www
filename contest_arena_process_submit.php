@@ -85,7 +85,7 @@ if($contestPhase=='IN_PROGRESS'){
 
     if(!$pendingSubmission){
         $lastVisitedPage = $_SESSION['lastvisitedurl'];
-        $_SESSION['message']="You have to download the input file first.";
+        $_SESSION['message']="You have to download the Input File first.";
         $_SESSION['message_type']="error";
         header("Location: ".$lastVisitedPage);
         die;
@@ -128,12 +128,10 @@ if($contestPhase=='IN_PROGRESS'){
         // showPage("Fuck Yeah!", false, parrafoOK(), "");
     }else {
 
-        // $escapedAnswer = mysql_escape_string($answer['killed_answer']);
-
         DAOCampaign_registerSubmission($campaignData['contest_id'], 
         $campaignId, $problemId, 'NOW()', 
         $answer['accepted'], $escapedSourceContent,
-        $answer['killer_case_id'], $escapedAnswer);
+        $answer['killer_case_id'], $answer['killed_answer']);
 
         include_once 'data_objects/DAOUserEvents.php';
         include_once 'GLOBALS.php';
@@ -147,8 +145,13 @@ if($contestPhase=='IN_PROGRESS'){
         $msgLog = $_SESSION['user']." failed solving ".$problemName;
         DAOLog_log($msgLog,$answer['message'],'');
 
+        // include_once 'container.php';
+        // showPage("X.X", false, parrafoError(), "");
+
         include_once 'container.php';
-        showPage("X.X", false, parrafoError($answer['message']), "");
+        $_SESSION['message']=$answer['message'];
+        $_SESSION['message_type']='error';
+        redirectToLastVisitedPage();
     }
 }else if ($contestPhase=='FINISHED'){//invalid
     header("Location: contest_arena_pr.php?id=".$contestId);

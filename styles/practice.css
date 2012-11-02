@@ -2,10 +2,11 @@ root {
     display: block;
 }
 /*BEGIN Contest Mode*/
-td.contest_selectedProblem{
+li.contest_selectedProblem{
     background-color: #0B1D29;
     color: #0B1D29;
     font-weight: bold;
+    
 }
 td.contest_bordeable{
     border-width: 2px;

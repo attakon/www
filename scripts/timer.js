@@ -49,7 +49,12 @@ function Tick(i) {
                 CreateTimer(div_name,left_time,i);
                 return;
             }else{
-                Timer[i].innerHTML = timers[i]['end_message'];    
+                if(timers[i]['end_message']!=undefined){
+                    Timer[i].innerHTML = timers[i]['end_message'];    
+                }
+                if(timers[i]['end_callback']!=undefined){
+                    timers[i]['end_callback']();
+                }
             }
             return;
         }

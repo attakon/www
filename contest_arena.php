@@ -123,7 +123,7 @@ ob_start();
         </tr>
         <tr>
             <td height="300" width="190" valign="top" rowspan="2">
-                <table cellpadding="0" cellspacing="0" width="190" >
+                <ol style="padding:0px;margin:0px;">
                     <?php
                     // while($problems = mysql_fetch_row($rsProb)){
                     foreach ($problemsData as $key => $problemValue) {
@@ -135,19 +135,24 @@ ob_start();
                             $classSelected="class='contest_selectedProblem'";
                         }
                         ?>
-                    <tr>
-                        <td <?php echo $classSelected?> width="190" height="25">
+                    
+                        <li style="list-style-type:none;
+                list-style-position:inside; 
+                font-size: 12px; height:18px; 
+                padding-top:4px;
+                padding-bottom:4px;
+                vertical-align:middle" <?php echo $classSelected?> >
                             <a <?php echo $style;?> href="./contest_arena.php?id=<?php echo$contestId?>&pid=<?php echo $problemValue['problem_id']?>">
                                 <?php echo $problemValue['name']." (".$problemValue['points']."pts)"?>
                             </a>
-                        </td>
-                    </tr>
+                        </li>
+                    
                     <?php
                 }
                 ?>
-                </table>
+                </ul>
             </td>
-            <td class = "contest_bordeable" height="30">
+            <td class = "contest_bordeable">
                 <?php
                 if($selectedProblemData['solved']=='0'){
                     include_once 'contest_arena_submission_form_html.php';

@@ -1,73 +1,84 @@
-<label>
-    <br>
-    <br>
-</label>
+
 <!--BEGIN SUBMIT FORM -->
 <script type="text/javascript">
-    function downloadFile(campaignId, problemId){
-        var xmlhttp;
-        if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp=new XMLHttpRequest();
-        }
-        xmlhttp.onreadystatechange=function(){
 
-            if (xmlhttp.readyState==4 && xmlhttp.status==200){
-                document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-            }
-        }
+    function getInputFile(campaignId, problemId, leftTime){
+        startTimer(campaignId, problemId, leftTime);
+        downloadFile(campaignId, problemId);
+    }
+    function downloadFile(campaignId, problemId){       
         var url = "contest_arenadownloadinput.php?pid="+problemId+"&cmpid="+campaignId;
-        var divId = "submission_left_time_"+campaignId+'_'+problemId;
-        <?php include_once 'GLOBALS.php'; ?>
-        var leftTime = <?php echo SUBMISSION_ALLOWED_SECONDS.";";?>
+        document.location.href=url;
+    }
+    function startTimer(campaignId, problemId, leftTime){
+         var divId = "submission_left_time_"+campaignId+'_'+problemId;
+
         document.getElementById('download-link').style.display='none';
-        
+        var callback = function(){
+            document.getElementById(divId).innerHTML = "Time's Up";
+            document.getElementById('download-link').style.display='block';
+        }
+
         timers[timerCount]={
                         div_name:divId
                         ,left_time:leftTime
-                        ,end_message:"Time's over<a href="+url+">Download new Input file</a>"
+                        ,end_callback: callback
                     };
         CreateTimer(timers[timerCount]['div_name'],timers[timerCount]['left_time'],timerCount);
         timerCount++;
-        document.location.href=url;
-        // console.log('x');
-        // xmlhttp.open("GET",,true);
-        // xmlhttp.send();
     }
 </script>
 <form method="POST" action="contest_arena_process_submit.php" enctype="multipart/form-data">
-    <table border="0" width="600" height="50" >
+    <table border="0" height="50" >
         <tr>
             <td colspan="2" width="100%">
                 <div id="myDiv"/>
                 <?php
                 include_once 'data_objects/DAOCampaign.php';
-                $isSubmissionPending = DAOCampaign_getPendingSubmission($contestId, $campaignId, $problemId);
+                $lastSubmission = DAOCampaign_getLastSubmission($contestId, $campaignId, $problemId);
 
                 $divId = "submission_left_time_".$campaignId.'_'.$problemId;
-                $result ='<div id="'.$divId.'"></div>';
-                                    // print_r($isSubmissionPending);
-                $downloadLink = "<div id='download-link'><a style='cursor: pointer' onclick='downloadFile(".$campaignId.",".$problemId.")'>Download New Input File</a><label> when you are ready</label></div>";
-                
-                
-                if($isSubmissionPending){
+                $result ='<div id="'.$divId.'" style="font-size: 16px; color:red"></div>';
+                // $result ='';
+                include_once 'GLOBALS.php'; 
+                $downloadLink = 
+                    "<div id='download-link'>
+                        <a style='cursor: pointer' onclick='getInputFile(".$campaignId.",".$problemId.",".SUBMISSION_ALLOWED_SECONDS.")'>Download New Input File</a>
+                        <label> when you are ready (You will have 4 minutes to submit your solution)</label>
+                    </div>";
+                // print_r($lastSubmission);
+                if($lastSubmission){
 
-                    $timedOverDownloadLink = "<div id='download-link'>Time\'s over<a style='cursor: pointer' onclick='downloadFile(".$campaignId.",".$problemId.")'>Download New Input File</a><label> when you are ready</label></div>";
-                    $countDown = '
-                    <script type="text/javascript">
-                    timers[timerCount++]={
-                        div_name:"'.$divId.'"
-                        ,left_time:'.$isSubmissionPending['submission_left_time'].'
-                        ,end_message:"'.$timedOverDownloadLink.'"
-                    };
-                    </script>';
-                    $result .= $countDown;
+                    if($lastSubmission['killed_answer']!=null){
+                        $escapedKilledAnswer = str_replace("<", "&lt;", $lastSubmission['killed_answer']);
+                        $escapedKilledAnswer = str_replace(">", "&gt;", $escapedKilledAnswer);
+
+                        // echo 'XXX'.$lastSubmission['killed_answer']."XXX";
+                        $result .= 
+                            '<div id="last-case-notice" style="border-width:1px; border-color:red;border-style:solid;"> 
+                                <div style="color:red"> Last Failed Submission </div>
+                                <div style="width:65px; display:inline-block">For Input:</div> <div style="display:inline-block; background-color:#DAECFF" id="input-case">'.trim($lastSubmission['case_input']).'</div>
+                                <br/> <div style="width:65px; display:inline-block">Expected:</div> <div style="display:inline; background-color:#DAECFF" id="expected-answer">'.trim($lastSubmission['case_output']).'</div>
+                                <br/> <div style="width:65px; display:inline-block">Received:</div> <div style="display:inline; background-color:#FCC7C7" id="received-answer"> '.$escapedKilledAnswer.'</div>'.
+                            '</div>';
+                        $result .= $downloadLink;
+                    }
+                    else if($lastSubmission['submission_left_time']>0 && $lastSubmission['submission_left_time']<=SUBMISSION_ALLOWED_SECONDS){
+                        $countDown = '
+                        <script type="text/javascript">
+                            jQuery(document).ready(function(){
+                                startTimer('.$campaignId.','.$problemId.','.$lastSubmission['submission_left_time'].');
+                            });
+                        </script>';
+                        $result .= $countDown.$downloadLink;
+                    }else {
+                        $result=$result.$downloadLink;
+                    }
                 }else{
                     $result .= $downloadLink;
-                                        // '<a href="contest_arenadownloadinput.php?pid='.$problemId.'&cmpid='.$userCampaignData['id_campaign'].'">Download Input File</a>';
                 }
                 echo $result;
                 ?>
-                
             </td>
         </tr>
         <tr>

@@ -32,10 +32,10 @@ function compareOutputs($tmpName, $problemId, $seed=null) {
     // $correct = explode("\n", $correctOutputContent);
 
     //PHP 3 and higher
-    $finfo = finfo_open(FILEINFO_MIME);
-    $fin = finfo_file($finfo, $tmpName);
-    echo $fin;
-    die;
+    // $finfo = finfo_open(FILEINFO_MIME);
+    // $fin = finfo_file($finfo, $tmpName);
+    // echo $fin;
+    // die;
 
     
     $file_handle = fopen($tmpName, "r");
@@ -56,7 +56,8 @@ function compareOutputs($tmpName, $problemId, $seed=null) {
                 return array('accepted'=>false,
                 'killer_case_id'=>$val['testcase_id'],
                 'killed_answer'=>$userLine,
-                'message'=>"Wrong Answer: line ".$i." tu salida[".$userLine."] esperado[".$correctLine."]");
+                // 'message'=>"Wrong Answer: line ".$i." tu salida[".$userLine."] esperado[".$correctLine."]");
+                'message'=>"Wrong Answer");
                 // break;
             }
         }else {
@@ -64,7 +65,8 @@ function compareOutputs($tmpName, $problemId, $seed=null) {
             return array('accepted'=>false,
                 'killer_case_id'=>$val['testcase_id'],
                 'killed_answer'=>'',
-                'message'=>"Wrong Answer: Your output[] <br/>Expected:[".$correctLine."]");
+                // 'message'=>"Wrong Answer: Your output[] <br/>Expected:[".$correctLine."]");
+                'message'=>"Wrong Answer");
             // break;
         }
         // }
