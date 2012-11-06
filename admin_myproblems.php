@@ -101,7 +101,10 @@ function init(){
         'value' => "<a href='/admin_myproblem.php?pid=#{0}'>#{2}</a>"),
     array("'delete'",  "Delete", 80, "", 
         "type"=>"replacement", 
-        'value' => "<a href='/admin_myproblems.php?remprobleid=#{0}'>Delete</a>")
+        'value' => "<a href='/admin_myproblems.php?remprobleid=#{0}'>Delete</a>"),
+    array("'test'",  "Test", 80, "", 
+        "type"=>"replacement", 
+        'value' => "<a href='/author_problem.php?id=#{0}'>Test Problem</a>")
     // array("'add statement'",  "Add Statement", -2, "", 
     //     "type"=>"replacement", 
     //     'value' => "<a href='/admin_myproblem_addstatement.php?pid=#{0}'>Add Statement</a>")

@@ -11,7 +11,7 @@ function SEOshuffle(&$items, $seed=false) {
   }
 }
 
-function compareOutputs($tmpName, $problemId, $seed=null) {
+function compareOutputs($tmpName, $problemId, $seed=null, $isTest=null) {
 
     //[TODO] Chance of improvement. Bring only Output
     include_once 'data_objects/DAOProblem.php';
@@ -53,11 +53,15 @@ function compareOutputs($tmpName, $problemId, $seed=null) {
             // print_r($userLine);
             if(strcmp($correctLine, $userLine)!=0) {
                 fclose($file_handle);
+                
+                $userLine = str_replace("<", "&lt;", $userLine);
+                $userLine = str_replace(">", "&gt;", $userLine);
+
                 return array('accepted'=>false,
                 'killer_case_id'=>$val['testcase_id'],
                 'killed_answer'=>$userLine,
                 // 'message'=>"Wrong Answer: line ".$i." tu salida[".$userLine."] esperado[".$correctLine."]");
-                'message'=>"Wrong Answer");
+                'message'=>$isTest==null?"Wrong Answer":"Wrong Answer: line ".$i." tu salida[".$userLine."] esperado[".$correctLine."]");
                 // break;
             }
         }else {

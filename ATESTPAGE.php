@@ -27,7 +27,33 @@ include "CustomTags.php";
 // echo $accepted;
 // // mail test
 
-include_once 'emailing.php';
-sendWelcomeEmail('erreauele@gmail.com');
+// include_once 'emailing.php';
+// sendWelcomeEmail('erreauele@gmail.com');
+
+// include_once 'scrap/simple_html_dom.php';
+// // Create DOM from URL or file
+// $html = file_get_html('http://community.topcoder.com/stat?c=problem_solution&cr=22691410&rd=15181&pm=12200');
+
+// echo $html;
+// Find all images 
+// foreach($html->find('img') as $element) 
+//        echo $element->src . '<br>';
+
+// // Find all links 
+// foreach($html->find('a') as $element) 
+//        echo $element->href . '<br>';
+
+<?php
+
+$ch = curl_init("http://www.example.com/");
+$fp = fopen("example_homepage.txt", "w");
+
+curl_setopt($ch, CURLOPT_FILE, $fp);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+
+curl_exec($ch);
+curl_close($ch);
+fclose($fp);
+?>
 	
 ?>

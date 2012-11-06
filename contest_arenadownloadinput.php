@@ -26,6 +26,7 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
         }
         $sessionUserId = $_SESSION['userId'];
 
+        //Check if signed in user is actually downloading its campaign Input file
         if($sessionUserId!=$campaignData['id_usuario']){
             include_once 'container.php';
             showPage("X.X", false, parrafoError('user not allowed'), "");
@@ -59,9 +60,28 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
         include_once 'container.php';
         showPage("X.X", false, parrafoError('not allowed to be here'), "");
     }
-}else if(isset($_GET['pid'])){
+}else if(isset($_GET['pid']) && isset($_GET['cid'])){
     $problemId =  $_GET['pid'];
+    $contestId =  $_GET['cid'];
+    include_once 'data_objects/DAOContest.php';
+    $contestPhase = DAOContest_getContestPhase($contestId);
+
+    if($contestPhase!='FINISHED'){
+        die;
+    }
     processDownload($problemId);
+}else if(isset($_GET['pid'])){
+    $problemId = $_GET['pid'];
+    include_once 'data_objects/DAOProblem.php';
+    $problemData = DAOProblem_getProblemData($problemId);
+    $signedUserId = $_SESSION['userId'];
+    $creatorId = $problemData['creator_id'];
+    if($creatorId==$signedUserId){
+        $testSeed = 2;
+        processDownload($problemId, $testSeed);
+    }else{
+        die;
+    }
 }
 
 function SEOshuffle(&$items, $seed=false) {

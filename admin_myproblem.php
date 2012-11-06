@@ -59,6 +59,7 @@ function init(){
 	    include_once 'maintenanceForm.php';
 	    $problemInsertForm = new RCMaintenanceForm('co_problem_statement',$fields,null,'Next', 'name',
 	        'style="text-align: center; width:400px"');
+
  	    $content = getEditorHTML($problemData['name'],$problemInsertForm->getInputControls(),$problemId);
 
         include_once 'data_objects/DAOProblem.php';
@@ -76,13 +77,21 @@ function init(){
             $statementsHTML.='<a href="admin_myproblem.php?pid='.$problemId.'&dellid='.$value['language_id'].'">[x]</a> ';
         }
         $content.=$statementsHTML."<hr/>
-            <br/>".$statement."<hr/>".'Example cases to show: '.$problemData['example_cases'];
+            <br/>".$statement."<hr/>";
 
         $explanationHTML0 = '<form method="GET" action = "./admin_myproblem.php">
                                 <input type="text" name="exp" value ="#{4}">
                                 <input type="hidden" name="testcase_id" value="#{1}"/>
                                 <input type="submit" value="save"/>
                             </form>';
+
+        //Problem Test
+        ob_start();
+        include_once 'admin_myproblem_submission_form.php';
+        $submissionForm = ob_get_contents();
+        ob_end_clean();
+        $content .= $submissionForm;
+        $content .="<hr/>".'Example cases to show: '.$problemData['example_cases'];
         // IO
         // echo $explanationHTML;
         $tablesPC="co_problem_testcase ptc, co_problem pr , (SELECT @rownum:=0) r";
@@ -115,6 +124,7 @@ function init(){
 	    showPage('Problem Preview', false, $content, null);
     }
 }
+
 
 
 function getEditorHTML($problemName, $extraInputControls, $problemId){
@@ -170,7 +180,7 @@ function getEditorHTML($problemName, $extraInputControls, $problemId){
 	    </textarea>
      	<br/>
      	<input type="hidden" name="pid" value="<?php echo $problemId ?>" />
-      	<input type="submit" name="submit" value="Save Problem Statement" />
+      	<input type="submit" name="submit" value="Add Problem Statement" />
     </form>
 <?php 
 $res = ob_get_contents();

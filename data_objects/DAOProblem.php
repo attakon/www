@@ -53,7 +53,7 @@ function DAOProblem_getProblemByName($problemName){
 }
 
 function DAOProblem_getProblemData($problemId){
-    $query = "SELECT problem_id, name, example_cases FROM co_problem WHERE problem_id='".$problemId."'";
+    $query = "SELECT problem_id, name, example_cases, creator_id FROM co_problem WHERE problem_id='".$problemId."'";
     return getWholeRow($query);
 }
 

@@ -103,6 +103,7 @@ class RCTable{
                      $header .= "
                     <td $clHeaderTN width =".$this->arrayColumns[$key][2].">".$this->arrayColumns[$key][1]."</td>";
                     $nroColumnsToShow++;
+                    // echo $this->arrayColumns[$key][2]."xxx";
                     $totalWidth+=$this->arrayColumns[$key][2];
                     break;
             }

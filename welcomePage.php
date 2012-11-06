@@ -105,8 +105,9 @@ $columnsNE = array(
         array("co.contest_id",  "contest",     -1, ""),
         array("TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time))",  "total_time",     -1, ""),
         // array("now()",   "",            -2, "",""),
-        array("nombre",  "Siguente",     -2, "",
-            "type"=>"linked 0 concurso"),
+        array("nombre",  "Siguente",     200, "",
+            "type"=>"replacement",
+            "value"=>"<a href='./concurso.php?id=#{0}'>#{2}</a>"),
         // array("date(fecha)",   "Evento",            90, "","date"),
         // array("time(fecha)",   "",            30, "","time"),
         array("'countdown'",   "",            100, "",
@@ -148,8 +149,9 @@ $columnsNE = array(
         array("co.contest_id",  "contest",     -1, ""),
         array("TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time))",  "total_time",     -1, ""),
         // array("now()",   "",            -2, "",""),
-        array("nombre",  "Siguente",     70, "",
-            "type"=>"linked 0 concurso"),
+        array("nombre",  "Siguente",     200, "",
+            "type"=>"replacement",
+            "value"=>"<a href='./concurso.php?idt=#{0}&show=det'>#{2}</a>"),
         // array("date(fecha)",   "Evento",            90, "","date"),
         // array("time(fecha)",   "",            30, "","time"),
         array("'space'","",-2,
@@ -173,8 +175,8 @@ $conditionNE = "WHERE co.is_published = 1
 
 include_once 'table2.php';
 $pastContestsTable = new RCTable(conecDb(),$contestTables,$columnsNE,$conditionNE);
-$pastContestsTable->setTitle("Completed Contests");
-$pastContestsTable->setTableAtr("width='250'");
+// $pastContestsTable->setTitle("Completed Contests");
+$pastContestsTable->setTableAtr("width='300'");
 // $tableNextEvent = $pastContestsTable->getTable();
 
 
