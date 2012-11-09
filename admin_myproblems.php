@@ -232,7 +232,7 @@ function getListSeparatedByLines($tempName, $linesPerCase, $nroFirstLinesToSkip=
         $singleCase.=$line."\n";
         if(++$counter==$linesPerCase){
             $counter=0;
-            $res[$totalRead]=$singleCase;
+            $res[$totalRead]=trim($singleCase);
             $singleCase='';
             $totalRead++;
         }
@@ -275,7 +275,7 @@ function getListSeparetedByMark($tempName, $caseMark, $nroFirstLinesToSkip=0, $i
         }
     }
     if($singleCase!=''){
-        $res[$totalRead]=$singleCase;
+        $res[$totalRead]=trim($singleCase);
         $totalRead++;
     }
     return $res;

@@ -96,7 +96,7 @@ if($contestPhase=='IN_PROGRESS'){
     
 
     $sourceContent = file_get_contents($userSourceTempName);
-    $escapedSourceContent = mysql_real_escape_string($sourceContent);
+    // $escapedSourceContent = mysql_real_escape_string($sourceContent);
     // $fp = fopen($userSourceTempName, 'r');
     // $escapedSourceContent = fread($fp, filesize($userSourceTempName));
     // $escapedSourceContent = mysql_real_escape_string($sourceContent);
@@ -106,8 +106,8 @@ if($contestPhase=='IN_PROGRESS'){
     if($answer['accepted']) {
         
         DAOCampaign_registerSubmission($campaignData['contest_id'], 
-        $campaignId, $problemId, 'NOW()', 
-        $answer['accepted'], $escapedSourceContent);
+            $campaignId, $problemId, 'NOW()', 
+            $answer['accepted'], $sourceContent);
 
         include_once 'data_objects/DAOUserEvents.php';
         include_once 'GLOBALS.php';
@@ -130,7 +130,7 @@ if($contestPhase=='IN_PROGRESS'){
 
         DAOCampaign_registerSubmission($campaignData['contest_id'], 
         $campaignId, $problemId, 'NOW()', 
-        $answer['accepted'], $escapedSourceContent,
+        $answer['accepted'], $sourceContent,
         $answer['killer_case_id'], $answer['killed_answer']);
 
         include_once 'data_objects/DAOUserEvents.php';

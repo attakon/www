@@ -110,7 +110,7 @@ function init() {
 </div>
 
 <div class="memberCountBox">
-Member Count: 437,521 - 
+Member Count: 437,525 - 
 
 
 November 8, 2012

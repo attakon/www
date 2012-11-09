@@ -26,9 +26,17 @@ function init(){
             array('label'=>'io_url','type'=>'text'),
         'example_cases'=> 
             array('label'=>'Example Cases','type'=>'number'),
-        'replace_target'=> 
-            array('label'=>'replace','type'=>'text', 'value'=>'{|}|,'),
-        'replace_by'=> 
+        'replace_target1'=> 
+            array('label'=>'replace','type'=>'text', 'value'=>'/{|}|,/'),
+        'replace_by1'=> 
+            array('label'=>'replace by','type'=>'text'),
+        'replace_target2'=> 
+            array('label'=>'replace','type'=>'text', 'value'=>''),
+        'replace_by2'=> 
+            array('label'=>'replace by','type'=>'text'),
+        'replace_target3'=> 
+            array('label'=>'replace','type'=>'text', 'value'=>''),
+        'replace_by3'=> 
             array('label'=>'replace by','type'=>'text')
         );
     include_once 'maintenanceForm.php';
@@ -89,19 +97,23 @@ function previewTCProblem($_PAR){
     // echo $exampleCasesCount;
 
 
-    $replaceTarget = $_PAR['replace_target'];
-    $replaceBy = $_PAR['replace_by'];
-    // echo $replaceTarget;
-    $replaceTarget = stripslashes($replaceTarget);
-    $replaceBy = stripslashes($replaceBy);
-    echo $replaceBy;
-    if($replaceTarget && $replaceTarget!=''){
-        
-        for ($i=0 ; $i<sizeof($inputList);$i++) {
-            $inputList[$i]= preg_replace('/'.$replaceTarget.'/', $replaceBy, $inputList[$i]);
-            
-        }    
+    $replaceTarget1 = stripslashes($_PAR['replace_target1']);
+    $replaceBy1 = stripslashes($_PAR['replace_by1']);
+    $replaceTarget2 = stripslashes($_PAR['replace_target2']);
+    $replaceBy2 = stripslashes($_PAR['replace_by2']);
+    $replaceTarget3 = stripslashes($_PAR['replace_target3']);
+    $replaceBy3 = stripslashes($_PAR['replace_by3']);
+    // echo $replaceBy;
+    
+    for ($i=0 ; $i<sizeof($inputList);$i++) {
+        if($replaceTarget1)
+            $inputList[$i]= preg_replace($replaceTarget1, $replaceBy1, $inputList[$i]);
+        if($replaceTarget2)
+            $inputList[$i]= preg_replace($replaceTarget2, $replaceBy2, $inputList[$i]);
+        if($replaceTarget3)
+        $inputList[$i]= preg_replace($replaceTarget3, $replaceBy3, $inputList[$i]);
     }
+    
     // print_r($inputList);
     $table = getIOTabularView($inputList,$outputList,$exampleCasesCount);
 

@@ -77,8 +77,8 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
     $signedUserId = $_SESSION['userId'];
     $creatorId = $problemData['creator_id'];
     if($creatorId==$signedUserId){
-        $testSeed = 2;
-        processDownload($problemId, $testSeed);
+        // $testSeed = 2;
+        processDownload($problemId);
     }else{
         die;
     }
@@ -100,21 +100,6 @@ function processDownload($problemId, $seed=null){
         $problemData = DAOProblem_getProblemData($problemId);
         
         $problemName = $problemData['name'];
-        // print_r($problemData);
-        
-        // echo $submissionId;
-
-        // include_once 'data_objects/DAOProblem.php';
-        // $problemIO = DAOProblem_getProblemIO($problemId);
-        // $inputContent = '';
-        // $outputContent = '';
-        // foreach ($problemIO as $key => $value) {
-        //     $inputContent .= $value['case_input'];
-        //     $outputContent .= $value['case_output'];
-        // }
-        // if(!isset($_SESSION['inputContent_'.$problemId]) || !isset($_SESSION['outputContent_'.$problemId])){
-
-            // print_r($problemIO);
 
         include_once 'data_objects/DAOProblem.php';
         //[TODO] Chance of improvement. Bring only Input
@@ -128,7 +113,9 @@ function processDownload($problemId, $seed=null){
         $inputSize = sizeof($problemIO);
         $inputContent = $inputSize.chr(13);
         foreach ($problemIO as $key => $value) {
-            $inputContent .= $value['case_input'];
+            $inputContent .= rtrim($value['case_input']);
+            if(--$inputSize>0)
+                $inputContent.="\n";
             // $outputContent .= $value['case_output'];
         }
         

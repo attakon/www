@@ -1,12 +1,17 @@
 <?php
 function sendWelcomeEmail($recipient, $username){
-	$message = "Hello ".$username."\r\n\r\nDo you think you can code? \r\n Welcome and have fun";
+	$message = "Hello ".$username."\r\n\r\nSo, do you think you can code?
+		\nWe'll see
+		\n
+		\n
+		\nWelcome and have fun
+		\n-HuaHCoding Stuff";
 
 // In case any of our lines are larger than 70 characters, we should use wordwrap()
 	$message = wordwrap($message, 70);
 
-	$headers = "From: HuaHCoding <no-reply@huahcoding.com>\r\n";
-	$subject = 'Welcome to HuaHCoding';
+	$headers = "From: HuaHCoding <no-reply@huahcoding.com>\n";
+	$subject = 'Welcome to HuaHCoding!';
 
 	// Send
 

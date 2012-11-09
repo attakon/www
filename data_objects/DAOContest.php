@@ -32,9 +32,29 @@ function DAOContest_getContestLeftSeconds($contestId){
 }
 
 function DAOContest_getContestData($contestId){
-  	$query = "SELECT nombre, estado, fecha, league_id, creator_id, is_invitational, is_published FROM concurso con WHERE contest_id = '".$contestId."'";
+  	$query = "SELECT nombre, estado, fecha, league_id, creator_id, is_invitational, is_published 
+      FROM concurso con 
+      WHERE contest_id = '".$contestId."'";
    	$contestData = getWholeRow($query);
    	return $contestData;
+}
+
+function DAOContest_getContestData2($contestId){
+    $query = "SELECT 
+        nombre, 
+        day(fecha) 'day', month(fecha) 'month', 
+        year(fecha) 'year', time(fecha) 'time'
+        ,total_time,
+        inscripcion, 
+        estado,
+        descripcion,
+        creator_id,
+        is_invitational 
+        
+      FROM concurso con 
+      WHERE contest_id = '".$contestId."'";
+    $contestData = getWholeRow($query);
+    return $contestData;
 }
 
 function DAOContest_getLeagueId($contestId){ 

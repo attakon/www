@@ -107,7 +107,7 @@ $columnsNE = array(
         // array("now()",   "",            -2, "",""),
         array("nombre",  "Siguente",     200, "",
             "type"=>"replacement",
-            "value"=>"<a href='./concurso.php?id=#{0}'>#{2}</a>"),
+            "value"=>"<a href='./concurso.php?idt=#{0}&show=det'>#{2}</a>"),
         // array("date(fecha)",   "Evento",            90, "","date"),
         // array("time(fecha)",   "",            30, "","time"),
         array("'countdown'",   "",            100, "",

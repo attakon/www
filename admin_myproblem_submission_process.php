@@ -40,7 +40,7 @@ if(!$isSourceFileEmpty){
 include_once 'data_objects/DAOProblem.php';
 include_once 'utils/IOUtils.php';
 $testSeed = 2;
-$answer = compareOutputs($userOutputTempName, $problemId, $testSeed, true);
+$answer = compareOutputs($userOutputTempName, $problemId, null, true);
 
 if($answer['accepted']){
     include_once 'data_objects/DAOUserEvents.php';

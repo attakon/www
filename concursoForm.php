@@ -2,37 +2,25 @@
 function getConcursoDetalleHTML($contestId) {
 
     //TODO This has to be refactored to use data objects.
-    include_once('./conexion.php');
-    include_once('./CustomTags.php');
-    $q = "SELECT nombre, day(fecha),month(fecha), 
-        year(fecha), time(fecha), locacion, inscripcion, premio, estado, 
-        descripcion,
-        url_forum,        
-        creator_id,
-        is_invitational
-        FROM concurso where contest_id = '".$contestId."'";
-    $rsConcurso = mysql_query($q,conecDb());
-    $data = mysql_fetch_row($rsConcurso);
+    // include_once('./CustomTags.php');
 
-    $name = $data[0];
-    $day = $data[1];
-    $month= $data[2];
-    $year = $data[3];
-    $time = $data[4];
-    $location = $data[5];
-    $inscripcion =$data[6];
-    $premio = $data[7];
-    $estado = $data[8];
-    $description = $data[9];
-    $url_forum = $data[10];
-    $creatorId = $data[11];
-    $isInvitational = $data[12];
+    include_once('data_objects/DAOContest.php');
+    $contestData = DAOContest_getContestData2($contestId);
+
+    $name = $contestData['nombre'];
+    $day = $contestData['day']<=9?'0'.$contestData['day']:$contestData['day'];
+    $month= $contestData['month'];
+    $year = $contestData['year'];
+    $time = $contestData['time'];
+    $estado = $contestData['estado'];
+    $description = $contestData['descripcion'];
+    $creatorId = $contestData['creator_id'];
+    $isInvitational = $contestData['is_invitational'];
+
     include_once 'data_objects/DAOUser.php';
     $userData = DAOUser_getUserById($creatorId);
-
-
-    $url_register ='./concurso_enrollUser.php?cId='.$contestId;
-    $url_registereds ='./concurso_registeredUsers.php?id='.$contestId;
+    $timeanddate = "http://www.timeanddate.com/worldclock/fixedtime.html?msg=".$name."&iso=".$year.$month.$day."&p1=94&ah=4";
+    // <!-- http://www.timeanddate.com/worldclock/fixedtime.html?msg=UNMSM+2012&iso=20121114T09&p1=94&ah=4 -->
 
     ob_start();
     $returnedValue ="";
@@ -57,7 +45,7 @@ function getConcursoDetalleHTML($contestId) {
     </tr>
     <tr>
         <td class='torneolabel'>Fecha:</td>
-        <td><?php echo getSpanishDate($day,$month,$year).' a las  '.$time?></td>
+        <td><?php echo getSpanishDate($day,$month,$year).' a las  '.$time?> CST <br/><a href="<?php echo $timeanddate;?>">See time in your place</a></td>
     </tr>
    
     <!-- <tr>
@@ -67,21 +55,6 @@ function getConcursoDetalleHTML($contestId) {
         </td>
     </tr> -->
 
-        
-
-
-        <?php if($inscripcion) { ?>
-            <tr>
-                <td class='torneolabel'>Inscripci&oacute;n:</td>
-                <td><?php echo$inscripcion?></td>
-            </tr>
-            <?php }
-        if($premio) {?>
-            <tr>
-                <td class='torneolabel'>Premio:</td>
-                <td><?php echo$premio?></td>
-            </tr>
-            <?php } ?>
 
     <!-- commenting-out Raul
     <tr>

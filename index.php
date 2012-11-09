@@ -4,5 +4,5 @@
 //    }
     include('container.php');
     $x = "welcomePage.php";
-    showPage("Welcome to HuaHCoding", true, $x, "");
+    showPage("Welcome to HuaHCoding (beta)", true, $x, "");
 ?>
