@@ -19,7 +19,7 @@ function getConcursoDetalleHTML($contestId) {
 
     include_once 'data_objects/DAOUser.php';
     $userData = DAOUser_getUserById($creatorId);
-    $timeanddate = "http://www.timeanddate.com/worldclock/fixedtime.html?msg=".$name."&iso=".$year.$month.$day."&p1=94&ah=4";
+    $timeanddate = "http://www.timeanddate.com/worldclock/fixedtime.html?msg=".$name."&iso=".$year.$month.$day."T".str_replace(":", "", $time)."&p1=94&ah=4";
     // <!-- http://www.timeanddate.com/worldclock/fixedtime.html?msg=UNMSM+2012&iso=20121114T09&p1=94&ah=4 -->
 
     ob_start();

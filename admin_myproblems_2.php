@@ -37,6 +37,22 @@ function init(){
         'replace_target3'=> 
             array('label'=>'replace','type'=>'text', 'value'=>''),
         'replace_by3'=> 
+            array('label'=>'replace by','type'=>'text'),
+        'out_replace_target1'=> 
+            array('label'=>'out_replace','type'=>'text', 'value'=>'/{|}|,/'),
+        'out_replace_by1'=> 
+            array('label'=>'replace by','type'=>'text'),
+        'out_replace_target2'=> 
+            array('label'=>'out_replace','type'=>'text', 'value'=>''),
+        'out_replace_by2'=> 
+            array('label'=>'replace by','type'=>'text'),
+        'out_replace_target3'=> 
+            array('label'=>'out_replace','type'=>'text', 'value'=>''),
+        'out_replace_by3'=> 
+            array('label'=>'replace by','type'=>'text'),
+        'out_replace_target4'=> 
+            array('label'=>'out_replace','type'=>'text', 'value'=>''),
+        'out_replace_by4'=> 
             array('label'=>'replace by','type'=>'text')
         );
     include_once 'maintenanceForm.php';
@@ -55,10 +71,7 @@ function init(){
         'value' => "<a href='/admin_myproblem.php?pid=#{0}'>#{2}</a>"),
     array("'delete'",  "Delete", 80, "", 
         "type"=>"replacement", 
-        'value' => "<a href='/admin_myproblems.php?remprobleid=#{0}'>Delete</a>"),
-    array("'test'",  "Test", 80, "", 
-        "type"=>"replacement", 
-        'value' => "<a href='/author_problem.php?id=#{0}'>Test Problem</a>")
+        'value' => "<a href='/admin_myproblems.php?remprobleid=#{0}'>Delete</a>")
     // array("'add statement'",  "Add Statement", -2, "", 
     //     "type"=>"replacement", 
     //     'value' => "<a href='/admin_myproblem_addstatement.php?pid=#{0}'>Add Statement</a>")
@@ -97,21 +110,49 @@ function previewTCProblem($_PAR){
     // echo $exampleCasesCount;
 
 
-    $replaceTarget1 = stripslashes($_PAR['replace_target1']);
-    $replaceBy1 = stripslashes($_PAR['replace_by1']);
-    $replaceTarget2 = stripslashes($_PAR['replace_target2']);
-    $replaceBy2 = stripslashes($_PAR['replace_by2']);
-    $replaceTarget3 = stripslashes($_PAR['replace_target3']);
-    $replaceBy3 = stripslashes($_PAR['replace_by3']);
+    // $replaceTarget1 = stripslashes($_PAR['replace_target1']);
+    // $replaceBy1 = stripslashes($_PAR['replace_by1']);
+    // $replaceTarget2 = stripslashes($_PAR['replace_target2']);
+    // $replaceBy2 = stripslashes($_PAR['replace_by2']);
+    // $replaceTarget3 = stripslashes($_PAR['replace_target3']);
+    // $replaceBy3 = stripslashes($_PAR['replace_by3']);
+
+    $i=1;
+    $ar = array();
+    while(true) {
+        if(isset($_PAR['replace_target'.$i])){
+            $replaceTarget = stripslashes($_PAR['replace_target'.$i]);
+            $replaceBy = stripslashes($_PAR['replace_by'.$i]);
+            $ar[] = array('search'=>$replaceTarget,'by'=>$replaceBy);
+        }else
+            break;
+        $i++;
+    }
+    $outputReplacements= array();
+    $i=1;
+    while(true) {
+        if(isset($_PAR['out_replace_target'.$i])){
+            $replaceTarget = stripslashes($_PAR['out_replace_target'.$i]);
+            $replaceBy = stripslashes($_PAR['out_replace_by'.$i]);
+            $outputReplacements[] = array('search'=>$replaceTarget,'by'=>$replaceBy);
+        }else
+            break;
+        $i++;
+    }
+    print_r($ar);
     // echo $replaceBy;
     
     for ($i=0 ; $i<sizeof($inputList);$i++) {
-        if($replaceTarget1)
-            $inputList[$i]= preg_replace($replaceTarget1, $replaceBy1, $inputList[$i]);
-        if($replaceTarget2)
-            $inputList[$i]= preg_replace($replaceTarget2, $replaceBy2, $inputList[$i]);
-        if($replaceTarget3)
-        $inputList[$i]= preg_replace($replaceTarget3, $replaceBy3, $inputList[$i]);
+        foreach ($ar as $key => $value) {
+            if($value['search'])
+                $inputList[$i]= preg_replace($value['search'], $value['by'], $inputList[$i]);
+        }
+    }
+    for ($i=0 ; $i<sizeof($inputList);$i++) {
+        foreach ($outputReplacements as $key => $value) {
+            if($value['search'])
+                $outputList[$i]= preg_replace($value['search'], $value['by'], $outputList[$i]);
+        }
     }
     
     // print_r($inputList);

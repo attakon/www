@@ -322,7 +322,7 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
 </table>
 <br/>
 <!-- FB Like Button START-->
-<fb:like href="http://huahcoding.com/viewcode.php?cpg=93" layout="standard" width="100px" show_faces="true" font="verdana"></fb:like>
+<fb:like href="http://huahcoding.com" layout="standard" width="100px" show_faces="true" font="verdana"></fb:like>
 <!-- FB Like Button END-->
 <br/>
 <br/>

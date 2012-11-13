@@ -39,7 +39,7 @@ if(!$isSourceFileEmpty){
 }
 include_once 'data_objects/DAOProblem.php';
 include_once 'utils/IOUtils.php';
-$testSeed = 2;
+// $testSeed = 2;
 $answer = compareOutputs($userOutputTempName, $problemId, null, true);
 
 if($answer['accepted']){
