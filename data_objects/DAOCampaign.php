@@ -58,6 +58,40 @@ function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
   return $res;
 }
 
+function DAOCampaign_getCampaignDetailForCampaign2($contestId, $campaignId){
+  include_once 'data_objects/DAOContest.php';
+
+  include_once 'GLOBALS.php';
+
+  $queryCampaignDetalle =
+    "SELECT 
+      cd.problem_id, 
+      cd.solved, 
+      cd.tiempo_submision,
+      cs.download_time,
+      cs.submission_time,
+      cs.status,
+      IF((SELECT (TO_SECONDS(NOW())-TO_SECONDS(fecha))FROM concurso con WHERE con.contest_id = ".$contestId.")
+          -TIME_TO_SEC(cs.download_time)<=".SUBMISSION_ALLOWED_SECONDS.",
+          ((SELECT (TO_SECONDS(NOW())-TO_SECONDS(fecha))FROM concurso con WHERE con.contest_id = ".$contestId.")-TIME_TO_SEC(cs.download_time))/(".SUBMISSION_ALLOWED_SECONDS."),'RUNOUT') COUNTDOWN
+    FROM campaigndetalle cd LEFT JOIN campaign_submission cs 
+       on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id) 
+    WHERE id_campaign = ".$campaignId."
+    ORDER BY problem_id,download_time DESC;";
+
+//     SELECT cd.problem_id, cd.solved, cd.tiempo_submision,count(cs.campaign_submission_id), cd.successful_source_code FROM campaigndetalle cd join campaign_submission cs 
+//     on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id) 
+// WHERE cd.id_campaign = 221 
+// AND cs.status=0
+
+  // echo $queryCampaignDetalle;
+  $res = getRowsInArray($queryCampaignDetalle);
+  // print_r($res);
+  return $res;
+}
+
+
+
 function DAOCampaign_getPendingSubmission($contestId, $campaignId, $problemId){
   include_once 'data_objects/DAOContest.php';
   $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);

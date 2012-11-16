@@ -171,7 +171,7 @@ $columnsNE = array(
 
 $conditionNE = "WHERE co.is_published = 1 
         AND TIMESTAMPDIFF(SECOND,now(),ADDTIME(fecha,total_time)) < 0 ".
-        "ORDER BY 1 DESC"; 
+        "ORDER BY fecha DESC"; 
 
 include_once 'table2.php';
 $pastContestsTable = new RCTable(conecDb(),$contestTables,$columnsNE,$conditionNE);

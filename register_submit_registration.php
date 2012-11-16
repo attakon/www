@@ -65,6 +65,8 @@ function isAvailableUser($x){
     return false;
 }
 function isValidUser($x){
+    if(strpos($x, " "))
+        return false;
     return strlen($x)>=3 && strlen($x)<=15;
 }
 

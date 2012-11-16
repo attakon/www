@@ -61,7 +61,7 @@ function compareOutputs($tmpName, $problemId, $seed=null, $isTest=null) {
                 'killer_case_id'=>$val['testcase_id'],
                 'killed_answer'=>$userLine,
                 // 'message'=>"Wrong Answer: line ".$i." tu salida[".$userLine."] esperado[".$correctLine."]");
-                'message'=>$isTest==null?"Wrong Answer":"Wrong Answer: line ".$i." tu salida[".$userLine."] esperado[".$correctLine."]");
+                'message'=>"Wrong Answer: line ".$i." tu salida[".$userLine."] esperado[".$correctLine."]");
                 // break;
             }
         }else {

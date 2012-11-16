@@ -124,7 +124,9 @@ if($contestPhase=='IN_PROGRESS'){
         include_once 'container.php';
         $_SESSION['message']="Awesome! Accepted Solution for ".$problemName;
         $_SESSION['message_type']='ok';
-        redirectToLastVisitedPage();
+
+        // redirectToLastVisitedPage();
+        redirectToPage('contest_arena.php?id='.$campaignData['contest_id']);
         // showPage("Fuck Yeah!", false, parrafoOK(), "");
     }else {
 
@@ -137,7 +139,7 @@ if($contestPhase=='IN_PROGRESS'){
         include_once 'GLOBALS.php';
         DAOUserEvents_logEventById($_SESSION['userId'],
             USER_EVENT_SUBMIT_CONTEST_SOLUTION,
-            'failed for'.$problemName.'(id='.$problemData['problem_id'].': message:'.$answer['message']);
+            'failed for '.$problemName.' (id='.$problemData['problem_id'].': message:'.$answer['message']);
 
         // deprecating soon
         
@@ -149,9 +151,10 @@ if($contestPhase=='IN_PROGRESS'){
         // showPage("X.X", false, parrafoError(), "");
 
         include_once 'container.php';
-        $_SESSION['message']=$answer['message'];
+        $_SESSION['message']="Wrong Answer";
         $_SESSION['message_type']='error';
-        redirectToLastVisitedPage();
+        redirectToPage('contest_arena.php?id='.$campaignData['contest_id']);
+        // redirectToLastVisitedPage();
     }
 }else if ($contestPhase=='FINISHED'){//invalid
     header("Location: contest_arena_pr.php?id=".$contestId);
