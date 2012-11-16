@@ -37,6 +37,7 @@ if(strlen($password_rC)<5 || strlen($password_rC)>15 || $password_rC!=$repass){
     DAOUser_registerUser($firstName_rC, $lastName_rC, $email_rC, $username_rC, $password_rC);
     include_once ('emailing.php');
     sendWelcomeEmail($email_rC,$username_rC);
+    sendNotificationEmail($email_rC,$username_rC,$firstName_rC." ".$lastName_rC);
     // $q3_rC = "INSERT INTO usuario (Nombres, Apellidos, id_escuela, Ciclo, email, username, pass)
              // values ('".$firstName_rC."','".$lastName_rC."','".$school_rC."',-1,'".$email_rC."','".$username_rC."',MD5('".$password_rC."'));";
     //End raul 21-Oct-2011
