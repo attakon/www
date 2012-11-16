@@ -51,10 +51,10 @@ if($userId!=null) {
             <label class="user">'.userLink($path,$userId ,$userDisplayName).'</label>'
             .$authorLink.$adminLink.'
             <label>
-                <a href="'.$path.'/user_settings.php" >Settings</a>
+                <a href="./user_settings.php" >Settings</a>
             </label>
             <label>
-                <a href="'.$path.'/logout.php" >Logout</a>
+                <a href="./logout.php" >Logout</a>
             </label>
         </div>';
 }

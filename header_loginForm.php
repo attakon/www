@@ -1,4 +1,4 @@
-<form action="<?php echo $path?>/hclogin.php?do=login" method="post" onsubmit="md5hash(vb_login_password, vb_login_md5password, vb_login_md5password_utf, 0)"
+<form action="./hclogin.php?do=login" method="post" onsubmit="md5hash(vb_login_password, vb_login_md5password, vb_login_md5password_utf, 0)"
       STYLE="margin: 0px; padding: 0px;
       font-size: 12px;
       font-family: Arial,Helvetica,sans-serif;">
