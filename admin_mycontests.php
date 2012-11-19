@@ -12,8 +12,11 @@ if(isset($_GET['delcontestid'])){
     if($creatorId == $_SESSION['userId']){
         $contestName = $contestData['nombre'];
         if($contestName!=null){
+            DAOContest_deleteContestCampaigns($contestId);
+            DAOContest_deleteContestProblems($contestId);
+            DAOContest_deleteContestInvites($contestId);
             DAOContest_deleteContest($contestId);
-            $_SESSION['message']='Contest '.$contestName.' was deleted';
+            $_SESSION['message']='Contest '.$contestName.' was completely deleted';
             $_SESSION['message_type']='ok';    
         }
     }else{

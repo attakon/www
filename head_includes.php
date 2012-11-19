@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css" href="./styles/body_title.css">
     <link rel="stylesheet" type="text/css" href="./styles/results.css">
     <link rel="stylesheet" type="text/css" href="./styles/practice.css">
-    <link rel="stylesheet" type="text/css" href="./styles/ranking.css">    
+    <link rel="stylesheet" type="text/css" href="./styles/ranking.css"> 
 	
 	<!-- add Jonathan 2012-06-10 - cambio de menu -->
 	<link href="./styles/kendo.common.min.css" rel="stylesheet" />
@@ -36,6 +36,8 @@
 
 
     <script type="text/javascript" src="./scripts/rC_global.js"></script>
+
+
 
     <title>HuaH Coding - Joooin the fun!</title>
 </head>

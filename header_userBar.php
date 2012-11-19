@@ -33,10 +33,10 @@ $userDisplayName = $_SESSION['userDisplayName'];
 if($userId!=null) {
     // print_r($_SESSION);
     if(DAOPermissions_isUserGrantedWithPermission($userId, 'admin_feature', 'Y')){
-        $adminLink = ' <label><a href="'.$path.'/admin.php" >Admin</a></label> ';
+        $adminLink = ' <label><a href="./admin.php" >Admin</a></label> ';
     }
     if(DAOPermissions_isUserGrantedWithPermission($userId, 'author_feature', 'Y')){
-        $authorLink = ' <label><a href="'.$path.'/author.php" >Author</a></label> ';
+        $authorLink = ' <label><a href="./author.php" >Author</a></label> ';
     }
 
     $img="";

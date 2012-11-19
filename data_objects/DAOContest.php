@@ -80,6 +80,21 @@ function DAOContest_deleteContest($contestId){
     WHERE contest_id ='".$contestId."'";
     runQuery($delete);
 }
+function DAOContest_deleteContestProblems($contestId){
+    $delete = "DELETE FROM co_contest_problems
+    WHERE contest_id ='".$contestId."'";
+    runQuery($delete);
+}
+function DAOContest_deleteContestInvites($contestId){
+  $delete = "DELETE FROM co_contest_invites
+    WHERE contest_id ='".$contestId."'";
+    runQuery($delete);
+}
+function DAOContest_deleteContestCampaigns($contestId){
+  $delete = "DELETE FROM campaign
+    WHERE contest_id ='".$contestId."'";
+    runQuery($delete); 
+}
 
 function DAOContest_publishContest($contestId){
     $update = "UPDATE concurso
