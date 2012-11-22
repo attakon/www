@@ -154,7 +154,6 @@ if($contestPhase=='IN_PROGRESS'){
         $_SESSION['message']="Wrong Answer";
         $_SESSION['message_type']='error';
         redirectToPage('contest_arena.php?id='.$campaignData['contest_id']."&pid=".$problemId);
-        // redirectToLastVisitedPage();
     }
 }else if ($contestPhase=='FINISHED'){//invalid
     header("Location: contest_arena_pr.php?id=".$contestId);
