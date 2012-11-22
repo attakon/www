@@ -90,7 +90,7 @@ function getConcursoDetalleHTML($contestId) {
     if($contestPhase=='NOT_STARTED'){?>
         <tr>
             <td align="center" colspan='2'>
-                <a href="<?php echo $url_register?>">[Register]</a>
+                <a href="./concurso_enrollUser.php?cId=<?php echo $contestId?>">[Register]</a>
             </td>
         </tr>
         <?php

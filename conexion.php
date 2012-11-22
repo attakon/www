@@ -8,10 +8,10 @@ function conecDb(){
     try {
 //          $conexion=mysql_connect("mysql3.000webhost.com","a9731928_huahdb","CAMAron23");
 //        mysql_select_db("a9731928_huahdb",$conexion);
-        // $conexion=mysql_connect("localhost","raulooo_appuser","appuserpwd");
-        // mysql_select_db("raulooo_beta_huahdb",$conexion);
-        $conexion=mysql_connect("localhost","root","root");
-        mysql_select_db("beta_huahdb",$conexion);
+        $conexion=mysql_connect("gator387.hostgator.com","raulooo_appuser","appuserpwd");
+        mysql_select_db("raulooo_dev_huahdb",$conexion);
+        // $conexion=mysql_connect("localhost","root","root");
+        // mysql_select_db("beta_huahdb",$conexion);
         mysql_query("SET NAMES 'utf8'");
         return $conexion;
     }

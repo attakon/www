@@ -53,6 +53,7 @@ function sendNotificationEmail($email, $username, $name){
 	// Send
 
 	$accepted = mail('huahcoding@gmail.com', $subject, $message, $headers);
+	$accepted = mail('jonathanpba@gmail.com', $subject, $message, $headers);
 	// echo $accepted;
 }
 	

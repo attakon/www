@@ -21,6 +21,7 @@ if($contestData['creator_id']!=$_SESSION['userId'] && $contestPhase!='FINISHED')
     include_once 'container.php';
     include_once 'CustomTags.php';
     showPage('X.X', false, parrafoError('Code is not available yet'), '');
+    die;
 }
 
 include_once 'data_objects/DAOProblem.php';
@@ -113,4 +114,5 @@ $buttons =
 $body = $jqscript.$codeArea;
 // $body = $jqscript.$buttons.$codeArea;
 showPage($title, false, $body ,'');
+
 ?>

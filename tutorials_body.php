@@ -1,7 +1,8 @@
 <body>
+    <a class="userLink" href="/user.php?uname=ziklon">Ziklon</a> ha creado algunos videos que lo ayudarán como introducción a HuaHCoding y algunas tecnicas de algorithms. Check them out.
     <div id="index">
         <ul>
-            <li><a class="rulesMark" href="#PracticarHuaHCoding">Practicar en HuaHCoding</a></li>
+            <li><a class="rulesMark" href="#PracticarHuaHCoding">Como concursar</a></li>
             <li><a class="rulesMark" href="#arrays">Lectura de Arrays</a></li>
         </ul>
     </div>
@@ -11,15 +12,13 @@
             <span style="font-weight: 700">
                 <font size="4">
                 <a name="PracticarHuaHCoding">
-                    Practicar en HuaHCoding.com
+                    Como concursar
                 </a>
             </font>
         </span>
         
         <hr color="#000000" size="1">
-        <iframe width="560" height="315" src="http://www.youtube.com/embed/bTbZcjpdAuA" frameborder="0" allowfullscreen></iframe>
-        <br/>
-        <iframe width="560" height="315" src="http://www.youtube.com/embed/qIdjxxq770k" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="http://www.youtube.com/embed/LvQDB4VYtZg" frameborder="0" allowfullscreen></iframe>
 
         <p><span style="font-weight: 700">
                 <font size="4">

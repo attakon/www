@@ -34,7 +34,7 @@ if(!$isSeenByUser){
         $content.=parrafoOK($seeItLink.' '.$solveItLink);
         include_once 'container.php';
         showPage('X.X', false, $content, 'onload="prettyPrint()"');
-        // die;
+        die;
     }
 }
 
