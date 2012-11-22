@@ -126,7 +126,7 @@ if($contestPhase=='IN_PROGRESS'){
         $_SESSION['message_type']='ok';
 
         // redirectToLastVisitedPage();
-        redirectToPage('contest_arena.php?id='.$campaignData['contest_id']);
+        redirectToPage('contest_arena.php?id='.$campaignData['contest_id']."&pid=".$problemId);
         // showPage("Fuck Yeah!", false, parrafoOK(), "");
     }else {
 
@@ -153,7 +153,7 @@ if($contestPhase=='IN_PROGRESS'){
         include_once 'container.php';
         $_SESSION['message']="Wrong Answer";
         $_SESSION['message_type']='error';
-        redirectToPage('contest_arena.php?id='.$campaignData['contest_id']);
+        redirectToPage('contest_arena.php?id='.$campaignData['contest_id']."&pid=".$problemId);
         // redirectToLastVisitedPage();
     }
 }else if ($contestPhase=='FINISHED'){//invalid
