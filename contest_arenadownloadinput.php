@@ -21,6 +21,7 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
         $isUserRegistered = DAOUser_isUserRegisteredInContest($campaignData['id_usuario'],$campaignData['contest_id']);
         if(!$isUserRegistered){
             include_once 'container.php';
+            include_once 'CustomTags.php';
             showPage("X.X", false, parrafoError('user not allowed'), "");
             die;
         }
@@ -29,6 +30,7 @@ if(isset($_GET['pid']) && isset($_GET['cmpid'])){
         //Check if signed in user is actually downloading its campaign Input file
         if($sessionUserId!=$campaignData['id_usuario']){
             include_once 'container.php';
+            include_once 'CustomTags.php';
             showPage("X.X", false, parrafoError('user not allowed'), "");
             die;
         }
