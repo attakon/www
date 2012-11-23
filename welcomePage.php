@@ -313,8 +313,8 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
                     $tableTopFiveSeason2."</br>".
                     $tableTopFive."</br>";
             ?>
-            <form action="user.php">
-            	<input type="search"
+            <form action="user.php" class="form-search">
+            	<input type="text" class="input-medium search-query"
                 placeholder="HuaHCoder" name="uname">
             </form>
         </td>

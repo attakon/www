@@ -1,9 +1,8 @@
-
 body{
     font-size: 12px;
-    font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+    /*font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;*/
     color: #4d4d4d;
-    background-color: #F8F8F8;
+    /*background-color: #F8F8F8;*/
     text-align: center;
     margin-right:0;
     margin-left:0;
@@ -14,7 +13,7 @@ ul{
     font-size:11px;
 }
 table,td,tr {
-    font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, 'sans-serif';
+    /*font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, 'sans-serif';*/
     border-top-style: ridge;
     border-bottom-style: ridge;
     border-left-style: ridge;
@@ -31,7 +30,7 @@ table,td,tr {
 }
 
 td.body{
-    font-family:arial,Helvetica,'sans serif';
+    /*font-family:arial,Helvetica,'sans serif';*/
     vertical-align: middle;
     border-top-style: double;
     border-bottom-style: double;

@@ -1,9 +1,5 @@
-<form action="./hclogin.php?do=login" method="post" onsubmit="md5hash(vb_login_password, vb_login_md5password, vb_login_md5password_utf, 0)"
-      STYLE="margin: 0px; padding: 0px;
-      font-size: 12px;
-      font-family: Arial,Helvetica,sans-serif;">
-    
-
+<form action="./hclogin.php?do=login" method="post"
+      style="margin: 0px; padding: 0px;">
 
     <!-- Get an arbitrary name
     <fb:login-button 
@@ -27,31 +23,26 @@
     <div>
         <!-- Disabling FB Login -->
         <!-- <a class="fblogin" onclick="fblogin()"/></a> &oacute; -->
-        <input class="loginfield"
+        <input class="loginfield input-small"
           placeholder="Username" 
           type="text" 
-          style="font-size: 11px; font-family:verdana;" 
           name="vb_login_username" 
           id="navbar_username" size="12" accesskey="u" tabindex="101" />
         <!-- <label for="txtClave">Password </label> -->
-        <input class="loginfield"
+        <input class="loginfield input-small"
           placeholder="Password" 
           type="password" 
-          style="font-size: 11px; font-family:verdana;" 
           name="vb_login_password" id="navbar_password" size="12" tabindex="102" />
 
-        <input class="loginfield"
+        <input class="btn btn-small" 
          type="submit" size="50px" 
-         style="font-size: 11px" 
          value="Entrar" 
          tabindex="104" 
          accesskey="s" 
         />
 
-        <a
-        href="<?php echo $path?>/register.php">
-            Registrate
-        </a>
+        <a href="./register.php"> Registrate </a>
+        
         <input type="hidden" name="s" value="" />
         <input type="hidden" name="securitytoken" value="guest" />
         <input type="hidden" name="do" value="login" />

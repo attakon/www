@@ -3,27 +3,45 @@ include_once('conexion.php');
 include_once('securimage/securimage.php');
 
 $securimage = new Securimage();
-$username_rC= $_GET['user'];
-$firstName_rC= $_GET['first_name'];
-$lastName_rC= $_GET['last_name'];
-$email_rC= $_GET['email'];
-// $school_rC= $_GET['school'];
-$password_rC= $_GET['pass'];
-$repass= $_GET['repass'];
+$username_rC= $_POST['user'];
+$firstName_rC= $_POST['first_name'];
+$lastName_rC= $_POST['last_name'];
+$email_rC= $_POST['email'];
+// $school_rC= $_POST['school'];
+$password_rC= $_POST['pass'];
+$repass= $_POST['repass'];
 $params = "user=".$username_rC."&first_name=".$firstName_rC."&last_name=".$lastName_rC."&email=".$email_rC;
-$toheader_rC="Location: ../register.php?".$params;
+$toheader_rC="Location: ./register.php?".$params;
+
 if(strlen($password_rC)<5 || strlen($password_rC)>15 || $password_rC!=$repass){
-    header($toheader_rC."&message=error en password");
+    $_SESSION['message']="error in password";
+    $_SESSION['message_type']='error';
+    header($toheader_rC);
 }else if(!isValidUser($username_rC)){
-    header($toheader_rC."&message=Nombre de Usuario no valido");
+    $_SESSION['message']="Invalid username";
+    $_SESSION['message_type']='error';
+    header($toheader_rC);
+    // header($toheader_rC."&message=Nombre de Usuario no valido");
 }else if(!isValidEmail($email_rC)){
-    header($toheader_rC."&message=Email no valido");
+    $_SESSION['message']="Invalid Email";
+    $_SESSION['message_type']='error';
+    header($toheader_rC);
+    // header($toheader_rC."&message=Email no valido");
 }else if(!isAvailableUser($username_rC)){
-    header($toheader_rC."&message=Nombre de Usuario No Disponible");
+    $_SESSION['message']="Username not available";
+    $_SESSION['message_type']='error';
+    header($toheader_rC);
+    // header($toheader_rC."&message=Nombre de Usuario No Disponible");
 }else if(!isAvailableEmail($email_rC)){
-    header($toheader_rC."&message=Email No Disponible");
-}else if($securimage->check($_GET['captcha_code']) == false) {
-    header($toheader_rC."&message=El texto ingresado no corresponde a la imagen");
+    $_SESSION['message']="Email already taken";
+    $_SESSION['message_type']='error';
+    header($toheader_rC);
+    // header($toheader_rC."&message=Email No Disponible");
+}else if($securimage->check($_POST['captcha_code']) == false) {
+    $_SESSION['message']="El texto ingresado no corresponde a la imagen";
+    $_SESSION['message_type']='error';
+    header($toheader_rC);
+    // header($toheader_rC."&message=El texto ingresado no corresponde a la imagen");
 }else{  // really register
     //            mail($to, $subject, $body);
 

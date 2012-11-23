@@ -11,6 +11,7 @@
     <script type="text/javascript" src="scripts/timer.js"></script>
     <script type="text/javascript" src="scripts/utils.js"></script>
 
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <!-- styles -->
     <link rel="stylesheet" type="text/css" href="./styles/layout.css">
     <link rel="stylesheet" type="text/css" href="./styles/style.css">
@@ -24,6 +25,8 @@
     <link rel="stylesheet" type="text/css" href="./styles/results.css">
     <link rel="stylesheet" type="text/css" href="./styles/practice.css">
     <link rel="stylesheet" type="text/css" href="./styles/ranking.css"> 
+
+    
 	
 	<!-- add Jonathan 2012-06-10 - cambio de menu -->
 	<link href="./styles/kendo.common.min.css" rel="stylesheet" />

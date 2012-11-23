@@ -15,7 +15,7 @@ function parrafoError($msg) {
  * @return <type>
  */
 function userLink($path,$id,$username) {
-    return '<a class="userLink" href="'.$path.'/user.php?u='.$id.'">'.$username.'</a>';
+    return '<a class="userLink" href="./user.php?u='.$id.'">'.$username.'</a>';
 }
 /**
  *

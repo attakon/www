@@ -1,5 +1,5 @@
 <body>
-    <a class="userLink" href="/user.php?uname=ziklon">Ziklon</a> ha creado algunos videos que lo ayudarán como introducción a HuaHCoding y algunas tecnicas de algorithms. Check them out.
+    <a class="userLink" href="./user.php?uname=ziklon">Ziklon</a> ha creado algunos videos que lo ayudarán como introducción a HuaHCoding y algunas tecnicas de algorithms. Check them out.
     <div id="index">
         <ul>
             <li><a class="rulesMark" href="#PracticarHuaHCoding">Como concursar</a></li>

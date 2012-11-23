@@ -6,101 +6,68 @@ function getForm($user, $first_name, $last_name, $email, $school, $message){
          Cuenta creada Satisfactoriamente. Ahora es miembro de HuaHCoding!<br>
          y puede logearse con su usuario.
         </p>';
-    }else{
-
-        $rsSchools = fetchResultSet(conecDb(),
-            "SELECT id_escuela, nombre from escuela ORDER BY 1 DESC");
-        $options = "<option value=0>Seleccione..</option>";
-        while($schoolRows = mysql_fetch_row($rsSchools)){            
-            $options.="<option value=\"".$schoolRows[0]."\"";
-            if($schoolRows[0]==$school){
-                $options.=" selected";
-            }
-            $options.=">".$schoolRows[1]."</option>";
-        }        
-    return '
-    <table align =center class="reg" style="border-collapse: collapse">
-        <form method="GET" action="register_submit_registration.php">
-        <tr>
-            <td class="left" >&nbsp;</td>
-            <td class="middle" width="350" height="30" colspan="2">
-                <label class="message">'.$message .'</label>
-            </td>
-            <td class="right">&nbsp;</td>
-        </tr>
-        <tr>
-            <td class = "LeftFill"></td>
-            <td class="regLabel">Usuario:</td>
-            <td class="regField">
-                <input type="text" name="user" value="'.$user.'" size="15" maxlength="15">
-                <label class="comment">Entre 3 y 15 caracteres, sin teamtag</label>
-            </td>
-            <td class="RightFill"></td>
-        </tr>
-        <tr>
-            <td class="LeftFill"></td>
-            <td class="regLabel">Password:</td>
-            <td class="regField">
-                <input type="password" name="pass" size="15" maxlength="15">
-                <label class="comment">Entre 5 y 15 caracteres</label>
-            </td >
-            <td class="RightFill" ></td>
-        </tr>
-        <tr>
-            <td class="LeftFill"></td>
-            <td class="regLabel">Confirmar Password:</td>
-            <td class="regField">
-                <input type="password" name="repass" size="15" maxlength="15">
-            </td >
-            <td class="RightFill"></td>
-        </tr>
-        <tr>
-            <td class="LeftFill"></td>
-            <td class="regLabel">Nombres:</td>
-            <td class="regField">
-                <input type="text" name="first_name"  value="'.$first_name.'"size="35">
-            </td >
-            <td class="RightFill"></td>
-        </tr>
-        <tr>
-            <td class="LeftFill"></td>
-            <td class="regLabel">Apellidos:</td>
-            <td class="regField">
-                <input type="text" name="last_name"  value="'.$last_name.'"size="35">
-            </td ><td class="RightFill"></td>
-        </tr>
-        <tr>
-            <td class="LeftFill"></td>
-            <td class="regLabel">E-mail:</td>
-            <td class="regField">
-                <input type="text" name="email"  value="'.$email.'"size="35">
-            </td >
-            <td class="RightFill"></td>
-        </tr>
-        <tr>
-            <td class="LeftFill"></td>
-            <td align="center" colspan="2" height="30">
-                Ingrese esto:<br/>
-                <img id="captcha" src="securimage/securimage_show.php" alt="CAPTCHA Image" />
-                <br/>
-                Aqui:
-                <input type="text" name="captcha_code" size="10" maxlength="6" /><br />
-                <a href="#" onclick="document.getElementById(\'captcha\').src = \'securimage/securimage_show.php?\' + Math.random(); return false">Otra</a>
-            </td>
-            <td class="RightFill"> </td>
-        </tr>
-        <tr>
-            <td class="LeftFill"></td>
-            <td  colspan="2" height="30">
-            <p align = "center">
-                <input type="submit" value="Registrar" name="registrar">
-            </p>
-            </td>
-            <td class="RightFill"></td>
-        </tr>
-        </form>
-    </table>
-    ';
     }
+    // else{
+
+        // $rsSchools = fetchResultSet(conecDb(),
+        //     "SELECT id_escuela, nombre from escuela ORDER BY 1 DESC");
+        // $options = "<option value=0>Seleccione..</option>";
+        // while($schoolRows = mysql_fetch_row($rsSchools)){            
+        //     $options.="<option value=\"".$schoolRows[0]."\"";
+        //     if($schoolRows[0]==$school){
+        //         $options.=" selected";
+        //     }
+        //     $options.=">".$schoolRows[1]."</option>";
+        // }        
+    return '
+    <form method="POST" action="register_submit_registration.php" class="form-horizontal"
+        style="width:500px">
+        <div class="control-group">
+            <label class="control-label" for="username" >Username</label>
+            <div class="controls">
+                <input id="username" type="text" name="user" value="'.$user.'" maxlength="15" placeholder="Username">
+                <span class="help-inline">Entre 3 y 15 caracteres</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="pass">Password</label>
+            <div class="controls">
+                <input type="password" id="pass" name="pass" size="15" maxlength="15">
+                <span class="help-inline">Entre 5 y 15 caracteres</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="repass">Confirm Password</label>
+            <div class="controls">
+                <input type="password" id="repass" name="repass" size="15" maxlength="15">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="first_name">Nombres</label>
+            <div class="controls">
+                <input type="text" id="first_name" name="first_name" value="'.$first_name.'" size="15" maxlength="15">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="last_name">Apellidos</label>
+            <div class="controls">
+                <input type="text" id="last_name" name="last_name" value="'.$last_name.'" size="15" maxlength="15">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="email">Email</label>
+            <div class="controls">
+                <input type="email" value="'.$email.'" id="email" name="email" size="15" maxlength="15">
+            </div>
+        </div>
+
+        <hr/>
+        <img id="captcha" src="securimage/securimage_show.php" alt="CAPTCHA Image" />
+        <input type="text" name="captcha_code" size="10" maxlength="6" />
+        <a href="#" onclick="document.getElementById(\'captcha\').src = \'securimage/securimage_show.php?\' + Math.random(); return false">Refresh</a>
+        <hr/>
+        <input class="btn btn-warning" type="submit" value="Registrarme" name="registrar">
+
+    </form>';
 }
 ?>

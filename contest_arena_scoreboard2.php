@@ -69,10 +69,10 @@ function getScoreboardHTML($contestId){
                 $problemFileURL = 'files/problems/'.$problemValue['problem_id'].'_'.$problemValue['name'].'.pdf';
                 ?>
             <th class="det" width="110" title="<?php echo $problems[1]?>">
-                <?php echo "<label>".$key."</label>"; ?> <br>
+                <?php echo "<label>".$key."</label>"; ?>
                 <?php 
                     if(DAOGlobalDefaults_getGlobalValue('SHOW_PROBLEM_NAMES_IN_RESULTS_PAGE')=='Y'){
-                        echo "<label class='scoreboard_problemName'>".$problemValue['name']."</label><br/>";
+                        echo "<label class='scoreboard_problemName'>".$problemValue['name']."</label>";
                     }
                 ?>
                 <?php echo $problemValue['points']."pt"?>

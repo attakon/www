@@ -4,6 +4,7 @@ table.user{
     border-bottom-width: 1px;
     background-color: #ebe9e9;
 
+
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-style: outset;
@@ -35,7 +36,8 @@ td.userField{
 td.userName{
     font-size: 18px;
     font-weight: bolder;
-    color: #F60;
+    /*color: #F60;*/
+    color: #F89406;
     border-top-width: 0px;
     border-bottom-width: 1px;
     border-left-width: 0px;
