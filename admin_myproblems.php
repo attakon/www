@@ -83,7 +83,6 @@ function init(){
             array('label'=>'Output File','type'=>'file'),
         'example_cases'=> 
             array('label'=>'Example Cases','type'=>'number')
-
         );
     include_once 'maintenanceForm.php';
     $problemInsertForm = new RCMaintenanceForm('problem',$fields,'previewProblem','Next', 'name',
@@ -141,13 +140,13 @@ function previewProblem($_PAR){
         case 'STATIC-LINE-separated-input':
             $linesPerCaseInput = $_PAR['input-lines-per-case'];
             $initialSkipLines=$_PAR['input-initial-skip-lines'];
-
             $inputList = getListSeparatedByLines($inputTempName, $linesPerCaseInput,$initialSkipLines);
             break;
         case '#CASEMARK-separated-input':
             $caseMarkForInput = $_PAR['input-casemark'];
             $initialSkipLines=$_PAR['input-initial-skip-lines'];
-            $inputList = getListSeparetedByMark($inputTempName, $caseMarkForInput,$initialSkipLines);
+            $includeMatch=$_PAR['input-include-match'];
+            $inputList = getListSeparetedByMark($inputTempName, $caseMarkForInput,$initialSkipLines,$includeMatch);
             break;
     }
     $outputList;

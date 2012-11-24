@@ -110,10 +110,10 @@ function init() {
 </div>
 
 <div class="memberCountBox">
-Member Count: 438,381 - 
+Member Count: 440,566 - 
 
 
-November 13, 2012
+November 24, 2012
 
 &nbsp;<a class="gMetal" href="Javascript:tcTime()">[Get Time]</a>
 </div>
@@ -598,7 +598,7 @@ function flipMenu(myMenuName){
       <td height="76" valign="top" style="border-top: 1px solid #CCCCCC; padding: 5px 0;" ><img src="/i/m/fushar.jpeg" alt="" width="61" height="61"/></td>
       <td style="padding-left:5px; border-top: 1px solid #CCCCCC;" width="100%">
          <strong><a href="/tc?module=COMHistory&amp;achtid=5" class="gMetal">Algorithm</a></strong><br />
-         <a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22767798&amp;tab=alg" class="coderTextYellow">fushar</a>
+         <a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22767798&amp;tab=alg" class="coderTextRed">fushar</a>
          <br />
          <br />
       </td>
@@ -647,8 +647,6 @@ function flipMenu(myMenuName){
 
 <br />
 
-<a href="http://community.topcoder.com/tco12/overview-sponsor/pocket-gems/"><img class="alignnone size-full wp-image-5855" title="Sponsor_Banner_510x114" src="http://topcoder.com/home/files/2010/11/Sponsor_Banner_510x1146.jpg" alt="" width="510" height="114" /></a><br />
-<br/ ><br />
 <a href="http://community.topcoder.com/tco13/"><img class="size-full wp-image-5825 alignnone" title="Banner1_510x114" src="http://topcoder.com/home/files/2010/11/Banner1_510x114.png" alt="" width="510" height="114" /></a>
 
 
@@ -808,9 +806,9 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
                     
                         <tr>
                             <td class="value">
-                                <div class="prizes">22,523 pts</div>
+                                <div class="prizes">19,260 pts</div>
                                 <a href="/dr" class="gMetal">Digital Run</a>
-                                (41)
+                                (36)
                             </td>
                         </tr>
                     
@@ -818,9 +816,9 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
                         <tr>
                             <td class="value">
                                 <div class="prizes">
-                                    $1,875</div>
+                                    $4,650</div>
                                 <a href="/tc?module=ViewActiveContests&ph=112" class="gMetal">Comp Design</a>
-                                (2)
+                                (5)
                             </td>
                         </tr>
                     
@@ -828,7 +826,7 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
                         <tr>
                             <td class="value">
                                 <div class="prizes">
-                                    $4,500</div>
+                                    $5,250</div>
                                 <a href="/tc?module=ViewActiveContests&ph=113" class="gMetal">Comp Development</a>
                                 (5)
                             </td>
@@ -838,9 +836,9 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
 
                         <tr>
                             <td class="value">
-                                <div class="prizes">$36,750</div>
+                                <div class="prizes">$36,000</div>
                                 <a href="/tc?module=ViewAssemblyActiveContests" class="gMetal">Assembly</a>
-                                (20)
+                                (17)
                             </td>
                         </tr>
                     
@@ -848,9 +846,9 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
 
                         <tr>
                             <td class="value">
-                                <div class="prizes">$13,360</div>
+                                <div class="prizes">$10,415</div>
                                 <a href="/tc?module=ViewActiveBugRaces" class="gMetal">Bug Races</a>
-                                (72)
+                                (56)
                             </td>
                         </tr>
                     
@@ -858,9 +856,9 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
 
                         <tr>
                             <td class="value">
-                                <div class="prizes">$25,200</div>
+                                <div class="prizes">$12,300</div>
                                 <a href="/tc?module=ActiveContests&pt=7" class="gMetal">Architecture</a>
-                                (11)
+                                (6)
                             </td>
                         </tr>
                     
@@ -868,7 +866,7 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
 
                         <tr>
                             <td class="value">
-                                <div class="prizes">$4,500</div>
+                                <div class="prizes">$3,750</div>
                                 <a href="/tc?module=ActiveContests&pt=23" class="gMetal">Conceptualization</a>
                                 (2)
                             </td>
@@ -889,7 +887,7 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
 
                         <tr>
                             <td class="value">
-                                <div class="prizes">$1,200</div>
+                                <div class="prizes">$600</div>
                                 <a href="/tc?module=ActiveContests&pt=35" class="gMetal">Content Creation</a>
                                 (1)
                             </td>
@@ -902,7 +900,7 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
 
                         <tr>
                             <td class="value">
-                                <div class="prizes">$750</div>
+                                <div class="prizes">$1,050</div>
                                 <a href="/tc?module=ActiveContests&pt=26" class="gMetal">Test Scenarios</a>
                                 (1)
                             </td>
@@ -911,23 +909,14 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
 
                     
 
-                        <tr>
-                            <td class="value">
-                                <div class="prizes">$825</div>
-                                <a href="/tc?module=ActiveContests&pt=9" class="gMetal">Bug Hunt</a>
-                                (2)
-                            </td>
-                        </tr>
-                    
-
                     
                     
 
                         <tr>
                             <td class="value">
-                                <div class="prizes">$3,150</div>
+                                <div class="prizes">$1,500</div>
                                 <a href="/tc?module=ActiveContests&pt=19" class="gMetal">UI Prototype</a>
-                                (2)
+                                (1)
                             </td>
                         </tr>
                     
@@ -938,7 +927,7 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
                         <tr>
                             <td class="value">
                                 <div class="prizes">$24,300</div>
-                                <a href="http://studio.topcoder.com/?module=ViewActiveContests" class="gMetal">Studio</a> (11)
+                                <a href="http://studio.topcoder.com/?module=ViewActiveContests" class="gMetal">Studio</a> (14)
                             </td>
                         </tr>
                     
@@ -946,12 +935,21 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
                     
 
                     
+
+                        <tr>
+                            <td class="value">
+                                <div class="prizes"></div>
+                                <a href="/longcontest/?module=ViewActiveContests" class="gMetal">Marathon Matches</a>
+                                (1)
+                            </td>
+                        </tr>
+                    
                     
                         <tr>
                             <td class="value">
                                 
-                                <div class="prizes">Nov 20, 11:00 EST</div>
-                                <a href="/tc?module=MatchDetails&amp;rd=15183" class="gMetal">Next SRM</a>
+                                <div class="prizes">Nov 30, 21:00 EST</div>
+                                <a href="/tc?module=MatchDetails&amp;rd=15184" class="gMetal">Next SRM</a>
                             </td>
                         </tr>
                     
@@ -1142,7 +1140,7 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     <tr>
         <td class="valueC">2</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=10574855&amp;tab=alg" class="coderTextRed">Petr</a></td>
-        <td class="valueR">3515</td>
+        <td class="valueR">3569</td>
     </tr>
     
     
@@ -1163,7 +1161,7 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     <tr>
         <td class="valueC">5</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=14970299&amp;tab=alg" class="coderTextRed">Egor</a></td>
-        <td class="valueR">3336</td>
+        <td class="valueR">3338</td>
     </tr>
     
     
@@ -1183,14 +1181,14 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     
     <tr>
         <td class="valueC">8</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=15868491&amp;tab=alg" class="coderTextRed">Burunduk1</a></td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=251074&amp;tab=alg" class="coderTextRed">bmerry</a></td>
         <td class="valueR">3251</td>
     </tr>
     
     
     <tr>
         <td class="valueC">8</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=251074&amp;tab=alg" class="coderTextRed">bmerry</a></td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=15868491&amp;tab=alg" class="coderTextRed">Burunduk1</a></td>
         <td class="valueR">3251</td>
     </tr>
     
@@ -1228,70 +1226,70 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     <tr>
         <td class="valueC">1</td>
         <td class="value"><strong>University of Tokyo</strong></td>
-        <td class="valueR">2636.11</td>
+        <td class="valueR">2625.28</td>
     </tr>
     
     
     <tr>
         <td class="valueC">2</td>
         <td class="value"><strong>Saint-Petersburg State University</strong></td>
-        <td class="valueR">2422.72</td>
+        <td class="valueR">2437.03</td>
     </tr>
     
     
     <tr>
         <td class="valueC">3</td>
         <td class="value"><strong>Warsaw</strong></td>
-        <td class="valueR">2387.83</td>
+        <td class="valueR">2385.09</td>
     </tr>
     
     
     <tr>
         <td class="valueC">4</td>
         <td class="value"><strong>Tsinghua University</strong></td>
-        <td class="valueR">2324.02</td>
+        <td class="valueR">2334.56</td>
     </tr>
     
     
     <tr>
         <td class="valueC">5</td>
-        <td class="value"><strong>Moscow</strong></td>
-        <td class="valueR">2287.89</td>
+        <td class="value"><strong>Saint-Petersburg State University of Information Technology, Mechanics and Optics</strong></td>
+        <td class="valueR">2300.75</td>
     </tr>
     
     
     <tr>
         <td class="valueC">6</td>
-        <td class="value"><strong>Saint-Petersburg State University of Information Technology, Mechanics and Optics</strong></td>
-        <td class="valueR">2286.63</td>
+        <td class="value"><strong>Moscow</strong></td>
+        <td class="valueR">2282.62</td>
     </tr>
     
     
     <tr>
         <td class="valueC">7</td>
         <td class="value"><strong>Kyiv National Taras Shevchenko University</strong></td>
-        <td class="valueR">2257.82</td>
+        <td class="valueR">2256.69</td>
     </tr>
     
     
     <tr>
         <td class="valueC">8</td>
-        <td class="value"><strong>Shanghai Jiao Tong University</strong></td>
-        <td class="valueR">2245.65</td>
+        <td class="value"><strong>Saratov State University</strong></td>
+        <td class="valueR">2253.11</td>
     </tr>
     
     
     <tr>
         <td class="valueC">9</td>
-        <td class="value"><strong>Saratov State University</strong></td>
-        <td class="valueR">2244.13</td>
+        <td class="value"><strong>Shanghai Jiao Tong University</strong></td>
+        <td class="valueR">2252.67</td>
     </tr>
     
     
     <tr>
         <td class="valueC">10</td>
         <td class="value"><strong>BSU</strong></td>
-        <td class="valueR">2181.61</td>
+        <td class="valueR">2175.83</td>
     </tr>
     
     
@@ -1321,70 +1319,70 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     <tr>
         <td class="valueC">1</td>
         <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=643">Russian Federation</a></strong></td>
-        <td class="valueR">3028.66</td>
+        <td class="valueR">3034.21</td>
     </tr>
     
     
     <tr>
         <td class="valueC">2</td>
-        <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=616">Poland</a></strong></td>
-        <td class="valueR">2877.95</td>
+        <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=156">China</a></strong></td>
+        <td class="valueR">2887.63</td>
     </tr>
     
     
     <tr>
         <td class="valueC">3</td>
-        <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=156">China</a></strong></td>
-        <td class="valueR">2876.72</td>
+        <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=616">Poland</a></strong></td>
+        <td class="valueR">2878.17</td>
     </tr>
     
     
     <tr>
         <td class="valueC">4</td>
         <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=392">Japan</a></strong></td>
-        <td class="valueR">2796.61</td>
+        <td class="valueR">2788.82</td>
     </tr>
     
     
     <tr>
         <td class="valueC">5</td>
         <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=804">Ukraine</a></strong></td>
-        <td class="valueR">2737.80</td>
+        <td class="valueR">2737.55</td>
     </tr>
     
     
     <tr>
         <td class="valueC">6</td>
         <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=840">United States</a></strong></td>
-        <td class="valueR">2544.76</td>
+        <td class="valueR">2511.65</td>
     </tr>
     
     
     <tr>
         <td class="valueC">7</td>
         <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=112">Belarus</a></strong></td>
-        <td class="valueR">2507.65</td>
+        <td class="valueR">2507.13</td>
     </tr>
     
     
     <tr>
         <td class="valueC">8</td>
         <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=408">South Korea</a></strong></td>
-        <td class="valueR">2346.99</td>
+        <td class="valueR">2344.83</td>
     </tr>
     
     
     <tr>
         <td class="valueC">9</td>
-        <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=124">Canada</a></strong></td>
-        <td class="valueR">2184.87</td>
+        <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=364">Iran</a></strong></td>
+        <td class="valueR">2135.94</td>
     </tr>
     
     
     <tr>
         <td class="valueC">10</td>
-        <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=356">India</a></strong></td>
-        <td class="valueR">2136.17</td>
+        <td class="value"><strong><a class="gMetal" href="/tc?module=AlgoRank&cc=124">Canada</a></strong></td>
+        <td class="valueR">2135.57</td>
     </tr>
     
     
@@ -1415,29 +1413,29 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     
     <tr>
         <td class="valueC">1</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=7340263&amp;tab=des" class="coderTextRed">gevak</a></td>
+        <td class="valueR">2449</td>
+    </tr>
+    
+    
+    <tr>
+        <td class="valueC">2</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22676342&amp;tab=des" class="coderTextRed">Mozgastik</a></td>
         <td class="valueR">2365</td>
     </tr>
     
     
     <tr>
-        <td class="valueC">2</td>
+        <td class="valueC">3</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=8544935&amp;tab=des" class="coderTextRed">Wendell</a></td>
         <td class="valueR">2227</td>
     </tr>
     
     
     <tr>
-        <td class="valueC">3</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=7340263&amp;tab=des" class="coderTextYellow">gevak</a></td>
-        <td class="valueR">2193</td>
-    </tr>
-    
-    
-    <tr>
         <td class="valueC">4</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=10336829&amp;tab=des" class="coderTextYellow">albertwang</a></td>
-        <td class="valueR">2055</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=15893754&amp;tab=des" class="coderTextYellow">Urmass</a></td>
+        <td class="valueR">1990</td>
     </tr>
     
     
@@ -1450,36 +1448,36 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     
     <tr>
         <td class="valueC">6</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22655076&amp;tab=des" class="coderTextYellow">liuliquan</a></td>
-        <td class="valueR">1817</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=10336829&amp;tab=des" class="coderTextYellow">albertwang</a></td>
+        <td class="valueR">1924</td>
     </tr>
     
     
     <tr>
         <td class="valueC">7</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=15893754&amp;tab=des" class="coderTextYellow">Urmass</a></td>
-        <td class="valueR">1778</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22655076&amp;tab=des" class="coderTextYellow">liuliquan</a></td>
+        <td class="valueR">1824</td>
     </tr>
     
     
     <tr>
         <td class="valueC">8</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22888654&amp;tab=des" class="coderTextYellow">maksimilian</a></td>
-        <td class="valueR">1704</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=14820574&amp;tab=des" class="coderTextYellow">zsudraco</a></td>
+        <td class="valueR">1750</td>
     </tr>
     
     
     <tr>
         <td class="valueC">9</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22680616&amp;tab=des" class="coderTextYellow">Schpotsky</a></td>
-        <td class="valueR">1685</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22888654&amp;tab=des" class="coderTextYellow">maksimilian</a></td>
+        <td class="valueR">1680</td>
     </tr>
     
     
     <tr>
         <td class="valueC">10</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=14820574&amp;tab=des" class="coderTextYellow">zsudraco</a></td>
-        <td class="valueR">1627</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=8369898&amp;tab=des" class="coderTextYellow">dfn</a></td>
+        <td class="valueR">1612</td>
     </tr>
     
     
@@ -1511,57 +1509,57 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     
     <tr>
         <td class="valueC">1</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=20224338&amp;tab=dev" class="coderTextYellow">sparemax</a></td>
-        <td class="valueR">2076</td>
-    </tr>
-    
-    
-    <tr>
-        <td class="valueC">2</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=23026535&amp;tab=dev" class="coderTextYellow">Rkt119</a></td>
         <td class="valueR">2061</td>
     </tr>
     
     
     <tr>
-        <td class="valueC">3</td>
+        <td class="valueC">2</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=11861668&amp;tab=dev" class="coderTextYellow">zaixiang</a></td>
         <td class="valueR">2017</td>
     </tr>
     
     
     <tr>
-        <td class="valueC">4</td>
+        <td class="valueC">3</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22659618&amp;tab=dev" class="coderTextYellow">sokol</a></td>
         <td class="valueR">1982</td>
     </tr>
     
     
     <tr>
+        <td class="valueC">4</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=20224338&amp;tab=dev" class="coderTextYellow">sparemax</a></td>
+        <td class="valueR">1972</td>
+    </tr>
+    
+    
+    <tr>
         <td class="valueC">5</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22693202&amp;tab=dev" class="coderTextYellow">BlackMagic</a></td>
+        <td class="valueR">1806</td>
+    </tr>
+    
+    
+    <tr>
+        <td class="valueC">6</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=20822482&amp;tab=dev" class="coderTextYellow">victorsam</a></td>
         <td class="valueR">1766</td>
     </tr>
     
     
     <tr>
-        <td class="valueC">6</td>
+        <td class="valueC">7</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22628476&amp;tab=dev" class="coderTextYellow">gets0ul</a></td>
         <td class="valueR">1749</td>
     </tr>
     
     
     <tr>
-        <td class="valueC">7</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22767514&amp;tab=dev" class="coderTextYellow">azukun</a></td>
-        <td class="valueR">1725</td>
-    </tr>
-    
-    
-    <tr>
         <td class="valueC">8</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22693202&amp;tab=dev" class="coderTextYellow">BlackMagic</a></td>
-        <td class="valueR">1710</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22767514&amp;tab=dev" class="coderTextYellow">azukun</a></td>
+        <td class="valueR">1688</td>
     </tr>
     
     
@@ -1574,8 +1572,8 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     
     <tr>
         <td class="valueC">10</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=15604762&amp;tab=dev" class="coderTextYellow">Yeung</a></td>
-        <td class="valueR">1646</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22700358&amp;tab=dev" class="coderTextYellow">hesibo</a></td>
+        <td class="valueR">1649</td>
     </tr>
     
     
@@ -1813,29 +1811,29 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     
     <tr>
         <td class="valueC">3</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=21221008&amp;tab=spec" class="coderTextYellow">BLE</a></td>
-        <td class="valueR">1591</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=20543575&amp;tab=spec" class="coderTextYellow">Blues</a></td>
+        <td class="valueR">1565</td>
     </tr>
     
     
     <tr>
         <td class="valueC">4</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=20543575&amp;tab=spec" class="coderTextYellow">Blues</a></td>
-        <td class="valueR">1557</td>
-    </tr>
-    
-    
-    <tr>
-        <td class="valueC">5</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22710619&amp;tab=spec" class="coderTextYellow">rom_coder</a></td>
         <td class="valueR">1534</td>
     </tr>
     
     
     <tr>
-        <td class="valueC">6</td>
+        <td class="valueC">5</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22780079&amp;tab=spec" class="coderTextYellow">Veve</a></td>
         <td class="valueR">1507</td>
+    </tr>
+    
+    
+    <tr>
+        <td class="valueC">6</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=21221008&amp;tab=spec" class="coderTextBlue">BLE</a></td>
+        <td class="valueR">1478</td>
     </tr>
     
     
@@ -1896,7 +1894,7 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     <tr>
         <td class="valueC">1</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=20437508&amp;tab=arch" class="coderTextRed">MiG-29</a></td>
-        <td class="valueR">2225</td>
+        <td class="valueR">2429</td>
     </tr>
     
     
@@ -1923,22 +1921,22 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     
     <tr>
         <td class="valueC">5</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=10336829&amp;tab=arch" class="coderTextYellow">albertwang</a></td>
+        <td class="valueR">1790</td>
+    </tr>
+    
+    
+    <tr>
+        <td class="valueC">6</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22674711&amp;tab=arch" class="coderTextYellow">faeton</a></td>
         <td class="valueR">1776</td>
     </tr>
     
     
     <tr>
-        <td class="valueC">6</td>
+        <td class="valueC">7</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22906037&amp;tab=arch" class="coderTextYellow">imsingleton</a></td>
         <td class="valueR">1745</td>
-    </tr>
-    
-    
-    <tr>
-        <td class="valueC">7</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=7340263&amp;tab=arch" class="coderTextYellow">gevak</a></td>
-        <td class="valueR">1735</td>
     </tr>
     
     
@@ -1958,8 +1956,8 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     
     <tr>
         <td class="valueC">10</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=14840263&amp;tab=arch" class="coderTextYellow">saevio</a></td>
-        <td class="valueR">1690</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22828420&amp;tab=arch" class="coderTextYellow">vangavroche</a></td>
+        <td class="valueR">1691</td>
     </tr>
     
     
@@ -1992,7 +1990,7 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     <tr>
         <td class="valueC">1</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22698875&amp;tab=assembly" class="coderTextYellow">flexme</a></td>
-        <td class="valueR">2146</td>
+        <td class="valueR">2125</td>
     </tr>
     
     
@@ -2005,15 +2003,15 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     
     <tr>
         <td class="valueC">3</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=11790647&amp;tab=assembly" class="coderTextYellow">j3_guile</a></td>
-        <td class="valueR">1923</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=11861668&amp;tab=assembly" class="coderTextYellow">zaixiang</a></td>
+        <td class="valueR">2043</td>
     </tr>
     
     
     <tr>
         <td class="valueC">4</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22659618&amp;tab=assembly" class="coderTextYellow">sokol</a></td>
-        <td class="valueR">1898</td>
+        <td class="valueR">1905</td>
     </tr>
     
     
@@ -2027,21 +2025,21 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     <tr>
         <td class="valueC">6</td>
         <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=20224338&amp;tab=assembly" class="coderTextYellow">sparemax</a></td>
-        <td class="valueR">1873</td>
+        <td class="valueR">1882</td>
     </tr>
     
     
     <tr>
         <td class="valueC">7</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=11861668&amp;tab=assembly" class="coderTextYellow">zaixiang</a></td>
-        <td class="valueR">1871</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=23049896&amp;tab=assembly" class="coderTextYellow">milton93</a></td>
+        <td class="valueR">1833</td>
     </tr>
     
     
     <tr>
         <td class="valueC">8</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=23049896&amp;tab=assembly" class="coderTextYellow">milton93</a></td>
-        <td class="valueR">1833</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22724218&amp;tab=assembly" class="coderTextYellow">subchap</a></td>
+        <td class="valueR">1824</td>
     </tr>
     
     
@@ -2054,8 +2052,8 @@ Check out the <A class="bodyText" href="/tc?module=Static&d1=applet&d2=plugins">
     
     <tr>
         <td class="valueC">10</td>
-        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=22724218&amp;tab=assembly" class="coderTextYellow">subchap</a></td>
-        <td class="valueR">1793</td>
+        <td class="value"><a href="http://www.topcoder.com/tc?module=MemberProfile&amp;cr=21684580&amp;tab=assembly" class="coderTextYellow">dcp</a></td>
+        <td class="valueR">1771</td>
     </tr>
     
     
