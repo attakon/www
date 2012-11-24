@@ -31,7 +31,7 @@ function getConcursoDetalleHTML($contestId) {
     </tr>
     <tr>
         <td colspan='2' style="text-align: center;">
-            <img  src='images/contest_banner.png' />
+            <img  src='images/contest_banner.png'  class="img-rounded"/>
         </td>
     </tr>
     <tr>

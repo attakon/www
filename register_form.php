@@ -32,38 +32,44 @@ function getForm($user, $first_name, $last_name, $email, $school, $message){
         <div class="control-group">
             <label class="control-label" for="pass">Password</label>
             <div class="controls">
-                <input type="password" id="pass" name="pass" size="15" maxlength="15">
+                <input type="password" id="pass" name="pass" size="15" maxlength="15"
+                    placeholder="Password">
                 <span class="help-inline">Entre 5 y 15 caracteres</span>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="repass">Confirm Password</label>
             <div class="controls">
-                <input type="password" id="repass" name="repass" size="15" maxlength="15">
+                <input type="password" id="repass" name="repass" size="15" maxlength="15"
+                    placeholder="Confirm Password">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="first_name">Nombres</label>
             <div class="controls">
-                <input type="text" id="first_name" name="first_name" value="'.$first_name.'" size="15" maxlength="15">
+                <input type="text" id="first_name" name="first_name" 
+                    value="'.$first_name.'" size="15" maxlength="15" placeholder="First Name">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="last_name">Apellidos</label>
             <div class="controls">
-                <input type="text" id="last_name" name="last_name" value="'.$last_name.'" size="15" maxlength="15">
+                <input type="text" id="last_name" name="last_name" 
+                    value="'.$last_name.'" size="15" maxlength="15" placeholder="Last Name">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="email">Email</label>
             <div class="controls">
-                <input type="email" value="'.$email.'" id="email" name="email" size="15" maxlength="15">
+                <input type="email" value="'.$email.'" id="email" name="email" 
+                    size="15" maxlength="15" placeholder="Email">
             </div>
         </div>
 
         <hr/>
         <img id="captcha" src="securimage/securimage_show.php" alt="CAPTCHA Image" />
-        <input type="text" name="captcha_code" size="10" maxlength="6" />
+        <input type="text"  name="captcha_code" size="10" maxlength="6" 
+            class ="input-small"/>
         <a href="#" onclick="document.getElementById(\'captcha\').src = \'securimage/securimage_show.php?\' + Math.random(); return false">Refresh</a>
         <hr/>
         <input class="btn btn-warning" type="submit" value="Registrarme" name="registrar">

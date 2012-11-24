@@ -74,7 +74,7 @@ function init(){
                 $style = 'style="font-size: 20px;"';
             }
             $statementsHTML.="<a ".$style." href='./admin_myproblem.php?pid=".$problemId."&lid=".$value['language_id']."'>".$value['name'].'</a>';
-            $statementsHTML.='<a href="admin_myproblem.php?pid='.$problemId.'&dellid='.$value['language_id'].'">[x]</a> ';
+            $statementsHTML.='<a href="./admin_myproblem.php?pid='.$problemId.'&dellid='.$value['language_id'].'">[x]</a> ';
         }
         $content.=$statementsHTML."<hr/>
             <br/>".$statement."<hr/>";
@@ -130,7 +130,7 @@ function init(){
 function getEditorHTML($problemName, $extraInputControls, $problemId){
     ob_start();
     ?>
-    <script type="text/javascript" src="/js/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+    <script type="text/javascript" src="./js/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
     <script type="text/javascript">
         tinyMCE.init({
                // General options
