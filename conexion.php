@@ -22,4 +22,5 @@ function fetchResultSet($con, $query){
     echo mysql_error();
     return $rs;
 }
+//adding a change
 ?>
