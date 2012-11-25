@@ -1,5 +1,9 @@
+.nav-pills > li > a{
+    padding:7px
+}
+
 body{
-    font-size: 12px;
+
     /*font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;*/
     color: #4d4d4d;
     /*background-color: #F8F8F8;*/
@@ -8,9 +12,6 @@ body{
     margin-left:0;
     margin-top:0;
     padding-top:0;
-}
-ul{
-    font-size:11px;
 }
 table,td,tr {
     /*font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, 'sans-serif';*/

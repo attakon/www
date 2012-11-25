@@ -130,7 +130,7 @@ function headerFunction($statusBar){
 			<div id="h_r_b_bottom">
 				<?php
 					// print_r($_SESSION);
-		    		include ('header_userBar.php');
+		    		include ('header_user_navbar.php');
 		    	?>
 			</div>
 			

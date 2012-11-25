@@ -7,11 +7,12 @@
     -->
 	<!-- add Jonathan 2012-06-10 - cambio de menu -->
 	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/kendo.web.min.js"></script>
     <script type="text/javascript" src="scripts/timer.js"></script>
     <script type="text/javascript" src="scripts/utils.js"></script>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap.css" rel="stylesheet" media="screen">
     <!-- styles -->
     <link rel="stylesheet" type="text/css" href="./styles/layout.css">
     <link rel="stylesheet" type="text/css" href="./styles/style.css">
