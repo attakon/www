@@ -13,8 +13,37 @@ body{
     margin-top:0;
     padding-top:0;
 }
+.rCTable{
+    border-top-style: ridge;
+    border-bottom-style: ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    font-size:12px;
+    border-top-color: #cccccc;
+    border-bottom-color: #cccccc;
+    border-left-color: #cccccc;
+    border-right-color: #cccccc;
+}
+.rCTable > tbody>tr > td{
+    border-top-style: ridge;
+    border-bottom-style: ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    font-size:12px;
+    border-top-color: #cccccc;
+    border-bottom-color: #cccccc;
+    border-left-color: #cccccc;
+    border-right-color: #cccccc;
+}
 table,td,tr {
-    /*font-family: verdana, geneva, lucida, 'lucida grande', arial, helvetica, 'sans-serif';*/
     border-top-style: ridge;
     border-bottom-style: ridge;
     border-left-style: ridge;

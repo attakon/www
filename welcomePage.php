@@ -244,7 +244,7 @@ $threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
 <!-- <script src="http://widgets.twimg.com/j/2/widget.js"></script> -->
 
 
-<table border="1" cellpadding="0" cellspacing="0" width="100%" height="300" border="0" style="width: 100%;">
+<table style="width: 100%;" cellpadding="0" cellspacing="0" width="100%" height="300" border="0" >
     <tr>
         <td width="230" max valign="top">
             <?php echo $pastContestsTable->getTable() ?>

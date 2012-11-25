@@ -70,27 +70,8 @@ function headerFunction($statusBar){
 						url: "./allcontests.php"                                 
 					},
 					{
-						text: "Ranking",
-						items: [{                                    
-							text: "General",
-							url: "./ranking.php"
-						},
-						{
-							text: "Escuelas",
-							items: [{                                    
-								text: "UNJFSC - Ing. Inform&aacutetica",
-								url: "./ranking.php?ids=2",
-								encoded: false
-							},
-							{
-								 text: "UNJFSC - Ing. Sistemas",
-								 url: "./ranking.php?ids=3"
-							},
-							{
-								 text: "Universidad Nacional de Ingener&iacutea",
-								 url: "./ranking.php?ids=4"
-							}]
-						}]
+						text: "Submissions",
+						url: "./submissions.php"
 					},
 					{
 						text: "Ayuda",

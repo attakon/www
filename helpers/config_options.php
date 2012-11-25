@@ -1,0 +1,3 @@
+<?php
+	$projectName = 'www';
+?>

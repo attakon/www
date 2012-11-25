@@ -1,6 +1,6 @@
 <?php
-$cwd = str_replace('/forum', '', getcwd());
-$incl = $cwd.'/conexion.php';
+// $cwd = str_replace('/forum', '', getcwd());
+$incl = $_SERVER['DOCUMENT_ROOT'].'/conexion.php';
 include_once $incl;
 
 function logSQLError($text, $extraData){

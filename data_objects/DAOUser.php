@@ -1,5 +1,5 @@
 <?php
-include_once ("utils/DBUtils.php");
+include_once ($_SERVER['DOCUMENT_ROOT']."/utils/DBUtils.php");
 
 
 

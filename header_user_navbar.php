@@ -79,9 +79,6 @@ if($userId!=null) {
     //         </label>
     //     </ul>';
     echo '
-        <div id="avatar">
-            '.$img.'
-        </div>
         <ul class="nav nav-pills pull-right" style="margin-bottom: 0px; height:29px;" >
             <li>
                 '.userLink($path,$userId ,$userDisplayName).'

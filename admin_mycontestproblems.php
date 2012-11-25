@@ -23,6 +23,11 @@ if(isset($_GET['id'])){
 
 if(isset($_GET['id']) &&  isset($_GET['delproblemid'])){
 	$contestId = $_GET['id'];
+    if(DAOContest_getContestPhase($contestId)=='FINISHED'){
+        $_SESSION['message']='You cannot delete problems because this contest has already finished.';
+        $_SESSION['message_type']='error';
+        redirectToLastVisitedPage();
+    }
 	$problemId = $_GET['delproblemid'];
     include_once 'data_objects/DAOProblem.php';
     $problemData = DAOProblem_getProblemData($problemId);
@@ -33,41 +38,19 @@ if(isset($_GET['id']) &&  isset($_GET['delproblemid'])){
     include_once 'container.php';
     redirectToLastVisitedPage();
 }
-// else if(isset($_GET['id']) &&  isset($_GET['action'])){
-//     if($_GET['action']=="setproblems"){
-//         $contestId = $_GET['id'];
-//         // include_once 'data_objects/DAOContest.php';
-//         // $contestData = DAOContest_getContestData($contestId);
-//         include_once 'data_objects/DAOCampaign.php';
-//         DAOCampaign_createCampaingsForContestans($contestId);
-
-//         $campaigns = DAOCampaign_getUserCampaigns($contestId);
-//         $message = '';
-//         foreach ($campaigns as $key => $campaignValue) {
-//             // $campaignValue['id_usuario'];
-//             $campaignDetailToInsert = DAOCampaign_getCampaignsNotCreatedForUserInContest($campaignValue['id_usuario'],$contestId);
-//             $message .=''.sizeof($campaignDetailToInsert).' created for '.$campaignValue['username']."</br>";
-//             foreach ($campaignDetailToInsert as $key => $problemsToInsertValue) {
-//                 DAOCampaign_createCampaignDetail($campaignValue['id_campaign'],$problemsToInsertValue['problem_id']);
-//             }
-//         }
-//         $_SESSION['message']=$message;
-//         redirectToLastVisitedPage();
-//     }if($_GET['action']=="publish"){
-//         include_once 'data_objects/DAOContest.php';
-//         DAOContest_publishContest($contestId);
-//         $contestData = DAOContest_getContestData($contestId);
-//         $_SESSION['message']=$contestData['nombre'].' was successfully published. It should appear in the main page';
-//     }
-//     include_once 'container.php';
-//     redirectToLastVisitedPage();
-// }
 else if(isset($_GET['id']) &&  isset($_GET['deregisterid'])){
+    $contestId = $_GET['id'];
+        if(DAOContest_getContestPhase($contestId)=='FINISHED'){
+        $_SESSION['message']='Contest has finished. If you want to disqualify a contestant, send an email to raul@huahcoding.com';
+        $_SESSION['message_type']='error';
+        redirectToLastVisitedPage();
+    }
+
     $deregisterId = $_GET['deregisterid'];
     include_once 'data_objects/DAOUser.php';
     $userData = DAOUser_getUserById($deregisterId);
 
-    $contestId = $_GET['id'];
+
     include_once 'data_objects/DAOCampaign.php';
     DAOCampaign_deregegisterUser($contestId, $deregisterId);
     $_SESSION['message']=$userData['username'].' was successfully de-registered';
@@ -75,15 +58,15 @@ else if(isset($_GET['id']) &&  isset($_GET['deregisterid'])){
     include_once 'container.php';
     redirectToLastVisitedPage();
 }
-else if(isset($_GET['id']) &&  isset($_GET['uninviteid'])){
-    $uninviteId = $_GET['uninviteid'];
+else if(isset($_GET['id']) &&  isset($_GET['disinviteid'])){
+    $disinviteid = $_GET['disinviteid'];
     include_once 'data_objects/DAOUser.php';
-    $userData = DAOUser_getUserById($uninviteId);
+    $userData = DAOUser_getUserById($disinviteid);
 
     $contestId = $_GET['id'];
     include_once 'data_objects/DAOContest.php';
-    DAOContest_uninviteUser($contestId, $uninviteId);
-    $_SESSION['message']=$userData['username'].' was successfully blacklisted';
+    DAOContest_uninviteUser($contestId, $disinviteid);
+    $_SESSION['message']=$userData['username'].' was successfully disinvited';
 
     // include_once 'container.php';
     
@@ -187,9 +170,9 @@ else if(isset($_GET['id'])){
     // $sealLink = '<a href="./admin_mycontestproblems.php?id='.$contestId.'&action=setproblems">
     //     [Create Campaigns Details]
     //     </a>';
-    $publishLink = '<a href="./admin_mycontestproblems.php?id='.$contestId.'&action=publish">
-        [Publish Contest]
-        </a>';
+    // $publishLink = '<a href="./admin_mycontestproblems.php?id='.$contestId.'&action=publish">
+    //     [Publish Contest]
+    //     </a>';
 
     $invitesHTML = '';
     if($contestData['is_invitational']){
@@ -207,7 +190,7 @@ else if(isset($_GET['id'])){
         );
         include_once 'maintenanceForm.php';
         $invitesForm = new RCMaintenanceForm('co_contest_invites',$fields,null,'Reset',null);
-        $invitesForm->setButtonName('whitelist user');
+        $invitesForm->setButtonName('invite user');
         $invitesForm->setSuccessMessage('successfully invited');
         $invitesForm->setOnSuccessRedirectPage("admin_mycontestproblems.php?id=".$contestId);
         $invitesHTML = $invitesForm->getForm();
@@ -218,9 +201,9 @@ else if(isset($_GET['id'])){
             array("ci.user_id",  "",     -1, ""),
             array("us.username",  "username",     -2, ""),
             
-            array("'xxx'",  "un-invite",     100, "",
+            array("'xxx'",  "disinvite",     100, "",
                 "type"=>"replacement",
-                'value'=>'<a href="./admin_mycontestproblems.php?id='.$contestId.'&uninviteid=#{0}">un-invite</a>'),
+                'value'=>'<a href="./admin_mycontestproblems.php?id='.$contestId.'&disinviteid=#{0}">dis-invite</a>'),
              array("'send_email'",  "send email",     100, "",
                 "type"=>"replacement",
                 'value'=>'<a href="./admin_mycontestproblems.php?id='.$contestId.'&emailid=#{0}">send invitation email</a>')
@@ -245,7 +228,7 @@ else if(isset($_GET['id'])){
 	$content = $contestProblemTable->getTable().
         '<br/>'
         // .$sealLink.'<br/>'
-        .$publishLink.'<br/>'.'<br/>'
+        // .$publishLink.'<br/>'.'<br/>'
         .$availableProblemsTable.'<br/>'
         .$registeredUserTable->getTable().'<br/>'
         .$invitesHTML;

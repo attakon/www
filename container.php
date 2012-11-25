@@ -15,7 +15,7 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
     include_once("header_div.php");
     ?>
     <!DOCTYPE html>
-    <html xmlns:fb="http://ogp.me/ns/fb#">
+    <html xmlns:fb="http://ogp.me/ns/fb#" >
     <?php 
         include_once("head_includes.php");//mandatory 
         include_once "GLOBALS.php";

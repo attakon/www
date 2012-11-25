@@ -54,18 +54,26 @@ function init(){
 
 
 function addProblemMethod($_POST){
+
     $contestId = $_POST['contest_id'];
-    $problemId = $_POST['problem_id'];
-    $pts = $_POST['points'];
-    $languageId = $_POST['problem_language_id'];
 
     include_once 'data_objects/DAOContest.php';
-    DAOContest_addProblemToContest($contestId,$problemId, $pts, $languageId);
-    
-    include_once 'data_objects/DAOProblem.php';
-    $problemData = DAOProblem_getProblemData($problemId);
-    
-    $_SESSION['message']='problem '.$problemData['name'].' was successfully added';
+    if(DAOContest_getContestPhase($contestId)=='FINISHED'){
+        $_SESSION['message']='You cannot add problems because this contest has already finished.';
+        $_SESSION['message_type']='error';
+    }else{
+        $problemId = $_POST['problem_id'];
+        $pts = $_POST['points'];
+        $languageId = $_POST['problem_language_id'];
+
+        include_once 'data_objects/DAOContest.php';
+        DAOContest_addProblemToContest($contestId,$problemId, $pts, $languageId);
+        
+        include_once 'data_objects/DAOProblem.php';
+        $problemData = DAOProblem_getProblemData($problemId);
+        
+        $_SESSION['message']='problem '.$problemData['name'].' was successfully added';
+    }
 
     include_once 'container.php';
     redirectToPage('admin_mycontestproblems.php?id='.$contestId);

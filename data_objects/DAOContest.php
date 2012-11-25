@@ -1,6 +1,26 @@
 <?php
 include_once ("utils/DBUtils.php");
 
+function DAOContest_IsContestDeletable($contestId){
+  $query = "SELECT fecha, total_time FROM concurso WHERE contest_id='".$contestId."'";
+  $row = getWholeRow($query);
+  // print_r($row);
+  // echo 'xxxx';
+  if($row['fecha']==null || $row['fecha']=='' || $row['total_time']==null){
+    return true;
+  }
+  if(DAOContest_getContestPhase($contestId)!='FINISHED'){
+    return true;   
+  }
+  return false;
+} 
+
+function DAOContest_registerContest($leagueId, $name, $descripcion, $duration, $isInvitational, $isPublished, $creatorId){
+  $insertQuery = "INSERT INTO concurso (league_id, nombre, descripcion, total_time, is_invitational, is_published, creator_id) 
+        VALUES ('".$leagueId."','".$name."','".$descripcion."','".$duration."','".$isInvitational."','".$isPublished."','".$creatorId."')";
+  runQuery($insertQuery);
+}
+
 function DAOContest_isContestOpen($contestId){
     $query = "SELECT TIMESTAMPDIFF(SECOND,now(),fecha) FROM concurso con WHERE con.contest_id = '".$contestId."'";
     $diff = getRow($query);

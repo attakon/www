@@ -16,9 +16,9 @@ $huahQry = "UPDATE usuario
             WHERE USERNAME ='".$username."'";
 runQuery($huahQry);
 
-$huahVbQry= "UPDATE user
-set password = MD5(concat(MD5('".$pass."'), user.salt))
-WHERE username = '".$username."'";
-runQueryOnHuaHVB($huahVbQry);
+// $huahVbQry= "UPDATE user
+// set password = MD5(concat(MD5('".$pass."'), user.salt))
+// WHERE username = '".$username."'";
+// runQueryOnHuaHVB($huahVbQry);
 showPage('Password Reset Done', false, parrafoOK('Password has been reset successfully'), null);
 ?>

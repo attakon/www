@@ -1,5 +1,5 @@
 <?php
-include_once ("utils/DBUtils.php");
+include_once ($_SERVER['DOCUMENT_ROOT']."/utils/DBUtils.php");
 
 // user_event_type_id	event_name	description
 // 1	log_in	user logs in HC
@@ -32,6 +32,15 @@ function DAOUserEvents_logEventById($userId, $eventId, $extraText){
 	)";
 	// echo $query;
   	runQuery($query);
+}
+
+function DAOUserEvents_getUsersSubmissions(){
+	$query="SELECT usuario.username, problem.name 'problem_name', solving_date, status FROM 
+		practice_campaigns pc JOIN usuario using (id_usuario)
+		JOIN co_problem problem using (problem_id)
+		WHERE status in (2,3)
+		ORDER BY solving_date DESC";
+	return getRowsInArray($query);
 }
 
 ?>

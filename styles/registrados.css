@@ -51,13 +51,11 @@ td.tr_footerTN{
 tr.tr_Par{
     border-left-width: 1px;
     border-right-width: 1px;
-    background: #F2F2F2;
+    background: #E4E6E5;
 }
 tr.tr_Impar{
     border-left-width: 1px;
     border-right-width: 1px;
-
-    background-color: #ffffff;
 }
 td.checked_in{
     text-align: center;
