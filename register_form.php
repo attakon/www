@@ -48,21 +48,21 @@ function getForm($user, $first_name, $last_name, $email, $school, $message){
             <label class="control-label" for="first_name">Nombres</label>
             <div class="controls">
                 <input type="text" id="first_name" name="first_name" 
-                    value="'.$first_name.'" size="15" maxlength="15" placeholder="First Name">
+                    value="'.$first_name.'" size="15" placeholder="First Name">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="last_name">Apellidos</label>
             <div class="controls">
                 <input type="text" id="last_name" name="last_name" 
-                    value="'.$last_name.'" size="15" maxlength="15" placeholder="Last Name">
+                    value="'.$last_name.'" size="15" placeholder="Last Name">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="email">Email</label>
             <div class="controls">
                 <input type="email" value="'.$email.'" id="email" name="email" 
-                    size="15" maxlength="15" placeholder="Email">
+                    size="15" placeholder="Email">
             </div>
         </div>
 
