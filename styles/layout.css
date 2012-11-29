@@ -104,3 +104,7 @@ img#dislike{
 img#dislike:hover{
 	background: no-repeat url(//s.ytimg.com/yts/imgbin/www-refresh-vfl5Dug1g.png) -48px -123px;
 }
+/*add Jonathan 24-11-2012*/
+.mainLogo{
+	padding: 15px 0px 0px 10px;
+}

@@ -3,7 +3,7 @@
 function conecDb(){
     try {
         $conexion=mysql_connect("localhost","root","root");
-        mysql_select_db("beta_huahdb",$conexion);
+        mysql_select_db("raulooo_beta_huahdb",$conexion);
         mysql_query("SET NAMES 'utf8'");
         return $conexion;
     }
@@ -24,4 +24,5 @@ function fetchResultSet($con, $query){
 }
 //adding a change
 //adding a change
+//adding other change
 ?>
