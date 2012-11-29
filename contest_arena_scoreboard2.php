@@ -36,20 +36,18 @@ if(isset($_GET['id'])){
     $body .= getScoreboardHTML($contestId);
 
     include_once 'container.php';
-    showPage($contestData['nombre'], false, $body, "");
+    showPage($contestData['nombre']." Scoreboard", false, $body, "");
 }
 
 function getScoreboardHTML($contestId){
     
     include_once 'data_objects/DAOCampaign.php';
     $campaignData = DAOCampaign_getUserCampaigns($contestId);
-    $fastestSubmission = DAOCampaign_getFastestSubmission($contestId);
     // print_r($campaignData);
 
     include_once 'data_objects/DAOContest.php';
     $problemData = DAOContest_getProblems($contestId);
     
-
     
     
     // $body ="<br>xxx";
@@ -88,7 +86,7 @@ function getScoreboardHTML($contestId){
     foreach ($campaignData as $key => $campaignValue) {
     
         ?>
-        <tr bgcolor="<?php if($i++%2==0)echo "#f1f0f0"?>">
+        <tr bgcolor="<?php if($i++%2==0)echo "#f1f0f0"?>" style="height:48px;">
             <td> <?php echo $campaignValue['puesto']?> </td>       <!-- rank in contest-->
             <td width="5"> <?php
                 // echo "<img src=./images/ranking/".$campaignValue['new_ranking']."gif>";
@@ -142,31 +140,26 @@ function getScoreboardHTML($contestId){
             foreach ($aggregatedCampaignDetailData as $key => $campaignDetailValue) {
                 ?>
             <td class="det" align="center" height="40"> <?php
-                if($campaignDetailValue['solved']){
-                    if($fastestSubmission['problem_id']== $campaignDetailValue['problem_id']
-                        $$ $fastestSubmission['campaign_id']==$campaignValue['id_campaign']){}
-
-                    if(DAOGlobalDefaults_getGlobalValue('SHOW_USER_CODE_IN_RESULTS')=='Y'){
-                        echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['problem_id'].'">
-                        '.$campaignDetailValue['tiempo_submision']
-                        ."</a>";
-                    }else{
-                        echo '<a class="det">'.$campaignDetailValue['tiempo_submision']."</a>";
-                    }
-                }else if($campaignDetailValue['COUNTDOWN']!='RUNOUT'){
-                    echo "<img src='images/submitting.gif'/>";
-                }else{
-                    echo "--";
-                }
-                ?><br>
-                <?php
-                echo "<label class='wrongTrie'>";
+                $failedAttempts =  "";
                 if($campaignDetailValue['attempts']>0){
-                    echo $campaignDetailValue['attempts']." intento".($campaignDetailValue['attempts']!=1?"s fallidos":" fallido");
-                }else{
-                    echo "&nbsp;";
+                    $failedAttempts = $campaignDetailValue['attempts']." intento".($campaignDetailValue['attempts']!=1?"s fallidos":" fallido");
                 }
-                echo "</label>";
+                if($campaignDetailValue['solved']){
+                        if(DAOGlobalDefaults_getGlobalValue('SHOW_USER_CODE_IN_RESULTS')=='Y'){
+                            echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['problem_id'].'">'
+                            .$campaignDetailValue['tiempo_submision']
+                            ."</a>";
+                        }else{
+                            echo '<a class="det">'.$campaignDetailValue['tiempo_submision']."</a>";
+                        }
+                    }else if($campaignDetailValue['COUNTDOWN']!='RUNOUT'){
+                        echo "<img src='images/submitting.gif'/>";
+                    }else{
+                        echo "--";
+                    }
+                    echo "</div><div style='height: 12px;'><label class='wrongTrie'>"
+                    .$failedAttempts
+                    ."</label></div>";
                 ?>
             </td>
 

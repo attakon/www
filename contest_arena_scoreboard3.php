@@ -36,7 +36,7 @@ if(isset($_GET['id'])){
     $body .= getScoreboardHTML($contestId);
 
     include_once 'container.php';
-    showPage($contestData['nombre'], false, $body, "");
+    showPage($contestData['nombre']." Scoreboard", false, $body, "");
 }
 
 function getScoreboardHTML($contestId){
@@ -88,7 +88,7 @@ function getScoreboardHTML($contestId){
     foreach ($campaignData as $key => $campaignValue) {
     
         ?>
-        <tr bgcolor="<?php if($i++%2==0)echo "#f1f0f0"?>">
+        <tr bgcolor="<?php if($i++%2==0)echo "#f1f0f0"?>" style="height:48px;">
             <td> <?php echo $campaignValue['puesto']?> </td>       <!-- rank in contest-->
             <td width="5"> <?php
                 // echo "<img src=./images/ranking/".$campaignValue['new_ranking']."gif>";
@@ -141,38 +141,46 @@ function getScoreboardHTML($contestId){
             // while($campaingDetalle = mysql_fetch_row($rsCampaingDetalle)){
             foreach ($aggregatedCampaignDetailData as $key => $campaignDetailValue) {
                 ?>
-            <td class="det" align="center" height="40"> <?php
-                if($campaignDetailValue['solved']){
-                    $img;
-                    if($fastestSubmission['problem_id']== $campaignDetailValue['problem_id']
-                        $fastestSubmission['campaign_id']==$campaignValue['id_campaign']){
-                        echo '<canvas id="fastest-submit"></canvas>'
-                    }else{
+                <script type="text/javascript" src="test/flame.js"></script>
+            <td class="det" align="center"> 
+                <div>
+                <?php
+                $failedAttempts =  "";
+                if($campaignDetailValue['attempts']>0){
+                    $failedAttempts = $campaignDetailValue['attempts']." intento".($campaignDetailValue['attempts']!=1?"s fallidos":" fallido");
+                }
+                if($fastestSubmission['problem_id'] == $campaignDetailValue['problem_id'] &&
+                        $fastestSubmission['campaign_id'] == $campaignValue['id_campaign']){
+                        $codeurl = '/viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['problem_id'];
+                        echo '<script type="text/javascript">
+                                jQuery(document).ready(function(){
+                                    animateFastestSubmission(\''.$campaignDetailValue['tiempo_submision'].'\',
+                                        \''.$failedAttempts.'\',
+                                        \''.($i%2==0?1:0).'\',
+                                        \''.$codeurl.'\');
+                                });
+                            </script>'.
+                    '<canvas id="fastest-submit" ></canvas></div>';
+                }else{
+                    if($campaignDetailValue['solved']){
                         if(DAOGlobalDefaults_getGlobalValue('SHOW_USER_CODE_IN_RESULTS')=='Y'){
-                            echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['problem_id'].'">
-                            '.$campaignDetailValue['tiempo_submision']
+                            echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['problem_id'].'">'
+                            .$campaignDetailValue['tiempo_submision']
                             ."</a>";
                         }else{
                             echo '<a class="det">'.$campaignDetailValue['tiempo_submision']."</a>";
-                        }    
+                        }
+                    }else if($campaignDetailValue['COUNTDOWN']!='RUNOUT'){
+                        echo "<img src='images/submitting.gif'/>";
+                    }else{
+                        echo "--";
                     }
-                }else if($campaignDetailValue['COUNTDOWN']!='RUNOUT'){
-                    echo "<img src='images/submitting.gif'/>";
-                }else{
-                    echo "--";
+                    echo "</div><div style='height: 12px;'><label class='wrongTrie'>"
+                    .$failedAttempts
+                    ."</label></div>";
                 }
-                ?><br>
-                <?php
-                echo "<label class='wrongTrie'>";
-                if($campaignDetailValue['attempts']>0){
-                    echo $campaignDetailValue['attempts']." intento".($campaignDetailValue['attempts']!=1?"s fallidos":" fallido");
-                }else{
-                    echo "&nbsp;";
-                }
-                echo "</label>";
                 ?>
             </td>
-
             <?php
         }
     }

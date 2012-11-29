@@ -1,27 +1,34 @@
-window.onload = function(){
-	animateFastestSubmission('00:09:00','1');	
-}
+// window.onload = function(){
+// 	animateFastestSubmission('00:09:00','1');	
+// }
 
-function animateFastestSubmission(time, failedAttempts){
+function animateFastestSubmission(time, failedAttempts, isgray, linkurl){
 	var canvas = document.getElementById("fastest-submit");
 	if(!canvas)
 		return;
 	var ctx = canvas.getContext("2d");
+	var W = 110, H = 40;
+
+	var linkX=W/2-48/2;
+	var linkY=H/2+1.8;
+	var linkHeight=12;
+	// var linkWidth=48;
+	var linkWidth=ctx.measureText(time).width;
+	var inLink = false;
+
 	
-	var W = 113, H = 42;
 	canvas.width = W;
 	canvas.height = H;
 	
 	var particles = [];
-	var mouse = {};
 	
-	//Lets create some particles now
 	var particle_count = 8;
 	for(var i = 0; i < particle_count; i++)
 	{
 		particles.push(new particle());
 	}
-	
+	canvas.addEventListener("mousemove", on_mousemove, false);
+    canvas.addEventListener("click", on_click, false);
 	
 	function particle()
 	{
@@ -30,7 +37,7 @@ function animateFastestSubmission(time, failedAttempts){
 		//speed.y range = -15 to -5 to make it move upwards
 		//lets change the Y speed to make it look like a flame
 		this.speed = {x: -2+Math.random()*4, y: -2+Math.random()*1};
-		//location = mouse coordinates
+		
 		//Now the flame follows the mouse coordinates
 		var range = 20;
 		this.location = {x: W/2+ -range+Math.random()*range*2, y: H/2};
@@ -53,16 +60,17 @@ function animateFastestSubmission(time, failedAttempts){
 		//In the next frame the background is painted normally without blending to the 
 		//previous frame
 		ctx.globalCompositeOperation = "source-over";
-		ctx.fillStyle = "white";
+		ctx.fillStyle = isgray==0?"#f1f0f0":"white"; //gray or white depending on
 		ctx.fillRect(0, 0, W, H);
 
 		ctx.fillStyle = '#390';
+		ctx.textBaseline = 'center';
 		ctx.font = 'bold 12px "Helvetica Neue", Helvetica, Arial, sans-serif';
-		ctx.textBaseline = 'bottom';
-		ctx.fillText(time, W/2-48/2, H/2);
+		ctx.fillText(time, linkX, linkY);
+
 		ctx.fillStyle = 'black';
 		ctx.font = '10px "Helvetica Neue", Helvetica, Arial, sans-serif';
-		ctx.fillText(failedAttempts+" intento fallido", W/2-70/2, H/2+10);
+		ctx.fillText(failedAttempts, W/2-70/2, H/2+10);
 		ctx.globalCompositeOperation = "darker";
 		
 		for(var i = 0; i < particles.length; i++)
@@ -87,8 +95,6 @@ function animateFastestSubmission(time, failedAttempts){
 			p.location.x += p.speed.x;
 			p.location.y += p.speed.y;
 			
-
-
 			//regenerate particles
 			if(p.remaining_life < 0 || p.radius < 0)
 			{
@@ -100,5 +106,40 @@ function animateFastestSubmission(time, failedAttempts){
 	}
 	
 	setInterval(draw, 35);
+
+	function on_mousemove (ev) {
+
+		var x,y;
+
+		if(ev.offsetX) {
+			x = ev.offsetX;
+			y = ev.offsetY;
+		}
+		else if(ev.layerX) {
+			x = ev.layerX;
+			y = ev.layerY;
+		}
+		x-=canvas.offsetLeft;
+		y-=canvas.offsetTop;
+
+		// console.log(x+" "+y+"  "+linkX+" "+linkWidth);
+	 // console.log(x);
+	  //is the mouse over the link?
+	  if(x>=linkX && x <= (linkX + linkWidth) &&
+	  	y<=linkY && y>= (linkY-linkHeight)){
+	  	document.body.style.cursor = "pointer";
+	  	inLink=true;
+		}
+		else{
+			document.body.style.cursor = "";
+			inLink=false;
+		}
+	}
+	
+	function on_click(e) {
+	    if (inLink)  {
+	    window.location = linkurl;
+	 }
+}
 }
 

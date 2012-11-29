@@ -44,5 +44,5 @@
 
 
 
-    <title>HuaH Coding - Joooin the fun!</title>
+    <title>HuaHCoding - <?php echo $statusBar?></title>
 </head>

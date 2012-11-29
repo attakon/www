@@ -109,6 +109,9 @@ if($contestPhase=='IN_PROGRESS'){
             $campaignId, $problemId, 'NOW()', 
             $answer['accepted'], $sourceContent);
 
+        DAOCampaign_registerFastestSubmissionIfPossible($campaignData['contest_id'],
+            $campaignId, $problemId);
+
         include_once 'data_objects/DAOUserEvents.php';
         include_once 'GLOBALS.php';
         // $problemName = mysql_escape_string($problemName);
