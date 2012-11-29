@@ -168,6 +168,20 @@ function DAOCampaign_registerSubmission($contestId,
   runQuery($query);
 }
 
+function DAOCampaign_getFastestSubmission($contestId){
+  $query = "SELECT campaign_id, problem_id FROM co_contest_fastest_submit
+    WHERE contest_id='".$contestId."'";
+  return getWholeRow($query);
+}
+
+function DAOCampaign_registerFastestSubmissionIfPossible($contestId, $campaignId, $problemId){
+  if(!DAOCampaign_getFastestSubmission($contestId)){
+    $query2 = "INSERT INTO co_contest_fastest_submit (contest_id, campaign_id, problem_id) 
+    VALUES (".$contestId.",".$campaignId.",".$problemId.")";  
+    runQuery($query2);
+  }
+}
+
 function DAOCampaign_registerSubmission_old($contestId,$campaignId, $problemId, $time, $wasSolved, $sourceCode){
 
   // $query = sprintf("SELECT * FROM users WHERE user='%s' AND password='%s'",
