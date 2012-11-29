@@ -174,6 +174,8 @@ function DAOCampaign_getFastestSubmission($contestId){
   return getWholeRow($query);
 }
 
+// en 3 2 1 
+
 function DAOCampaign_registerFastestSubmissionIfPossible($contestId, $campaignId, $problemId){
   if(!DAOCampaign_getFastestSubmission($contestId)){
     $query2 = "INSERT INTO co_contest_fastest_submit (contest_id, campaign_id, problem_id) 
