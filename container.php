@@ -89,5 +89,5 @@ function redirectToLastVisitedPage(){
     }
     die;
 }
-//prueba
+//prueba list2
 ?>
