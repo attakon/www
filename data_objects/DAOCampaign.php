@@ -200,6 +200,12 @@ function DAOCampaign_registerSubmission_old($contestId,$campaignId, $problemId, 
   runQuery($query);
 }
 
+<<<<<<< HEAD
+// 3 2 1 en list
+=======
+// en 3 2 1 dev
+>>>>>>> dev
+
 // END ARENA 
 function DAOCampaign_getCampaignData($campaignId){
   $query = "SELECT contest_id, id_usuario FROM campaign WHERE id_campaign='".$campaignId."'";
