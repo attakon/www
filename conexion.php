@@ -24,5 +24,5 @@ function fetchResultSet($con, $query){
 }
 //adding a change
 //adding a change
-//branch 2
+//adding other change
 ?>
