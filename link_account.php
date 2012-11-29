@@ -6,6 +6,7 @@ showPage("Conectar a cuenta de HC",false,getForm());
 ?>
 
 <?php
+//en 3 2 1 
 function getForm(){
 	ob_start();
 	?>
