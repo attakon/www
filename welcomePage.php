@@ -179,9 +179,6 @@ $pastContestsTable = new RCTable(conecDb(),$contestTables,$columnsNE,$conditionN
 $pastContestsTable->setTableAtr("width='300'");
 // $tableNextEvent = $pastContestsTable->getTable();
 
-
-*/
-
         ?>
 
         <div id="fb-root"></div>
