@@ -34,7 +34,8 @@ function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
     "SELECT 
       cd.problem_id, 
       cd.solved, 
-      cd.tiempo_submision, 
+      cd.tiempo_submision,
+      cd.successful_source_code,
       count(cs.campaign_submission_id) 'attempts'
     FROM campaigndetalle cd LEFT JOIN campaign_submission cs 
        on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id 
@@ -199,12 +200,6 @@ function DAOCampaign_registerSubmission_old($contestId,$campaignId, $problemId, 
   // print_r($query);
   runQuery($query);
 }
-
-<<<<<<< HEAD
-// 3 2 1 en list
-=======
-// en 3 2 1 dev
->>>>>>> dev
 
 // END ARENA 
 function DAOCampaign_getCampaignData($campaignId){
