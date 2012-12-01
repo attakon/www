@@ -7,11 +7,7 @@ $tablesPC="problems pr";
 $columnsPC = array(
     array("co.problem_id",  "",     -1, ""),
     array("co.creator_id",  "",     -1, ""),
-    array("co.nombre",  "Concurso",     160, "",""),    
-    // array("'enunciados'",  "Enunciados",     60, "", "replacement", 
-        // 'value' => "<a target='_blank' href='/files/#{2}.pdf'><img src='/images/PDF_icon.gif'></img></a>"),
-    // array("'scoreboard'",  "See Scoreboard",     70, "", "replacement", 
-    //     'value' => "<a href='/concurso_results.php?i=#{0}&tab=2'>scoreboard</a>"),
+    array("co.nombre",  "Concurso",     160, "",""),
     array("'Add Problems'",  "Add problems", 80, "", "replacement", 
         'value' => "<a href='/admin_addcontestproblem_selectproblem.php?i=#{0}'>Add Problems</a>")
     // array("us.username",   "Problem Setter",            120, "", "linked 1 user"),
