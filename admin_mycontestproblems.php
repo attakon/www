@@ -80,8 +80,8 @@ else if(isset($_GET['id'])){
 	include_once 'data_objects/DAOContest.php';
 	$contestData = DAOContest_getContestData($contestId);
 	$contestName = $contestData['nombre'];
-	//Contest's Problem List 
 
+	//Contest Problem List 
 	$tablesPC="co_problem problem, co_contest_problems left join languages on(co_contest_problems.problem_language_id=languages.language_id)";
     $columnsPC = array(
     array("problem.problem_id",  "",     -1, ""),
@@ -98,7 +98,7 @@ else if(isset($_GET['id'])){
     );
     $conditionPC = "WHERE problem.problem_id = co_contest_problems.problem_id ".
     " AND co_contest_problems.contest_id='".$contestId."'".
-    " ORDER BY 1 DESC";
+    " ORDER BY co_contest_problems.order ASC";
 
     include_once 'table2.php';
     $contestProblemTable = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
