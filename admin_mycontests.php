@@ -135,8 +135,6 @@ function init(){
                 'value' => "<a href='./admin_mycontests.php?delcontestid=#{0}'>Delete</a>")
         );
 
-                // case 'con_res':return "<a href='$path/concurso_results.php?i=$id&tab=2'>$caption</a>";
-
         $conditionPC = "WHERE co.estado = 'REGISTRATION_OPEN' ".
             " AND co.creator_id = ".$_SESSION['userId'].
             " ORDER BY 1 DESC";

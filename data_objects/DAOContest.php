@@ -143,8 +143,13 @@ function DAOContest_getFirstProblem($contestId){
 }
 
 function DAOContest_addProblemToContest($contestId, $problemId, $points, $languageId){
-  $addProblemQuery = "INSERT INTO co_contest_problems (contest_id, problem_id, points, problem_language_id)
-  VALUES ('".$contestId."','".$problemId."','".$points."','".$languageId."')";
+
+  $addProblemInnerQuery = "SELECT IFNULL(MAX(cp.order),0)+1 from co_contest_problems cp WHERE cp.contest_id=".$contestId."";
+
+  $addProblemQuery = "INSERT INTO co_contest_problems 
+    (contest_id, problem_id, points, `order`, problem_language_id)
+    VALUES (".$contestId.",".$problemId.",".$points.", (".$addProblemInnerQuery.") ,'".$languageId."')";
+
   runQuery($addProblemQuery);
   include_once 'data_objects/DAOCampaign.php';
   DAOCampaign_resetCampaignDetails($contestId);
@@ -164,7 +169,8 @@ function DAOContest_getProblems($contestId){
     $query = "SELECT problem.problem_id, problem.name , ccp.points, problem.example_cases, cps.statement
      FROM co_contest_problems ccp join co_problem problem using(problem_id)
       JOIN co_problem_statement cps on(ccp.problem_id = cps.problem_id AND cps.language_id = ccp.problem_language_id) 
-     WHERE ccp.contest_id = '".$contestId."'";
+     WHERE ccp.contest_id = '".$contestId."'
+     ORDER BY ccp.order ASC";
     return getRowsInArray($query);
 }
 

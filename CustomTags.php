@@ -30,8 +30,6 @@ function rCLink($path, $id=null,$caption, $type=null) {
         case 'user':return "<a class='userLink' href=$path/$type.php?u=$id>$caption</a>";
         case 'concurso':return "<a href='$path/$type.php?idt=$id&show=det'>$caption</a>";
         case 'date':return "<a href='$path/$type.php?idt=$id&show=det'>$caption</a>";
-        case 'con_res':return "<a href='$path/concurso_results.php?i=$id&tab=2'>$caption</a>";
-        case 'con_pra':return "<a href='$path/concurso_results.php?i=$id&tab=1'>$caption</a>";
         case 'thread':return "<a href='$path/forum/showthread.php?t=$id'>$caption</a>";
         case 'lastpost':return "<a href='$path/forum/showthread.php?goto=newpost&t=$id'>$caption</a>";
         case 'enunciado':return "<a target='_blank' href='$path/files/$id.pdf'><img src='$path/images/PDF_icon.gif'></img></a>";

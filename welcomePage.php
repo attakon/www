@@ -179,40 +179,6 @@ $pastContestsTable = new RCTable(conecDb(),$contestTables,$columnsNE,$conditionN
 $pastContestsTable->setTableAtr("width='300'");
 // $tableNextEvent = $pastContestsTable->getTable();
 
-
-//COMPLETED CONTESTS
-// $tablesPC="concurso co";
-// $columnsPC = array(
-//         array("co.contest_id",  "",     -1, ""),
-//         array("co.nombre_corto",  "",     60, "",
-//             "type"=>"linked 0 con_res"),
-//         array("'practicar'",  "",     60,"", 
-//             "type"=>"linked 0 con_pra"),
-//         array("date(fecha)",   "Evento", -1, "class='penalty'","date"),
-// );
-// $conditionPC = "WHERE co.estado = 'FINALIZED'".
-//         "ORDER BY 4 DESC";
-// include_once 'table2.php';
-// $tablePC = new RCTable(conecDb(),$tablesPC,$columnsPC,$conditionPC);
-// $tablePC->setTitle("Concursos Pasados");
-// $tablePC->setFooter("<a href='./concurso_list.php'>Ver Mas</a>");
-// $tablePastContest = $tablePC->getTable();
-//TABLE RECENT Threads
-/*
-$tablesThread= "thread t, forum f";
-$colThread = array(    
-        array("t.threadid",  "",     -1, ""),
-        array("concat(f.title,' / ',t.title)",  "",     200, 'style="padding-top: 5px;padding-bottom: 5px;"',"linked 0 thread"),
-        array("'>|'",  "",     10,"", "linked 0 lastpost")
-);
-$conditionThread = " WHERE f.forumid=t.forumid ".
-        "ORDER BY t.lastpost DESC LIMIT 7";
-$threadsTable = new RCTable(forumConexion(),$tablesThread,10,$colThread,$conditionThread);
-$threadsTable->setTitle("Temas Comentados Ultimamente");
-$threadsTable->setFooter("<a href=\"./forum\"> Ver todos los temas </a>")
-//$tableThread->setTableAtr('style="margin-top: 5px;"');
-*/
-
         ?>
 
         <div id="fb-root"></div>
