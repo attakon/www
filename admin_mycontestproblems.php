@@ -154,11 +154,12 @@ else if(isset($_GET['id'])){
 
     $tables = "campaign cmp LEFT JOIN campaigndetalle cmpd ON cmp.id_campaign = cmpd.id_campaign 
     JOIN concurso con ON cmp.contest_id = con.contest_id 
-    JOIN usuario us ON us.id_usuario = cmp.id_usuario";
+    JOIN usuario us ON us.id_usuario = cmp.id_usuario ";
     
     $condition = "WHERE 
         con.contest_id = '".$contestId."'
-        GROUP BY us.id_usuario";
+        GROUP BY us.id_usuario
+        ORDER BY cmp.id_campaign";
         // ORDER BY cmp.id_campaign";
         // AND c.id_usuario = us.id_usuario
 
