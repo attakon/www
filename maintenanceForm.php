@@ -146,7 +146,12 @@ class RCMaintenanceForm{
                     $field = '<label>'.$label.'</label><select name="'.$key.'">';
 //                    print_r($options);
                     foreach ($options as $k=>$v){
-                        $field.= '<option value="'.$v[$idfield].'">';
+                        $field.= '<option value="'.$v[$idfield].'" ';
+                        if($isUpd && $v[$idfield]==$updData[$key]){
+                            $field.='selected="selected">';
+                        }else{
+                            $field.=">";
+                        }
                         $field.= $v[$labelField].'</option>';
                     }
                     $field.='<select/>';

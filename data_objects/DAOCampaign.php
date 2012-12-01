@@ -24,6 +24,41 @@ function DAOCampaign_getCampaignCode($campaignId, $problemId){
   return getWholeRow($dataQuery);
 }
 // BEGIN ARENA
+//scoreboard without order of problems
+function DAOCampaign_getCampaignDetailForCampaign1($contestId, $campaignId){
+  include_once 'data_objects/DAOContest.php';
+  $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
+
+  include_once 'GLOBALS.php';
+
+  $queryCampaignDetalle =
+    "SELECT 
+      cd.problem_id, 
+      cd.solved, 
+      cd.tiempo_submision, 
+      count(cs.campaign_submission_id) 'attempts'
+    FROM campaigndetalle cd LEFT JOIN campaign_submission cs 
+       on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id 
+        AND (
+          (cs.status=0 AND ".$elapsedSeconds."-TIME_TO_SEC(cs.download_time)>".SUBMISSION_ALLOWED_SECONDS.") 
+          OR (cs.status=0 AND cs.submission_time IS NOT NULL)
+          )
+        )
+    WHERE id_campaign = ".$campaignId." 
+    GROUP BY problem_id
+    ORDER BY problem_id";
+
+//     SELECT cd.problem_id, cd.solved, cd.tiempo_submision,count(cs.campaign_submission_id), cd.successful_source_code FROM campaigndetalle cd join campaign_submission cs 
+//     on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id) 
+// WHERE cd.id_campaign = 221 
+// AND cs.status=0
+
+  // echo $queryCampaignDetalle;
+  $res = getRowsInArray($queryCampaignDetalle);
+  // print_r($res);
+  return $res;
+}
+//last version of scoreboard data
 function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
   include_once 'data_objects/DAOContest.php';
   $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
@@ -42,19 +77,11 @@ function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
           (cs.status=0 AND ".$elapsedSeconds."-TIME_TO_SEC(cs.download_time)>".SUBMISSION_ALLOWED_SECONDS.") 
           OR (cs.status=0 AND cs.submission_time IS NOT NULL)
           )
-        ) 
+        ) JOIN co_contest_problems cp on(cp.problem_id=cd.problem_id and cp.contest_id=".$contestId.")
     WHERE id_campaign = ".$campaignId." 
     GROUP BY problem_id
-    ORDER BY problem_id";
-
-//     SELECT cd.problem_id, cd.solved, cd.tiempo_submision,count(cs.campaign_submission_id), cd.successful_source_code FROM campaigndetalle cd join campaign_submission cs 
-//     on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id) 
-// WHERE cd.id_campaign = 221 
-// AND cs.status=0
-
-  // echo $queryCampaignDetalle;
+    ORDER BY cp.order ASC";
   $res = getRowsInArray($queryCampaignDetalle);
-  // print_r($res);
   return $res;
 }
 
@@ -76,15 +103,9 @@ function DAOCampaign_getCampaignDetailForCampaign2($contestId, $campaignId){
           ((SELECT (TO_SECONDS(NOW())-TO_SECONDS(fecha))FROM concurso con WHERE con.contest_id = ".$contestId.")-TIME_TO_SEC(cs.download_time))/(".SUBMISSION_ALLOWED_SECONDS."),'RUNOUT') COUNTDOWN
     FROM campaigndetalle cd LEFT JOIN campaign_submission cs 
        on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id) 
+       JOIN co_contest_problems cp on(cp.problem_id=cd.problem_id and cp.contest_id=".$contestId.")
     WHERE id_campaign = ".$campaignId."
-    ORDER BY problem_id,download_time DESC;";
-
-//     SELECT cd.problem_id, cd.solved, cd.tiempo_submision,count(cs.campaign_submission_id), cd.successful_source_code FROM campaigndetalle cd join campaign_submission cs 
-//     on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id) 
-// WHERE cd.id_campaign = 221 
-// AND cs.status=0
-
-  // echo $queryCampaignDetalle;
+    ORDER BY cp.order ASC,download_time DESC;";
   $res = getRowsInArray($queryCampaignDetalle);
   // print_r($res);
   return $res;
@@ -199,12 +220,6 @@ function DAOCampaign_registerSubmission_old($contestId,$campaignId, $problemId, 
   // print_r($query);
   runQuery($query);
 }
-
-<<<<<<< HEAD
-// 3 2 1 en list
-=======
-// en 3 2 1 dev
->>>>>>> dev
 
 // END ARENA 
 function DAOCampaign_getCampaignData($campaignId){

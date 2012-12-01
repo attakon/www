@@ -22,8 +22,6 @@ function animateFastestSubmission(time, failedAttempts, isgray, linkurl){
 	
 	var particles = [];
 	
-	
-	//Lets create some particles now
 	var particle_count = 8;
 	for(var i = 0; i < particle_count; i++)
 	{
@@ -39,7 +37,7 @@ function animateFastestSubmission(time, failedAttempts, isgray, linkurl){
 		//speed.y range = -15 to -5 to make it move upwards
 		//lets change the Y speed to make it look like a flame
 		this.speed = {x: -2+Math.random()*4, y: -2+Math.random()*1};
-		//location = mouse coordinates
+		
 		//Now the flame follows the mouse coordinates
 		var range = 20;
 		this.location = {x: W/2+ -range+Math.random()*range*2, y: H/2};
@@ -49,9 +47,24 @@ function animateFastestSubmission(time, failedAttempts, isgray, linkurl){
 		this.life = 20+Math.random()*20;
 		this.remaining_life = this.life;
 		//colors
-		this.r = Math.round(Math.random()*255);
-		this.g = Math.round(Math.random()*255);
-		this.b = Math.round(Math.random()*255);
+		// this.r = Math.round(Math.random()*255);
+		// this.g = Math.round(Math.random()*255);
+		// this.b = Math.round(Math.random()*255);
+		// this.r = Math.round(200+Math.random()*50);
+		// this.g = Math.round(200+Math.random()*50);
+		// this.b = Math.round(100);
+		if(Math.round(Math.random()*8)==2){
+			this.r = Math.round(255);
+			this.g = Math.round(140);
+			this.b = Math.round(0);	
+		}else{
+			this.r = Math.round(200+Math.random()*50);
+			this.g = Math.round(200+Math.random()*50);
+			this.b = Math.round(100);
+		}
+		
+		 // , 245, 238)
+		// 241
 	}
 	
 	function draw()
@@ -97,8 +110,6 @@ function animateFastestSubmission(time, failedAttempts, isgray, linkurl){
 			p.location.x += p.speed.x;
 			p.location.y += p.speed.y;
 			
-
-
 			//regenerate particles
 			if(p.remaining_life < 0 || p.radius < 0)
 			{

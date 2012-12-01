@@ -36,7 +36,7 @@ if(isset($_GET['id'])){
     $body .= getScoreboardHTML($contestId);
 
     include_once 'container.php';
-    showPage($contestData['nombre'], false, $body, "");
+    showPage($contestData['nombre']." Scoreboard", false, $body, "");
 }
 
 function getScoreboardHTML($contestId){

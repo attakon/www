@@ -44,16 +44,7 @@
         include_once 'data_objects/DAOContest.php';
         $contestPhase = DAOContest_getContestPhase($contestId);
         // $body = $contestPhase;
-            
-        // if($contestData['estado']=="REGISTRATION_OPEN"){
-        //     $body .= parrafoOK("Registration is open");
-        // }else if ($contestData['estado']=="REGISTRATION_CLOSED"){
-        //     $body .= parrafoError("Inscripciones Cerradas<br>");
-        // }else if ($contestData['estado']=="FINALIZED"){
-        //     $linkToResults = "<a href='concurso_results.php?i=".$contestId."&tab=2'>Ver Resultados</a>";
-        //     $body .= parrafoError("Concurso Finalizado ".$linkToResults);
-        // }
-        
+                
         $body=$userTable->getTable();
 
         $details.=$body;

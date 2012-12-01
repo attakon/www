@@ -22,7 +22,6 @@ function showPage($statusBar, $including, $bodyContent ,$bodyOptionalAtr="", $co
     ?>
     <body style="margin-right:13; margin-left:13; margin-top:0;padding-top:0;" <?php echo $bodyOptionalAtr?> >
            <!-- JS SDK -->
-
         <?php echo headerFunction($statusBar)?>
 
         <?php 
