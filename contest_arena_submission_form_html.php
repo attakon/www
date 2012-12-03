@@ -102,7 +102,7 @@
         <tr>
             <td colspan="2">
                 <label class="comment">
-                    <!-- Para practicar no se requiere presentar el c&oacute;digo fuente. -->
+                    
                 </label>
             </td>
         </tr>

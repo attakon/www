@@ -186,7 +186,11 @@ ob_start();
             <td style="padding-left: 10px;
                                 padding-right: 10px;
                                 width: 1000px; vertical-align:top; height: 500px;" >
-            <?php echo $selectedProblemData['statement'].'<br/><h4 style="text-align:center">Example Cases</h4>'.$manageContestTable->getTable(); ?></td>
+            <?php 
+            include_once 'contest_arena_statement.php';
+                echo  getHTMLStatement($problemId, $selectedProblemData['statement'], $selectedProblemData['example_cases']);
+            ?>
+            </td>
         </tr>
     </table>
 <?php
