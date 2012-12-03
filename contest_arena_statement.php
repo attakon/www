@@ -67,11 +67,11 @@ function getHTMLStatement($problemId, $statement, $example_cases){
     
         </div>
         <div id="problem_examples_normal" style="text-align:left;display:none">
-            <div style="display:inline-block">
+            <div style="display:inline-block; vertical-align: top;">
             Input<br/>
                 <textarea id="comment_body" name="comment[body]" style="width:'.$iCols.'px" rows='.($iRows+1).' >'.$inputToShow.'</textarea>
             </div>
-            <div style="display:inline-block">
+            <div style="display:inline-block; vertical-align: top;">
             Output<br/>
                 <textarea cols="100" id="comment_body" name="comment[body]" style="width:'.$oCols.'px" rows='.($oRows+1).' >'.$outputToShow.'</textarea>
             </div>

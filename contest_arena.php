@@ -176,7 +176,6 @@ ob_start();
                 }else{
                     ?>
                     <h4 style="color:green; text-align:center; background-color:lightgreen">Solved</h4>
-                    <br/><br/><br/>
                     <?php
                 }
                 ?>
