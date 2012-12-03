@@ -58,7 +58,7 @@ function DAOCampaign_getCampaignDetailForCampaign1($contestId, $campaignId){
   // print_r($res);
   return $res;
 }
-//last version of scoreboard data
+//data for scoreboard1
 function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
   include_once 'data_objects/DAOContest.php';
   $elapsedSeconds = DAOContest_getContestElapsedTime($contestId);
@@ -80,11 +80,11 @@ function DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignId){
         ) JOIN co_contest_problems cp on(cp.problem_id=cd.problem_id and cp.contest_id=".$contestId.")
     WHERE id_campaign = ".$campaignId." 
     GROUP BY problem_id
-    ORDER BY cp.order ASC";
+    ORDER BY cp.order ASC, cp.problem_id ASC";
   $res = getRowsInArray($queryCampaignDetalle);
   return $res;
 }
-
+//data for scoreboard2 onwards
 function DAOCampaign_getCampaignDetailForCampaign2($contestId, $campaignId){
   include_once 'data_objects/DAOContest.php';
 
@@ -105,7 +105,7 @@ function DAOCampaign_getCampaignDetailForCampaign2($contestId, $campaignId){
        on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id) 
        JOIN co_contest_problems cp on(cp.problem_id=cd.problem_id and cp.contest_id=".$contestId.")
     WHERE id_campaign = ".$campaignId."
-    ORDER BY cp.order ASC,download_time DESC;";
+    ORDER BY cp.order ASC, cp.problem_id;";
   $res = getRowsInArray($queryCampaignDetalle);
   // print_r($res);
   return $res;
