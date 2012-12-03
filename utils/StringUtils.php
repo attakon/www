@@ -19,13 +19,13 @@ function matchLanguageIcon($sourceCode)
     //4 c#
     //5 phyton
 	if (strpos($sourceCode,'#include<') !== false) {
-	    return "c++.png";
+	    return "bgcplusplus";
 	}elseif (strpos($sourceCode,'import java') !== false) {
-		return "java.png";
+		return "bgjava";
 	}elseif (strpos($sourceCode,'<?php') !== false) {
-		return "php.png";
+		return "bgphp";
 	}elseif (strpos($sourceCode,'﻿using System;') !== false) {
-		return "csharp.png";
+		return "bgcsharp";
 	}
     return "";
 }

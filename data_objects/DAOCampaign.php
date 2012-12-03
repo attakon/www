@@ -35,8 +35,7 @@ function DAOCampaign_getCampaignDetailForCampaign1($contestId, $campaignId){
     "SELECT 
       cd.problem_id, 
       cd.solved, 
-      cd.tiempo_submision,
-      cd.successful_source_code,
+      cd.tiempo_submision, 
       count(cs.campaign_submission_id) 'attempts'
     FROM campaigndetalle cd LEFT JOIN campaign_submission cs 
        on(cs.campaign_id = cd.id_campaign AND cs.problem_id = cd.problem_id 
@@ -96,6 +95,7 @@ function DAOCampaign_getCampaignDetailForCampaign2($contestId, $campaignId){
       cd.problem_id, 
       cd.solved, 
       cd.tiempo_submision,
+      cd.successful_source_code,
       cs.download_time,
       cs.submission_time,
       cs.status,
