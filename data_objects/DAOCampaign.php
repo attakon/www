@@ -95,7 +95,6 @@ function DAOCampaign_getCampaignDetailForCampaign2($contestId, $campaignId){
       cd.problem_id, 
       cd.solved, 
       cd.tiempo_submision,
-      cd.successful_source_code,
       cs.download_time,
       cs.submission_time,
       cs.status,
