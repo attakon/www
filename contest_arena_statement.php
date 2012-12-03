@@ -60,20 +60,19 @@ function getHTMLStatement($problemId, $statement, $example_cases){
             }
         }
     </script>
-    <div class="well">
+    <div class="well" style="padding-top:0px;padding-left:10px">
 
-        <div>
-            <pre style="text-align:center;">Example Cases
-    <button id="toggle-io" onclick="toggle(this)" class="btn btn-mini" data-toggle="button">Formatted</button>
-    </pre>
+        <div><h4>Example Cases <button id="toggle-io" onclick="toggle(this)" class="btn btn-mini" data-toggle="button">Formatted</button></h4>
+
+    
         </div>
-        <div id="problem_examples_normal" style="text-align:center;display:none">
+        <div id="problem_examples_normal" style="text-align:left;display:none">
             <div style="display:inline-block">
-            Input File<br/>
+            Input<br/>
                 <textarea id="comment_body" name="comment[body]" style="width:'.$iCols.'px" rows='.($iRows+1).' >'.$inputToShow.'</textarea>
             </div>
             <div style="display:inline-block">
-            Output File<br/>
+            Output<br/>
                 <textarea cols="100" id="comment_body" name="comment[body]" style="width:'.$oCols.'px" rows='.($oRows+1).' >'.$outputToShow.'</textarea>
             </div>
         </div>

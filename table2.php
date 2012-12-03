@@ -87,7 +87,7 @@ class RCTable{
         $clTN='class = "tr_TeamName"';
 
         $table = "
-            <table class='rCTable' $this->tableAtr align =\"center\" title ='$this->tableTitle' border=\"0\" style=\"border-collapse: collapse\" $cl>";
+            <table class='rCTable' $this->tableAtr title ='$this->tableTitle' border=\"0\" style=\"border-collapse: collapse\" $cl>";
         // $header = '
         //         <tr>
         //             <td '.$classLeftCorner.'></td>';
