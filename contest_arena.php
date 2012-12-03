@@ -116,9 +116,9 @@ ob_start();
     <table cellpadding="0" cellspacing="0" style="border-collapse: collapse;"
            align="center" width="100%" height="181"  >
         <tr>
-            <td height="24" width="190">&nbsp;</td>
-            <td height="24" >
-                <label class="problemTitle"><?php echo$selectedProblemData['name']?></label>
+            <td width="190">&nbsp;</td>
+            <td style="border-bottom-width:2px; border-style:double; border-color:#0B1D29">
+                    
             </td>
         </tr>
         <tr>
@@ -152,7 +152,7 @@ ob_start();
                 ?>
                 </ul>
             </td>
-            <td class = "contest_bordeable">
+            <td style="border-left-width:2px">
                 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
                 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
                 <script type="text/javascript">
@@ -169,7 +169,7 @@ ob_start();
                         });
                     });
                 </script>
-                <button id="submit-button">Ready to submit?</button>
+                <button id="submit-button" class="btn">Submit?</button>
                 <?php
                 if($selectedProblemData['solved']=='0'){
                     include_once 'contest_arena_submission_form_html.php';
@@ -180,12 +180,18 @@ ob_start();
                     <?php
                 }
                 ?>
+                <div class="page-header" style="margin-left:10px">
+                        <h2>
+                            <?php echo$selectedProblemData['name']?>
+                            <small><?php echo$selectedProblemData['points']?> pts</small>
+                        </h2>
+                </div>
             </td>
         </tr>
         <tr>
-            <td style="padding-left: 10px;
-                                padding-right: 10px;
-                                width: 1000px; vertical-align:top; height: 500px;" >
+            <td style="padding-left: 10px; padding-right: 10px;
+                                width: 1000px; vertical-align:top; height: 500px;
+                                border-left-width:2px;" >
             <?php 
             include_once 'contest_arena_statement.php';
                 echo  getHTMLStatement($problemId, $selectedProblemData['statement'], $selectedProblemData['example_cases']);

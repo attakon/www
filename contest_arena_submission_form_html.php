@@ -28,8 +28,10 @@
         timerCount++;
     }
 </script>
-<form method="POST" action="contest_arena_process_submit.php" enctype="multipart/form-data">
-    <table id="submit-table" border="0" height="50" style="display:none">
+<form id="submit-table" method="POST" action="contest_arena_process_submit.php" 
+    enctype="multipart/form-data" style="display:none;margin:0px;">
+    <div class="well" style="margin-left:10px; margin-right:10px">
+    <table height="50">
         <tr>
             <td colspan="2" width="100%">
                 <div id="myDiv"/>
@@ -100,20 +102,14 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2">
-                <label class="comment">
-                    
-                </label>
-            </td>
-        </tr>
-        <tr>
             <td height="30" width="478" colspan="2">
                 <p align="center">
-                    <input type="submit" value="Submit solution" name="B1">
+                    <input class="btn" type="submit" value="Submit solution" name="B1">
                     <input type="hidden" name="pid" value=<?php echo$problemId?> >
                     <input type="hidden" name="cmpid" value=<?php echo$userCampaignData['id_campaign']?> >
                 </p>
             </td>            
         </tr>
     </table>
+    </div>
 </form>

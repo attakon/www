@@ -80,7 +80,11 @@ ob_start();
         <tr>
             <td height="24" width="190">&nbsp;</td>
             <td height="24" >
-                <label class="problemTitle"><?php echo$selectedProblemData['name']?></label>
+                <div>
+                    <h2>
+                        <?php echo$selectedProblemData['name']?>
+                    </h2>
+                </div>
             </td>
         </tr>
         <tr>

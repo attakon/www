@@ -29,9 +29,13 @@ function getHTMLStatement($problemId, $statement, $example_cases){
     $outputToShow = "";
     $counter = 0;
     $n = sizeof($exampleCasesTable->getData());
+    $iCols=100;
+    $oCols=100;
     foreach ($exampleCasesTable->getData() as $key => $value) {
         $inputToShow.=rtrim($value[1]);
         $outputToShow.=rtrim($value[2]);
+        $iCols = max($iCols,strlen($inputToShow)*5);
+        $oCols = max($oCols,strlen($outputToShow)*5);
         if(++$counter<$n){
             $inputToShow.="\n";
             $outputToShow.="\n";
@@ -43,38 +47,38 @@ function getHTMLStatement($problemId, $statement, $example_cases){
     return $statement.'<br/>
     <script>
         function toggle(me){
-            console.log(me);
+            // console.log(me);
             if(me.innerHTML=="Formatted"){
                 me.innerHTML="Normal";
-                $("#problem_examples_normal").css("display","block");
-                $("#problem_examples_formatted").css("display","none");
+                jQuery("#problem_examples_normal").css("display","block");
+                jQuery("#problem_examples_formatted").css("display","none");
 
             }else{
                 me.innerHTML="Formatted";
-                $("#problem_examples_normal").css("display","none");
-                $("#problem_examples_formatted").css("display","block");
+                jQuery("#problem_examples_normal").css("display","none");
+                jQuery("#problem_examples_formatted").css("display","block");
             }
         }
-    </script
+    </script>
+    <div class="well">
 
-    <div>
-        <pre style="text-align:center;">
-        <span>Example Cases</span>
-        <button id="toggle-io" onclick="toggle(this)" class="btn btn-mini" data-toggle="button">Formatted</button></pre>
-    </div>
-    <div id="problem_examples_normal" style="text-align:center;display:none">
-        <div style="display:inline-block">
-        Input File<br/>
-            <textarea cols="100" id="comment_body" name="comment[body]" rows='.($iRows+1).' >'.$inputToShow.'</textarea>
+        <div>
+            <pre style="text-align:center;">Example Cases
+    <button id="toggle-io" onclick="toggle(this)" class="btn btn-mini" data-toggle="button">Formatted</button>
+    </pre>
         </div>
-        <div style="display:inline-block">
-        Output File<br/>
-            <textarea cols="100" id="comment_body" name="comment[body]" rows='.($oRows+1).' >'.$outputToShow.'</textarea>
+        <div id="problem_examples_normal" style="text-align:center;display:none">
+            <div style="display:inline-block">
+            Input File<br/>
+                <textarea id="comment_body" name="comment[body]" style="width:'.$iCols.'px" rows='.($iRows+1).' >'.$inputToShow.'</textarea>
+            </div>
+            <div style="display:inline-block">
+            Output File<br/>
+                <textarea cols="100" id="comment_body" name="comment[body]" style="width:'.$oCols.'px" rows='.($oRows+1).' >'.$outputToShow.'</textarea>
+            </div>
         </div>
-    </div>
-    <div id="problem_examples_formatted">'
-        .$table
-    ."</div>";
+        <div id="problem_examples_formatted">'.$table.'</div>
+    </div>';
 }
 
 
