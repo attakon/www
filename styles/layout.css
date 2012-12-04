@@ -108,3 +108,23 @@ img#dislike:hover{
 .mainLogo{
 	padding: 15px 0px 0px 10px;
 }
+.bgcplusplus{
+	background-image: url('../images/prog_language/cpp.png');
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.bgjava{
+	background-image: url('../images/prog_language/java.png');
+	background-repeat: no-repeat;
+	background-position: center;	
+}
+.bgphp{
+	background-image: url('../images/prog_language/php.png');
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.bgcsharp{
+	background-image: url('../images/prog_language/csharp.png');
+	background-repeat: no-repeat;
+	background-position: center;
+}

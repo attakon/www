@@ -86,7 +86,7 @@ function getScoreboardHTML($contestId){
     foreach ($campaignData as $key => $campaignValue) {
     
         ?>
-        <tr bgcolor="<?php if($i++%2==0)echo "#f1f0f0"?>">
+        <tr bgcolor="<?php if($i++%2==0)echo "#f1f0f0"?>" style="height:48px;">
             <td> <?php echo $campaignValue['puesto']?> </td>       <!-- rank in contest-->
             <td width="5"> <?php
                 // echo "<img src=./images/ranking/".$campaignValue['new_ranking']."gif>";
@@ -97,45 +97,74 @@ function getScoreboardHTML($contestId){
             <td style="font-weight:bold"align="center"> <?php echo $campaignValue['puntos']?> </td>
             <td align="center"> <?php echo $campaignValue['penalizacion']?> </td>
             <?php
-            $campaignDetailData = DAOCampaign_getCampaignDetailForCampaign($contestId, $campaignValue['id_campaign']);
+            $campaignDetailData = DAOCampaign_getCampaignDetailForCampaign2($contestId, $campaignValue['id_campaign']);
             // $queryCampaignDetalle ="SELECT problem_id, solved, tiempo_submision, intentos_fallidos, successful_source_code
             //             FROM campaigndetalle WHERE id_campaign = " .$campaignValue['id_campaign']. " " .
             //             "ORDER BY problem_id";
-
-
-            include_once 'data_objects/DAOCampaign.php';
-            // $campaignDetail = DAOCampaign_getCampaigneDetailForCampaign($campaignValue['id_campaign']);
             // print_r($campaignDetailData);
+            $aggregatedCampaignDetailData = array();
+            // $i = 0;
+            $n = sizeof($campaignDetailData);
+            for ($xxi=0;$xxi<$n;$xxi++) {
+                // echo 'xxxxxxx'.$xxi;
+                $thisProblemId = $campaignDetailData[$xxi]['problem_id'];
+                if(!array_key_exists($thisProblemId,$aggregatedCampaignDetailData)){
+                    $failedAttempts=0;
+                    
+                    for ($j=$xxi; $j< $n; $j++) { 
+                        // echo $j.'xss'.$xxi;
+                        if($thisProblemId != $campaignDetailData[$j]['problem_id'])
+                            break;
+                        if($campaignDetailData[$j]['status']==0 &&
+                            ($campaignDetailData[$j]['submission_time']!=null
+                            || ($campaignDetailData[$j]['download_time']!=null && $campaignDetailData[$j]['COUNTDOWN']=='RUNOUT'))){
+                            $failedAttempts++;
+                        }
+                    }
+                    $aggregatedCampaignDetailData[$thisProblemId]=
+                        array('problem_id'=>$thisProblemId,
+                            'solved'=>$campaignDetailData[$xxi]['solved'],
+                            'tiempo_submision'=>$campaignDetailData[$xxi]['tiempo_submision'],
+                            'attempts'=>$failedAttempts,
+                            'sourceCode' => $campaignDetailData[$xxi]['successful_source_code'],
+                            'COUNTDOWN'=>$campaignDetailData[$xxi]['submission_time']==null?$campaignDetailData[$xxi]['COUNTDOWN']:'RUNOUT');
+                    $xxi=$j-1;
+                }
+            }
+            // echo '<br/>';
+            // print_r($aggregatedCampaignDetailData);
+            include_once 'data_objects/DAOCampaign.php';
+            include_once 'utils/StringUtils.php';
+            // $campaignDetail = DAOCampaign_getCampaigneDetailForCampaign($campaignValue['id_campaign']);
+
             // $rsCampaingDetalle = mysql_query($queryCampaignDetalle,conecDb()) or die ($queryCampaignDetalle);
             // while($campaingDetalle = mysql_fetch_row($rsCampaingDetalle)){
-            foreach ($campaignDetailData as $key => $campaignDetailValue) {
-            //     # code...
-            // }
-                ?>
-            <td class="det" align="center" height="40"> <?php
-                if($campaignDetailValue['solved']){
-                    if(DAOGlobalDefaults_getGlobalValue('SHOW_USER_CODE_IN_RESULTS')=='Y'){
-                       echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['problem_id'].'">
-                        '.$campaignDetailValue['tiempo_submision']
-                        ."</a>";
-                    }else{
-                        echo '<a class="det">'.$campaignDetailValue['tiempo_submision']."</a>";
-                    }
-                }else{
-                    echo "--";
-                }
-                ?><br>
-                <?php
-                echo "<label class='wrongTrie'>";
-                if($campaignDetailValue['attempts']>0){
-                    echo $campaignDetailValue['attempts']." intento".($campaignDetailValue['attempts']!=1?"s fallidos":" fallido");
-                }else{
-                    echo "&nbsp;";
-                }
-                echo "</label>";
-                ?>
-            </td>
+            foreach ($aggregatedCampaignDetailData as $key => $campaignDetailValue) {
+                $iconCOde = matchLanguageIcon($campaignDetailValue['sourceCode']);
+                //$iconCOde = "";
 
+                echo '<td class="det '.$iconCOde.'" align="center" height="40">';
+                $failedAttempts =  "";
+                if($campaignDetailValue['attempts']>0){
+                    $failedAttempts = $campaignDetailValue['attempts']." intento".($campaignDetailValue['attempts']!=1?"s fallidos":" fallido");
+                }
+                if($campaignDetailValue['solved']){
+                        if(DAOGlobalDefaults_getGlobalValue('SHOW_USER_CODE_IN_RESULTS')=='Y'){
+                            echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['problem_id'].'">'.$campaignDetailValue['tiempo_submision']."</a>";
+                            
+                        }else{
+                            echo '<a class="det">'.$campaignDetailValue['tiempo_submision']."</a>";
+                        }
+                    }else if($campaignDetailValue['COUNTDOWN']!='RUNOUT'){
+                        echo "<img src='images/submitting.gif'/>";
+                    }else{
+                        echo "--";
+                    }
+                    echo "</div><div style='height: 12px;'><label class='wrongTrie'>"
+                    .$failedAttempts
+                    ."</label></div>";
+                echo '</td>'
+                ?>
             <?php
         }
     }
@@ -150,3 +179,6 @@ ob_end_clean();
 return $body;
 }
 ?>
+<script type="text/javascript">
+    var t=setTimeout(function(){document.location = document.location.href;},5000)    
+</script>
