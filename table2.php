@@ -27,12 +27,16 @@ class RCTable{
     private $footer;
     private $tableAtr;
     private $showLineBreaks;
+    private $data;
+    private $htmlTable;
 
     public function __construct($connexion, $tableName, $arrayColumns, $condition) {
         $this->connexion = $connexion;
         $this->tableName = $tableName;
         $this->condition = $condition;
         $this->arrayColumns = $arrayColumns;
+        $this->data=array();
+        // $this->startProcess();
     }
     function setTitle($title){
         $this->tableTitle=$title;
@@ -46,8 +50,14 @@ class RCTable{
     function showLineBreaks($showLineBreaks){
        $this->showLineBreaks=$showLineBreaks;
     }
-
+    function getData(){
+        return $this->data;
+    }
     function getTable(){
+        $this->startProcess();
+        return $this->htmlTable;
+    }
+    function startProcess(){
 
         // error_reporting(E_ALL ^ E_NOTICE);  // DON'T SHOW NOTICES
 
@@ -77,7 +87,7 @@ class RCTable{
         $clTN='class = "tr_TeamName"';
 
         $table = "
-            <table class='rCTable' $this->tableAtr align =\"center\" title ='$this->tableTitle' border=\"0\" style=\"border-collapse: collapse\" $cl>";
+            <table class='rCTable' $this->tableAtr title ='$this->tableTitle' border=\"0\" style=\"border-collapse: collapse\" $cl>";
         // $header = '
         //         <tr>
         //             <td '.$classLeftCorner.'></td>';
@@ -138,12 +148,13 @@ class RCTable{
             $table.=$header;
         }
         $col=1;
-        while($data = mysql_fetch_row($rsTop)){
+        while($dataRow = mysql_fetch_row($rsTop)){
+            $this->data[]=$dataRow;
             $table .="
                 <tr ".(($col%2==0)?$cl:$cl2).">";
                     // <td $clLeft></td>";
 
-            foreach ($data as $i=>$keys) {
+            foreach ($dataRow as $i=>$keys) {
                 // $atr = $this->arrayColumns[$i][3];
                 $atr = "";
                 if(isset($this->arrayColumns[$i]['td_atr'])){
@@ -165,7 +176,7 @@ class RCTable{
                                 while($linkExpression[++$i]!='}'){
                                     $number .= $linkExpression[$i];
                                 }                                
-                                $result .= $data[$number];
+                                $result .= $dataRow[$number];
                             }else 
                                 $result .= $linkExpression[$i];
                         }
@@ -175,24 +186,24 @@ class RCTable{
                     }else if($kind=='linked'){
                         $id = $splited [1];
                         $type = $splited [2];
-                        $username = $data[$i];
-                        $userId=$data[$id];
+                        $username = $dataRow[$i];
+                        $userId=$dataRow[$id];
                         $field = rCLink(".", $userId, $username , $type);
                     
                     }else if ($kind =='img'){
                         $path = $splited [1];
                         $ext = $splited [2];
-                        $img = $path.'/'.$data[$i].'.'.$ext;
+                        $img = $path.'/'.$dataRow[$i].'.'.$ext;
                         if(file_exists($img ))
                             $field = "<img src='$img'>";
                     }else if($kind=='date'){
-                        $spl = explode('-', $data[$i]);
+                        $spl = explode('-', $dataRow[$i]);
                         $year = $spl[0];
                         $month= $spl[1];
                         $day= $spl[2];
                         $field = getSpanishDateShort($day, $month, $year);
                     }else if($kind=='time'){
-                        $spl = explode(':', $data[$i]);
+                        $spl = explode(':', $dataRow[$i]);
                         $hou= $spl[0];
                         $min= $spl[1];                        
                         $field = $hou.":".$min;
@@ -201,15 +212,15 @@ class RCTable{
                     $table.= "<td $atr >$field</td>";
                 }else {
                     if($this->arrayColumns[$i][2]!=-1){
-                        $dataF=$data[$i];
+                        $dataRowF=$dataRow[$i];
                         if(!isset($this->arrayColumns[$i]['keepLTGT'])){
-                            $dataF=str_replace("<", "&lt;",$dataF);
-                            $dataF=str_replace(">", "&gt;",$dataF);
+                            $dataRowF=str_replace("<", "&lt;",$dataRowF);
+                            $dataRowF=str_replace(">", "&gt;",$dataRowF);
                         }
                         if($this->showLineBreaks==true){
-                            $dataF=str_replace("\n", "<br/>", $dataF);
+                            $dataRowF=str_replace("\n", "<br/>", $dataRowF);
                         }
-                        $table.= "<td $atr > ".$dataF."</td>";
+                        $table.= "<td $atr > ".$dataRowF."</td>";
                     }
                 }
             }
@@ -224,7 +235,7 @@ class RCTable{
                 </tr>
             </table>";
 //        mysql_close($this->connexion);
-        return $table;
+        $this->htmlTable=$table;
     }
 }
 
