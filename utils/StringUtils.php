@@ -18,7 +18,7 @@ function matchLanguageIcon($sourceCode)
     //3 c++
     //4 c#
     //5 phyton
-	if (strpos($sourceCode,'#include<') !== false) {
+	if (strpos($sourceCode,'#include') !== false) {
 	    return "bgcplusplus";
 	}elseif (strpos($sourceCode,'import java') !== false) {
 		return "bgjava";
