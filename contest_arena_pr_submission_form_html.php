@@ -1,7 +1,3 @@
-<label>
-    <br>
-    <br>
-</label>
 <form method="POST" action="contest_arena_pr_process_submit.php" enctype="multipart/form-data">
     <table border="0" width="600" height="50" >
         <tr>
@@ -16,8 +12,7 @@
                     <a href='contest_arenadownloadinput.php?pid=".$problemId."&cid=".$contestId."'>Download Input File</a></div>";
                 
                 $result .= $downloadLink;
-                
-                
+
                 echo $result;
                 ?>
             </td>
