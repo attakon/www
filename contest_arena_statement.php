@@ -34,7 +34,12 @@ function getHTMLStatement($problemId, $statement, $example_cases){
     foreach ($exampleCasesTable->getData() as $key => $value) {
         $inputToShow.=rtrim($value[1]);
         $outputToShow.=rtrim($value[2]);
-        $iCols = max($iCols,strlen($inputToShow)*5);
+        
+        $iLongestLen = 0;
+        foreach (explode("\n", $inputToShow) as $keyJ=>$val){
+            $iLongestLen=max($iLongestLen,strlen($val));
+        }
+        $iCols = max($iCols,$iLongestLen*8);
         $oCols = max($oCols,strlen($outputToShow)*5);
         if(++$counter<$n){
             $inputToShow.="\n";
@@ -69,11 +74,11 @@ function getHTMLStatement($problemId, $statement, $example_cases){
         <div id="problem_examples_normal" style="text-align:left;display:none">
             <div style="display:inline-block; vertical-align: top;">
             Input<br/>
-                <textarea id="comment_body" name="comment[body]" style="width:'.$iCols.'px" rows='.($iRows+1).' >'.$inputToShow.'</textarea>
+                <textarea style="width:'.$iCols.'px" rows='.($iRows+1).' >'.$inputToShow.'</textarea>
             </div>
             <div style="display:inline-block; vertical-align: top;">
             Output<br/>
-                <textarea cols="100" id="comment_body" name="comment[body]" style="width:'.$oCols.'px" rows='.($oRows+1).' >'.$outputToShow.'</textarea>
+                <textarea style="width:'.$oCols.'px" rows='.($oRows+1).' >'.$outputToShow.'</textarea>
             </div>
         </div>
         <div id="problem_examples_formatted">'.$table.'</div>

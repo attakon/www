@@ -57,7 +57,6 @@ foreach ($dataLines as $line) {
     $maxCol = max($maxCol,strlen($line));
 }
 // $data[3]= str_replace("\t", "&nbsp;&nbsp;&nbsp;", $data[3]);
-$code = "\n".$code;
 $code= str_replace("<", "&lt;", $code);
 $code= str_replace(">", "&gt;", $code);
 // $data[3]= str_replace("\n", "<br/>", $data[3]);
