@@ -170,7 +170,7 @@ function DAOContest_getProblems($contestId){
      FROM co_contest_problems ccp join co_problem problem using(problem_id)
       JOIN co_problem_statement cps on(ccp.problem_id = cps.problem_id AND cps.language_id = ccp.problem_language_id) 
      WHERE ccp.contest_id = '".$contestId."'
-     ORDER BY ccp.order ASC";
+     ORDER BY ccp.order ASC, ccp.problem_id ASC";
     return getRowsInArray($query);
 }
 
