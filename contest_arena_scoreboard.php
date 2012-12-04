@@ -111,15 +111,13 @@ function getScoreboardHTML($contestId){
             foreach ($campaignDetailData as $key => $campaignDetailValue) {
             //     # code...
             // }
-                include_once 'utils/StringUtils.php';
-                $icon = matchLanguageIcon($campaignDetailValue['successful_source_code']);
                 ?>
             <td class="det" align="center" height="40"> <?php
                 if($campaignDetailValue['solved']){
                     if(DAOGlobalDefaults_getGlobalValue('SHOW_USER_CODE_IN_RESULTS')=='Y'){
-                        echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['problem_id'].'">'.$campaignDetailValue['tiempo_submision']."</a>";
-                        if($icon != "")
-                            echo '<img src="../images/prog_language/'.$icon.'" width="28px" height="28px" />';
+                       echo '<a class="det" href="./viewcode.php?cpg='.$campaignValue['id_campaign'].'&p='.$campaignDetailValue['problem_id'].'">
+                        '.$campaignDetailValue['tiempo_submision']
+                        ."</a>";
                     }else{
                         echo '<a class="det">'.$campaignDetailValue['tiempo_submision']."</a>";
                     }
